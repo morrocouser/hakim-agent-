@@ -1,0 +1,80 @@
+# ============================================================
+# HakimAgent — Root .gitignore
+# ============================================================
+
+# ---- Secrets & runtime data ----
+.env
+.env.*
+!.env.example
+backend/axiom/data/*.db
+backend/axiom/data/*.sqlite
+*.sqlite
+*.db-journal
+backend/.pytest_cache/
+backend/.superpowers/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# ---- Python ----
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+backend/.venv/
+backend/.venv_test_axiom/
+backend/axiom.egg-info/
+*.egg-info/
+build/
+dist/
+
+# ---- Node / Next.js ----
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
+.DS_Store
+*.pem
+
+# ---- Logs ----
+*.log
+!backend/.gitkeep
+!frontend/.gitkeep
+
+# ---- IDE ----
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.cursor/
+.aider*
+
+# ---- OS ----
+Thumbs.db
+.DS_Store
+desktop.ini
+$RECYCLE.BIN/
+*.lnk
+nul
+
+# ---- Build artifacts ----
+*.pyc
+*.wasm
+*.map
+.cache/
+.turbo/
+
+# ---- Local-only scripts / scratch ----
+.scratch/
+.tmp/
+.tmp.drivedownload/
+.tmp.driveupload/
+*.local.*
+# One-shot ad-hoc smoke scripts at backend root (real tests live in backend/tests/)
+backend/smoke_test_*.py
+!backend/tests/

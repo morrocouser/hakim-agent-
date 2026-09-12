@@ -1,0 +1,18 @@
+fastapi>=0.115.0
+uvicorn[standard]>=0.32.0
+pydantic>=2.10.0
+httpx>=0.28.0
+typer>=0.15.0
+rich>=13.9.0
+textual>=0.80.0
+PySide6>=6.8.0
+markdown>=3.7
+pygments>=2.19
+pyyaml>=6.0.2
+python-dotenv>=1.0.1
+google-api-python-client>=2.100.0
+google-auth-httplib2>=0.2.0
+google-auth-oauthlib>=1.2.0
+
+# Optional: for distributed rate limiting (install with `pip install -e .[redis]`)
+# redis>=5.0.0

@@ -1,0 +1,41 @@
+[project]
+name = "axiom"
+version = "4.0.0"
+description = "AXIOM v4.0 — Agent Orchestrateur Multi-Modèle Complet"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.32.0",
+    "pydantic>=2.10.0",
+    "httpx>=0.28.0",
+    "typer>=0.15.0",
+    "rich>=13.9.0",
+    "textual>=0.80.0",
+    "PySide6>=6.8.0",
+    "markdown>=3.7",
+    "pygments>=2.19",
+    "pyyaml>=6.0.2",
+    "python-dotenv>=1.0.1",
+    "duckduckgo-search>=7.0",
+]
+
+[project.optional-dependencies]
+# Enables AXIOM_RATE_LIMIT_REDIS_URL distributed rate limiting
+redis = ["redis>=5.0.0"]
+
+[project.scripts]
+axiom = "cli.main:main"
+axiom-tui = "cli.main:tui"
+axiom-desktop = "desktop.web_app:main"
+axiom-serve = "axiom.api.main:start"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["axiom*", "cli*", "desktop*"]
+
+[build-system]
+requires = ["setuptools>=75.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"

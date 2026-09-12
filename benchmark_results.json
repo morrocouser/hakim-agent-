@@ -1,0 +1,47 @@
+{
+  "timestamp": "2026-08-08T21:13:57Z",
+  "note": 96,
+  "global_rate_pct": 96.88,
+  "total_passed": 31,
+  "total_failed": 1,
+  "benches": [
+    {
+      "name": "Routage Agents",
+      "passed": 12,
+      "failed": 0,
+      "success_rate_pct": 100.0,
+      "avg_ms": 0.4062,
+      "p95_ms": 2.398,
+      "errors": []
+    },
+    {
+      "name": "Selection Modele",
+      "passed": 4,
+      "failed": 1,
+      "success_rate_pct": 80.0,
+      "avg_ms": 0.0027,
+      "p95_ms": 0.0062,
+      "errors": [
+        "Complexe urgent  -> SMALL (override): got LARGE, expected tier SMALL"
+      ]
+    },
+    {
+      "name": "API HTTP",
+      "passed": 11,
+      "failed": 0,
+      "success_rate_pct": 100.0,
+      "avg_ms": 22.628,
+      "p95_ms": 39.0239,
+      "errors": []
+    },
+    {
+      "name": "Inference Dimensions",
+      "passed": 4,
+      "failed": 0,
+      "success_rate_pct": 100.0,
+      "avg_ms": 0.0169,
+      "p95_ms": 0.0369,
+      "errors": []
+    }
+  ]
+}

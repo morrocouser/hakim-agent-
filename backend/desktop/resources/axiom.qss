@@ -1,0 +1,117 @@
+/* AXIOM v4.0 — Qt Dark Theme */
+/* GitHub-dark inspired, blue accent */
+
+QMainWindow {
+    background: #0a0e1a;
+}
+
+QMenuBar {
+    background: #111827;
+    color: #e6edf3;
+    border-bottom: 1px solid #1e293b;
+    padding: 2px;
+}
+
+QMenuBar::item {
+    padding: 4px 10px;
+    border-radius: 4px;
+}
+
+QMenuBar::item:selected {
+    background: #1e293b;
+}
+
+QMenu {
+    background: #161b22;
+    color: #e6edf3;
+    border: 1px solid #1e293b;
+    padding: 4px;
+    border-radius: 6px;
+}
+
+QMenu::item {
+    padding: 6px 20px;
+    border-radius: 4px;
+}
+
+QMenu::item:selected {
+    background: #1e293b;
+}
+
+QMenu::separator {
+    height: 1px;
+    background: #1e293b;
+    margin: 4px 8px;
+}
+
+QStatusBar {
+    background: #111827;
+    color: #94a3b8;
+    border-top: 1px solid #1e293b;
+    font-size: 12px;
+}
+
+QDockWidget {
+    background: #111827;
+    color: #e6edf3;
+    font-size: 13px;
+    titlebar-close-icon: none;
+}
+
+QDockWidget::title {
+    background: #0d1117;
+    padding: 6px 12px;
+    border-bottom: 1px solid #1e293b;
+    color: #3b82f6;
+    font-weight: bold;
+}
+
+QSplitter::handle {
+    background: #1e293b;
+}
+
+QScrollBar:vertical {
+    background: transparent;
+    width: 8px;
+    margin: 0;
+}
+
+QScrollBar::handle:vertical {
+    background: #30363d;
+    border-radius: 4px;
+    min-height: 30px;
+}
+
+QScrollBar::handle:vertical:hover {
+    background: #3b82f6;
+}
+
+QScrollBar::add-line:vertical,
+QScrollBar::sub-line:vertical {
+    height: 0px;
+}
+
+QScrollBar::add-page:vertical,
+QScrollBar::sub-page:vertical {
+    background: transparent;
+}
+
+QScrollBar:horizontal {
+    background: transparent;
+    height: 8px;
+}
+
+QScrollBar::handle:horizontal {
+    background: #30363d;
+    border-radius: 4px;
+    min-width: 30px;
+}
+
+QToolTip {
+    background: #161b22;
+    color: #e6edf3;
+    border: 1px solid #30363d;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 12px;
+}

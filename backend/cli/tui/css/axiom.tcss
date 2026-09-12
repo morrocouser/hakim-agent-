@@ -1,0 +1,391 @@
+/* AXIOM TUI Theme - Style Claude Code */
+/* Palette dark compact, accent Emerald */
+
+$bg: #0d1117;
+$bg-elevated: #161b22;
+$bg-hover: #1f2428;
+$border: #30363d;
+$border-focus: #3fb950;
+$text: #e6edf3;
+$text-muted: #8b949e;
+$text-dim: #6e7681;
+$accent: #3fb950;
+$accent-dim: #3fb95040;
+$accent-bg: #1a2b1e;
+$warn: #d29922;
+$error: #f85149;
+$info: #58a6ff;
+
+/* Layout principal */
+Screen {
+    background: $bg;
+    color: $text;
+}
+
+#app-grid {
+    layout: grid;
+    grid-size: 1 3;
+    grid-rows: 1 1fr 3;
+    height: 100%;
+}
+
+/* Header / Status Bar */
+#header {
+    dock: top;
+    height: 1;
+    background: $bg-elevated;
+    border-bottom: solid $border;
+    layout: horizontal;
+}
+
+#header-left {
+    width: 1fr;
+    padding: 0 1;
+    content-align: left middle;
+}
+
+#header-center {
+    width: 1fr;
+    padding: 0 1;
+    content-align: center middle;
+}
+
+#header-right {
+    width: 1fr;
+    padding: 0 1;
+    content-align: right middle;
+}
+
+.header-label {
+    color: $text-muted;
+    text-style: bold;
+}
+
+.header-value {
+    color: $text;
+    text-style: bold;
+}
+
+.header-value.accent {
+    color: $accent;
+}
+
+.header-value.warn {
+    color: $warn;
+}
+
+.header-value.error {
+    color: $error;
+}
+
+/* Main Chat Area */
+#main {
+    background: $bg;
+    overflow-y: auto;
+}
+
+#chat-container {
+    padding: 1 2;
+    height: 100%;
+    overflow-y: auto;
+}
+
+#chat-view {
+    height: auto;
+    min-height: 100%;
+}
+
+/* Messages */
+.message {
+    margin: 1 0;
+    width: 100%;
+}
+
+.message-user {
+    color: $accent;
+}
+
+.message-assistant {
+    color: $text;
+}
+
+.message-system {
+    color: $text-dim;
+    text-style: italic;
+}
+
+.message-header {
+    height: 1;
+    margin-bottom: 0;
+}
+
+.message-meta {
+    color: $text-dim;
+    text-style: dim;
+}
+
+.message-content {
+    margin-top: 0;
+}
+
+/* Code blocks */
+.code-block {
+    background: #0d1117;
+    border: solid $border;
+    border-title-color: $border;
+    padding: 1;
+    margin: 1 0;
+    overflow-x: auto;
+}
+
+.code-block:focus {
+    border: solid $border-focus;
+}
+
+/* Sidebar */
+#sidebar {
+    dock: left;
+    width: 36;
+    background: $bg-elevated;
+    border-right: solid $border;
+    display: none;
+    overflow-y: auto;
+}
+
+#sidebar.visible {
+    display: block;
+}
+
+#sidebar-title {
+    dock: top;
+    height: 1;
+    background: $bg;
+    border-bottom: solid $border;
+    padding: 0 1;
+    color: $accent;
+    text-style: bold;
+}
+
+.sidebar-section {
+    padding: 1;
+    border-bottom: solid $border;
+}
+
+.sidebar-section-title {
+    color: $text-muted;
+    text-style: bold;
+    margin-bottom: 1;
+}
+
+.sidebar-item {
+    height: 1;
+    padding: 0 1;
+    color: $text;
+}
+
+.sidebar-item:hover {
+    background: $bg-hover;
+    color: $accent;
+}
+
+.sidebar-item.selected {
+    background: $accent-bg;
+    color: $accent;
+    text-style: bold;
+}
+
+.sidebar-item-icon {
+    width: 2;
+    content-align: center middle;
+}
+
+.sidebar-item-label {
+    width: 1fr;
+    padding-left: 1;
+}
+
+.sidebar-item-model {
+    color: $text-dim;
+    text-style: dim;
+    width: 18;
+    content-align: right middle;
+}
+
+/* Memory Panel */
+#memory-panel {
+    dock: left;
+    width: 40;
+    background: $bg-elevated;
+    border-right: solid $border;
+    display: none;
+    overflow-y: auto;
+}
+
+#memory-panel.visible {
+    display: block;
+}
+
+/* Footer / Input Bar */
+#footer {
+    dock: bottom;
+    height: 3;
+    background: $bg-elevated;
+    border-top: solid $border;
+    layout: horizontal;
+}
+
+#input-container {
+    width: 1fr;
+    height: 3;
+    padding: 0 1;
+    layout: vertical;
+}
+
+#input-bar {
+    height: 3;
+    background: $bg;
+    border: solid $border;
+    padding: 0 1;
+}
+
+#input-bar:focus {
+    border: solid $border-focus;
+}
+
+#input-field {
+    background: transparent;
+    color: $text;
+    border: none;
+    width: 1fr;
+    height: 3;
+}
+
+#input-field:focus {
+    background: transparent;
+}
+
+#input-hint {
+    height: 1;
+    color: $text-dim;
+    text-style: dim;
+    padding: 0 1;
+}
+
+#shortcuts {
+    dock: right;
+    width: 40;
+    height: 3;
+    padding: 0 1;
+    color: $text-dim;
+    text-style: dim;
+    content-align: right middle;
+}
+
+/* Thinking indicator */
+#thinking {
+    height: 1;
+    color: $warn;
+    text-style: italic;
+    padding: 0 2;
+    content-align: left middle;
+}
+
+/* Scrollbar */
+ScrollableContainer > .scrollbar {
+    background: transparent;
+    width: 8;
+}
+
+ScrollableContainer > .scrollbar .slider {
+    background: $border;
+    border: round $border;
+}
+
+ScrollableContainer > .scrollbar .slider:hover {
+    background: $border-focus;
+    border: round $border-focus;
+}
+
+/* Markdown rendering */
+Markdown {
+    color: $text;
+}
+
+Markdown > .markdown-code {
+    background: #0d1117;
+    border: solid $border;
+    padding: 1;
+}
+
+Markdown > .markdown-code-inline {
+    background: $bg-elevated;
+    color: $accent;
+    padding: 0 1;
+}
+
+/* Help screen */
+#help-screen {
+    padding: 2;
+}
+
+.help-section {
+    margin: 1 0;
+}
+
+.help-title {
+    color: $accent;
+    text-style: bold;
+    margin-bottom: 1;
+}
+
+.help-key {
+    color: $accent;
+    text-style: bold;
+    width: 20;
+}
+
+.help-desc {
+    color: $text;
+    width: 1fr;
+}
+
+/* Settings screen */
+#settings-screen {
+    padding: 2;
+}
+
+.setting-row {
+    height: 3;
+    layout: horizontal;
+    margin: 1 0;
+}
+
+.setting-label {
+    width: 30;
+    color: $text;
+    content-align: left middle;
+}
+
+.setting-value {
+    width: 1fr;
+    color: $text-muted;
+    content-align: left middle;
+}
+
+/* Completion popup */
+#completion-list {
+    background: $bg-elevated;
+    border: solid $border-focus;
+    max-height: 15;
+}
+
+.completion-item {
+    height: 1;
+    padding: 0 1;
+    color: $text;
+}
+
+.completion-item.highlighted {
+    background: $accent-bg;
+    color: $accent;
+}

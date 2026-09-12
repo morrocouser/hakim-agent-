@@ -1,0 +1,42 @@
+{
+  "generated": "2026-08-04",
+  "total_skills": 9,
+  "skills": [
+    {
+      "name": "code-expert",
+      "path": "code-expert"
+    },
+    {
+      "name": "file-system",
+      "path": "file-system"
+    },
+    {
+      "name": "github-manager",
+      "path": "github-manager"
+    },
+    {
+      "name": "memory-manager",
+      "path": "memory-manager"
+    },
+    {
+      "name": "planner",
+      "path": "planner"
+    },
+    {
+      "name": "reasoning",
+      "path": "reasoning"
+    },
+    {
+      "name": "terminal",
+      "path": "terminal"
+    },
+    {
+      "name": "validator",
+      "path": "validator"
+    },
+    {
+      "name": "web-research",
+      "path": "web-research"
+    }
+  ]
+}
