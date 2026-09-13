@@ -104,45 +104,6 @@ const WORKFLOWS = [
 ];
 
 /* ─────────────────────────────────────────────────────────
-   ANIMATED BACKGROUND BLOBS
-   ───────────────────────────────────────────────────────── */
-
-const FloatingBlobs = () => (
-  <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-    <motion.div
-      animate={{
-        x: [0, 100, -50, 0],
-        y: [0, -80, 60, 0],
-        scale: [1, 1.2, 0.9, 1],
-      }}
-      transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-      className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full"
-      style={{ background: "var(--accent-glow)", filter: "blur(120px)", opacity: 0.35 }}
-    />
-    <motion.div
-      animate={{
-        x: [0, -80, 50, 0],
-        y: [0, 100, -60, 0],
-        scale: [1, 0.8, 1.3, 1],
-      }}
-      transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
-      className="absolute top-1/3 -right-40 w-[600px] h-[600px] rounded-full"
-      style={{ background: "var(--accent-soft-2)", filter: "blur(120px)", opacity: 0.5 }}
-    />
-    <motion.div
-      animate={{
-        x: [0, 60, -80, 0],
-        y: [0, -40, 80, 0],
-        scale: [1, 1.1, 0.85, 1],
-      }}
-      transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
-      className="absolute bottom-0 left-1/3 w-[450px] h-[450px] rounded-full"
-      style={{ background: "var(--accent-glow)", filter: "blur(120px)", opacity: 0.3 }}
-    />
-  </div>
-);
-
-/* ─────────────────────────────────────────────────────────
    FEATURE CARD (Squishy Style)
    ───────────────────────────────────────────────────────── */
 
@@ -220,7 +181,6 @@ export default function DownloadPage() {
       className="min-h-screen overflow-x-hidden relative"
       style={{ background: "var(--bg)", color: "var(--text-primary)" }}
     >
-      <FloatingBlobs />
 
       {/* ── NAVIGATION BAR ─────────────────── */}
       <nav

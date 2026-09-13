@@ -50,7 +50,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="min-h-[100dvh] antialiased ambient-bg">
+      <body className="min-h-[100dvh] antialiased">
         {/* Accessibilité WCAG 2.1 AA : Skip Link */}
         <a href="#main-content" className="skip-link">
           Aller au contenu principal

@@ -43,51 +43,43 @@
 }
 
 /* ============================================================
-   HAKIMAGENT — Dark-premium design system
-   Default theme: DARK (graphite profond + accent émeraude forêt unique).
-   Palettes : 1 seule. Aucun flash light, aucun dégradé cliché.
+   HAKIMAGENT — Noir éditorial design system
+   Fond presque noir + ambre doux. Zéro gradient, zéro glass.
    ============================================================ */
 
 :root {
-  /* Dark theme — graphite profond, neutre, haut de gamme */
-  --bg: #0B0D0F;
-  --bg-secondary: #101317;
-  --bg-tertiary: #151A1F;
-  --surface: #12151A;
-  --surface-raised: #181D23;
-  --border: #232A30;
-  --border-subtle: #1A2025;
-  --text-primary: #EAEEF2;
-  --text-secondary: #A8B2BC;
-  --text-muted: #6E7882;
+  --bg: #080A0C;
+  --bg-secondary: #0E1114;
+  --bg-tertiary: #14181D;
+  --surface: #111418;
+  --surface-raised: #171C21;
+  --border: #1E2328;
+  --border-subtle: #161B20;
+  --text-primary: #E4E8EB;
+  --text-secondary: #8A939C;
+  --text-muted: #555E66;
 
-  /* Accent unique — émeraude forêt (profond, pas l'emerald cliché #10b981) */
-  --accent: #4F9E7F;
-  --accent-strong: #5CA88A;
-  --accent-cyan: #4F9E7F;
-  --accent-soft: rgba(79, 158, 127, 0.13);
-  --accent-soft-2: rgba(79, 158, 127, 0.20);
-  --accent-glow: rgba(79, 158, 127, 0.32);
+  --accent: #B08A5E;
+  --accent-strong: #C49B6C;
+  --accent-cyan: #B08A5E;
+  --accent-soft: rgba(176, 138, 94, 0.12);
+  --accent-soft-2: rgba(176, 138, 94, 0.18);
+  --accent-glow: rgba(176, 138, 94, 0.28);
 
-  --glass-bg: rgba(18, 21, 26, 0.72);
-  --glass-border: rgba(234, 238, 242, 0.07);
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.40);
-  --shadow-md: 0 6px 18px rgba(0, 0, 0, 0.46);
-  --shadow-lg: 0 18px 44px rgba(0, 0, 0, 0.58);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 1px 2px rgba(0, 0, 0, 0.35);
   --ring: var(--accent);
 
-  /* Status — sobre, désaturé (anti-slop : pas de flashy tailwind) */
-  --success: #3FA37A;
-  --warning: #C99A3C;
-  --danger: #C6555F;
+  --success: #6FA88A;
+  --warning: #B08A5E;
+  --danger: #B0555F;
   --focus-ring: var(--accent);
 
-  /* Fonts — Geist (anti-slop: not Inter), display serif Newsreader */
   --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-display: 'Newsreader', 'Lora', Georgia, serif;
   --font-mono: 'Geist Mono', 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
 
-  /* Timing */
   --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
@@ -96,33 +88,29 @@
   --duration-slow: 300ms;
 }
 
-/* Le dark est le thème unique : on garde html.dark / data-theme en alias
-   vers la même palette pour compatibilité avec ThemeProvider (toggle = immuable en dark). */
 html.dark, :root:has(> body.dark), [data-theme="dark"] {
-  --bg: #0B0D0F;
-  --bg-secondary: #101317;
-  --bg-tertiary: #151A1F;
-  --surface: #12151A;
-  --surface-raised: #181D23;
-  --border: #232A30;
-  --border-subtle: #1A2025;
-  --text-primary: #EAEEF2;
-  --text-secondary: #A8B2BC;
-  --text-muted: #6E7882;
-  --accent: #4F9E7F;
-  --accent-strong: #5CA88A;
-  --accent-cyan: #4F9E7F;
-  --accent-soft: rgba(79, 158, 127, 0.13);
-  --accent-soft-2: rgba(79, 158, 127, 0.20);
-  --accent-glow: rgba(79, 158, 127, 0.32);
-  --glass-bg: rgba(18, 21, 26, 0.72);
-  --glass-border: rgba(234, 238, 242, 0.07);
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.40);
-  --shadow-md: 0 6px 18px rgba(0, 0, 0, 0.46);
-  --shadow-lg: 0 18px 44px rgba(0, 0, 0, 0.58);
-  --success: #3FA37A;
-  --warning: #C99A3C;
-  --danger: #C6555F;
+  --bg: #080A0C;
+  --bg-secondary: #0E1114;
+  --bg-tertiary: #14181D;
+  --surface: #111418;
+  --surface-raised: #171C21;
+  --border: #1E2328;
+  --border-subtle: #161B20;
+  --text-primary: #E4E8EB;
+  --text-secondary: #8A939C;
+  --text-muted: #555E66;
+  --accent: #B08A5E;
+  --accent-strong: #C49B6C;
+  --accent-cyan: #B08A5E;
+  --accent-soft: rgba(176, 138, 94, 0.12);
+  --accent-soft-2: rgba(176, 138, 94, 0.18);
+  --accent-glow: rgba(176, 138, 94, 0.28);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --success: #6FA88A;
+  --warning: #B08A5E;
+  --danger: #B0555F;
   --focus-ring: var(--accent);
 }
 
@@ -1471,4 +1459,59 @@ html.dark .landing::before { mix-blend-mode: overlay; opacity: 0.04; }
 }
 @media (max-width: 480px) {
   .landing .feature-grid { grid-template-columns: 1fr; }
+}
+
+/* ============================================================
+   NOIR ÉDITORIAL — overrides minimalistes
+   Neutralise les effets glass/gradient/shimmer résiduels pour
+   un rendu plat, net, sans distraction.
+   ============================================================ */
+
+/* Flat surfaces : zéro backdrop blur sur les panneaux */
+.app-topbar,
+.page-header,
+[class*="glass"],
+[class*="modal"] {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background: var(--surface) !important;
+}
+
+/* Ambiance / noise : désactivés (fond propre) */
+.ambient-bg::before,
+.ambient-bg::after,
+.noise-overlay {
+  display: none !important;
+}
+
+/* Shimmer : remplacé par un gris statique */
+.shimmer,
+.shimmer-btn::after,
+[class*="shimmer"] {
+  background: var(--bg-tertiary) !important;
+  background-image: none !important;
+  animation: none !important;
+}
+
+/* Gradients de fond de cartes d'ambiance : neutralisés */
+.bg-gradient-to-r,
+.bg-gradient-to-b,
+.bg-gradient-to-br,
+.from-indigo-500,
+.via-purple-500,
+.to-cyan-400,
+.to-pink-500,
+.from-cyan-500,
+.to-blue-500,
+.from-emerald-400,
+.via-teal-500,
+.to-cyan-500,
+.from-purple-500,
+.via-pink-500,
+.to-indigo-500 {
+  background-image: none !important;
+}
+/* Le gradient de texte accent (hero) reste tokenisé, sobre */
+.landing .hero h1 {
+  background-image: linear-gradient(180deg, var(--text-primary) 0%, var(--text-secondary) 65%, var(--accent) 100%) !important;
 }
