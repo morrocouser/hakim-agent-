@@ -11,21 +11,18 @@ type ThemeContextType = {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [isDark, setIsDark] = useState(false)
+  const [isDark, setIsDark] = useState(true)
 
   const applyTheme = (dark: boolean) => {
     if (typeof window !== 'undefined') {
       document.documentElement.classList.toggle('dark', dark)
       document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light')
-      localStorage.setItem('axiom_theme', dark ? 'dark' : 'light')
     }
   }
 
   useEffect(() => {
-    const saved = localStorage.getItem('axiom_theme')
-    const initialDark = saved ? saved === 'dark' : true
-    setIsDark(initialDark)
-    applyTheme(initialDark)
+    // Design system = dark único. On ignore le localStorage (aucun retour light accidentel).
+    applyTheme(true)
   }, [])
 
   const toggleTheme = () => {

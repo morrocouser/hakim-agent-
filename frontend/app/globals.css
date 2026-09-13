@@ -43,36 +43,46 @@
 }
 
 /* ============================================================
-   HAKIMAGENT — Light-premium design system (Linear / Vercel)
-   Default theme: LIGHT. Dark is opt-in via .dark / data-theme.
+   HAKIMAGENT — Dark-premium design system
+   Default theme: DARK (graphite profond + accent émeraude forêt unique).
+   Palettes : 1 seule. Aucun flash light, aucun dégradé cliché.
    ============================================================ */
 
 :root {
-  /* Light theme — Claude (warm editorial: ivory + terracotta) */
-  --bg: #FAF7F2;
-  --bg-secondary: #F3EEE7;
-  --bg-tertiary: #EBE4DA;
-  --surface: #FFFFFF;
-  --surface-raised: #FFFFFF;
-  --border: #E6DFD5;
-  --border-subtle: #F0EAE1;
-  --text-primary: #2C2825;
-  --text-secondary: #57514B;
-  --text-muted: #7A746E;
-  --accent: #D97757;          /* Terracotta Claude */
-  --accent-strong: #C56546;
-  --accent-cyan: #B8774F;
-  --accent-soft: rgba(217, 119, 87, 0.10);
-  --accent-soft-2: rgba(217, 119, 87, 0.16);
-  --accent-glow: rgba(217, 119, 87, 0.30);
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(44, 40, 37, 0.06);
-  --shadow-sm: 0 1px 2px rgba(44, 40, 37, 0.05);
-  --shadow-md: 0 6px 18px rgba(44, 40, 37, 0.08);
-  --shadow-lg: 0 18px 44px rgba(44, 40, 37, 0.12);
+  /* Dark theme — graphite profond, neutre, haut de gamme */
+  --bg: #0B0D0F;
+  --bg-secondary: #101317;
+  --bg-tertiary: #151A1F;
+  --surface: #12151A;
+  --surface-raised: #181D23;
+  --border: #232A30;
+  --border-subtle: #1A2025;
+  --text-primary: #EAEEF2;
+  --text-secondary: #A8B2BC;
+  --text-muted: #6E7882;
+
+  /* Accent unique — émeraude forêt (profond, pas l'emerald cliché #10b981) */
+  --accent: #4F9E7F;
+  --accent-strong: #5CA88A;
+  --accent-cyan: #4F9E7F;
+  --accent-soft: rgba(79, 158, 127, 0.13);
+  --accent-soft-2: rgba(79, 158, 127, 0.20);
+  --accent-glow: rgba(79, 158, 127, 0.32);
+
+  --glass-bg: rgba(18, 21, 26, 0.72);
+  --glass-border: rgba(234, 238, 242, 0.07);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.40);
+  --shadow-md: 0 6px 18px rgba(0, 0, 0, 0.46);
+  --shadow-lg: 0 18px 44px rgba(0, 0, 0, 0.58);
   --ring: var(--accent);
 
-  /* Fonts — body Geist (anti-slop: not Inter), display serif Newsreader */
+  /* Status — sobre, désaturé (anti-slop : pas de flashy tailwind) */
+  --success: #3FA37A;
+  --warning: #C99A3C;
+  --danger: #C6555F;
+  --focus-ring: var(--accent);
+
+  /* Fonts — Geist (anti-slop: not Inter), display serif Newsreader */
   --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-display: 'Newsreader', 'Lora', Georgia, serif;
   --font-mono: 'Geist Mono', 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
@@ -86,60 +96,34 @@
   --duration-slow: 300ms;
 }
 
-/* Dark theme (opt-in) — Claude warm coffee */
+/* Le dark est le thème unique : on garde html.dark / data-theme en alias
+   vers la même palette pour compatibilité avec ThemeProvider (toggle = immuable en dark). */
 html.dark, :root:has(> body.dark), [data-theme="dark"] {
-  --bg: #1C1B19;
-  --bg-secondary: #262522;
-  --bg-tertiary: #2F2D29;
-  --surface: #232220;
-  --surface-raised: #2C2A27;
-  --border: #35332F;
-  --border-subtle: #2A2825;
-  --text-primary: #ECE7DF;
-  --text-secondary: #C3BCB2;
-  --text-muted: #9E988F;
-  --accent: #DD8362;          /* Terracotta, lifted for warm dark */
-  --accent-strong: #E2886A;
-  --accent-cyan: #C89276;
-  --accent-soft: rgba(221, 131, 98, 0.14);
-  --accent-soft-2: rgba(221, 131, 98, 0.20);
-  --accent-glow: rgba(221, 131, 98, 0.34);
-  --glass-bg: rgba(35, 34, 32, 0.7);
-  --glass-border: rgba(236, 231, 223, 0.08);
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 6px 18px rgba(0, 0, 0, 0.45);
-  --shadow-lg: 0 18px 44px rgba(0, 0, 0, 0.55);
-}
-
-/* Control room layer: shared by all product surfaces. */
-:root {
-  --success: #168a69;
-  --warning: #b65d00;
-  --danger: #c93f4a;
-  --focus-ring: #0969da;
-}
-
-html.dark, [data-theme="dark"] {
-  --bg: #09111f;
-  --bg-secondary: #0d1829;
-  --bg-tertiary: #142238;
-  --surface: #101d31;
-  --surface-raised: #1a2a43;
-  --border: #263a55;
-  --border-subtle: #1b2b43;
-  --text-primary: #edf5ff;
-  --text-secondary: #b5c6dc;
-  --text-muted: #8296b2;
-  --accent: #52c7f5;
-  --accent-strong: #8bdbfb;
-  --accent-cyan: #52c7f5;
-  --accent-soft: rgba(82, 199, 245, 0.13);
-  --accent-soft-2: rgba(82, 199, 245, 0.2);
-  --accent-glow: rgba(82, 199, 245, 0.2);
-  --success: #47d7a5;
-  --warning: #fac661;
-  --danger: #ff7b87;
-  --focus-ring: #8bdbfb;
+  --bg: #0B0D0F;
+  --bg-secondary: #101317;
+  --bg-tertiary: #151A1F;
+  --surface: #12151A;
+  --surface-raised: #181D23;
+  --border: #232A30;
+  --border-subtle: #1A2025;
+  --text-primary: #EAEEF2;
+  --text-secondary: #A8B2BC;
+  --text-muted: #6E7882;
+  --accent: #4F9E7F;
+  --accent-strong: #5CA88A;
+  --accent-cyan: #4F9E7F;
+  --accent-soft: rgba(79, 158, 127, 0.13);
+  --accent-soft-2: rgba(79, 158, 127, 0.20);
+  --accent-glow: rgba(79, 158, 127, 0.32);
+  --glass-bg: rgba(18, 21, 26, 0.72);
+  --glass-border: rgba(234, 238, 242, 0.07);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.40);
+  --shadow-md: 0 6px 18px rgba(0, 0, 0, 0.46);
+  --shadow-lg: 0 18px 44px rgba(0, 0, 0, 0.58);
+  --success: #3FA37A;
+  --warning: #C99A3C;
+  --danger: #C6555F;
+  --focus-ring: var(--accent);
 }
 
 * {
@@ -1173,11 +1157,11 @@ html.dark .landing .topbar { background: rgba(28,27,25,0.72); }
   font-size: clamp(40px, 6.5vw, 72px); line-height: 1.08;
   letter-spacing: -0.02em; font-weight: 600;
   text-wrap: balance;
-  background: linear-gradient(180deg, #2C2825 0%, #57514B 55%, #9E988F 100%);
+  background: linear-gradient(180deg, var(--text-primary) 0%, var(--text-secondary) 65%, var(--accent) 100%);
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
 html.dark .landing .hero h1 {
-  background: linear-gradient(180deg, #F3EEE7 0%, #C3BCB2 55%, #9E988F 100%);
+  background: linear-gradient(180deg, var(--text-primary) 0%, var(--text-secondary) 65%, var(--accent) 100%);
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
 .landing .hero__description {
@@ -1353,7 +1337,7 @@ html.dark .landing .hero h1 {
 .landing .desktop-nav a[aria-current="page"] { color: var(--text-primary); background: var(--bg-tertiary); }
 .landing .hero h1 {
   font-family: var(--font-display);
-  background: linear-gradient(180deg, #2C2825 0%, #57514B 55%, #9E988F 100%);
+  background: linear-gradient(180deg, var(--text-primary) 0%, var(--text-secondary) 65%, var(--accent) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -1363,7 +1347,7 @@ html.dark .landing .hero h1 {
   font-weight: 600;
 }
 html.dark .landing .hero h1 {
-  background: linear-gradient(180deg, #F3EEE7 0%, #C3BCB2 55%, #9E988F 100%);
+  background: linear-gradient(180deg, var(--text-primary) 0%, var(--text-secondary) 65%, var(--accent) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
