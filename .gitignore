@@ -78,3 +78,4 @@ nul
 # One-shot ad-hoc smoke scripts at backend root (real tests live in backend/tests/)
 backend/smoke_test_*.py
 !backend/tests/
+user_files/

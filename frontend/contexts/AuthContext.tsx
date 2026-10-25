@@ -86,6 +86,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(data.user);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Connexion impossible');
+      throw err; // la page appelante doit savoir que la connexion a échoué
     } finally {
       setIsLoading(false);
     }
@@ -110,6 +111,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(data.user);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Erreur d'inscription");
+      throw err;
     } finally {
       setIsLoading(false);
     }

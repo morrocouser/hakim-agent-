@@ -243,3 +243,12 @@ def test_sandbox_script_readable_by_unprivileged_user(tmp_path):
     p = CodeExecutor(docker_enabled=False)._write_code_file(str(d), "python", "print(1)")
     assert stat.S_IMODE(os.stat(p).st_mode) == 0o644
     assert stat.S_IMODE(os.stat(d).st_mode) == 0o755
+
+
+def test_register_then_login_not_blocked_by_shared_quota(client):
+    name = f"u_{uuid.uuid4().hex[:10]}"
+    for _ in range(3):
+        r = client.post("/auth/login", json={"username": name, "password": "x"})
+        assert r.status_code == 401  # compteur login seul
+    r = client.post("/auth/register", json={"username": name, "password": "secret123"})
+    assert r.status_code == 200  # compteur register indépendant

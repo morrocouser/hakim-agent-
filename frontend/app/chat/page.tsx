@@ -28,7 +28,7 @@ interface Message {
 }
 
 export default function ChatPage() {
-  const { user, token } = useAuth()
+  const { user, token, isLoading } = useAuth()
   const router = useRouter()
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
@@ -39,10 +39,11 @@ export default function ChatPage() {
   const scrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (!user) {
+    // Attendre la fin du chargement de /auth/me, sinon user est null au premier rendu
+    if (!isLoading && !user) {
       router.push('/login')
     }
-  }, [user, router])
+  }, [user, isLoading, router])
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' })

@@ -5,6 +5,14 @@ import { useRouter } from 'next/navigation'
 import { LockKey } from '@phosphor-icons/react'
 import { useAuth } from '@/contexts/AuthContext'
 
+// Redirection post-login posée par le middleware (?redirect=/agent) ; on
+// n'accepte que les chemins internes pour éviter l'open redirect.
+function safeRedirect(): string | null {
+  if (typeof window === 'undefined') return null
+  const target = new URLSearchParams(window.location.search).get('redirect')
+  return target && target.startsWith('/') && !target.startsWith('//') ? target : null
+}
+
 export default function LoginPage() {
   const [isLogin, setIsLogin] = useState(true)
   const [username, setUsername] = useState('')
@@ -21,7 +29,7 @@ export default function LoginPage() {
     setLoading(true)
     try {
       isLogin ? await login(username, password) : await register(username, password, displayName || undefined)
-      router.push('/chat')
+      router.push(safeRedirect() ?? '/chat')
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Connexion impossible')
     } finally {
@@ -100,34 +108,14 @@ export default function LoginPage() {
             >
               {loading ? 'Chargement…' : isLogin ? 'Se connecter' : 'Créer le compte'}
             </button>
-            {isLogin ? null : (
-              <button
-                type="button"
-                className="border rounded-md px-4 py-2 text-sm font-medium text-[var(--accent)] hover:bg-[var(--accent-soft)] transition-colors"
-                onClick={() => setIsLogin(value => !value)}
-              >
-                Pas de compte ? S'inscrire
-              </button>
-            )}
-            {!isLogin ? null : (
-              <>
-                <button
-                  type="button"
-                  className="bg-[var(--accent)] text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-[var(--accent-soft)] transition-colors"
-                  style={{ marginTop: '1rem' }}
-                >
-                  Deploy Your First Swarm
-                </button>
-                <button
-                  type="button"
-                  className="border rounded-md px-4 py-2 text-sm font-medium text-[var(--accent)] hover:bg-[var(--bg-tertiary)] transition-colors"
-                  style={{ marginTop: '0.5rem' }}
-                >
-                  View Demo
-                </button>
-              </>
-            )}
           </div>
+          <button
+            type="button"
+            className="w-full text-sm font-medium text-[var(--accent)] hover:underline"
+            onClick={() => { setIsLogin(value => !value); setError('') }}
+          >
+            {isLogin ? "Pas de compte ? S'inscrire" : 'Déjà un compte ? Se connecter'}
+          </button>
         </form>
       </section>
     </main>

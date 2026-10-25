@@ -140,7 +140,8 @@ async def rate_limit_middleware(request: Request, call_next):
         # /auth/me, /auth/logout suivent le quota par défaut.
         strict = path in AUTH_STRICT_PATHS
         endpoint_cfg = get_default_rate_limit_for_endpoint("/auth/login" if strict else "/")
-        endpoint_cfg.key_prefix = "auth" if strict else endpoint_cfg.key_prefix
+        if strict:
+            endpoint_cfg.key_prefix = f"auth:{path}"  # un compteur par route
     else:
         endpoint_cfg = get_default_rate_limit_for_endpoint(path)
     cfg = RateLimitConfig(
