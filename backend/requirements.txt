@@ -13,6 +13,11 @@ python-dotenv>=1.0.1
 google-api-python-client>=2.100.0
 google-auth-httplib2>=0.2.0
 google-auth-oauthlib>=1.2.0
+python-frontmatter>=1.1.0
 
 # Optional: for distributed rate limiting (install with `pip install -e .[redis]`)
 # redis>=5.0.0
+
+# Tests
+pytest>=8.0.0
+pytest-asyncio>=0.24.0
