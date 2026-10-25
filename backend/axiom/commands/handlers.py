@@ -130,10 +130,12 @@ class CommandHandlers:
         return {"success": True, "output": {"tools": ["bash", "read", "write", "search", "web"], "total": 5}}
     
     def handle_skills(self, args: str) -> dict:
-        skills_dir = Path("skills/core")
+        # Resolved from the package, not the cwd, so it works from any directory.
+        from axiom.skills_catalog import SKILLS_ROOT
+        skills_dir = SKILLS_ROOT / "core"
         skills = []
         if skills_dir.exists():
-            for d in skills_dir.iterdir():
+            for d in sorted(skills_dir.iterdir()):
                 if d.is_dir() and (d / "SKILL.md").exists():
                     skills.append(d.name)
         return {"success": True, "output": {"skills": skills, "total": len(skills)}}
@@ -142,6 +144,37 @@ class CommandHandlers:
         from axiom.agent_skills_catalog import find_skills
         results = find_skills(query=args.strip(), limit=20)
         return {"success": True, "output": {"query": args, "total": len(results), "skills": results}}
+
+    def handle_skill_info(self, args: str) -> dict:
+        from axiom.skills_catalog import list_skills, search_skills, get_skill_readme
+        target = args.strip()
+        if not target:
+            return {"success": False, "error": "Usage: /skill-info <skill> | <repo>/<skill>"}
+
+        repo, _, name = target.rpartition("/")
+        matches = [
+            s for s in list_skills()
+            if s.get("skill") == name and (not repo or s.get("repo") == repo)
+        ]
+        if not matches:
+            suggestions = [f"{s['repo']}/{s['skill']}" for s in search_skills(target, limit=5)]
+            return {"success": False, "error": f"Skill not found: {target}", "suggestions": suggestions}
+        if len(matches) > 1:
+            # Same skill name published by several repos: ask for the full id.
+            return {
+                "success": False,
+                "error": f"Ambiguous skill name: {name}",
+                "suggestions": [f"{s['repo']}/{s['skill']}" for s in matches],
+            }
+
+        skill = matches[0]
+        return {
+            "success": True,
+            "output": {
+                **skill,
+                "content": get_skill_readme(skill["repo"], skill["skill"]),
+            },
+        }
     
     def handle_memory(self, args: str) -> dict:
         parts = args.split(maxsplit=2) if args else []
@@ -187,8 +220,43 @@ class CommandHandlers:
         return {"success": True, "output": {"exit": "Goodbye!"}, "exit": True}
     
     # Agent Commands
+    def _load_core_tool(self, skill_name: str, tool_name: str):
+        """Import a core skill tool function (skills/core/<skill>/<tool>.py)."""
+        import importlib.util
+        from axiom.skills_catalog import SKILLS_ROOT
+        path = SKILLS_ROOT / "core" / skill_name / f"{tool_name}.py"
+        if not path.exists():
+            raise FileNotFoundError(f"Core skill tool not found: {skill_name}.{tool_name}")
+        spec = importlib.util.spec_from_file_location(f"core_skill_{tool_name}", path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        return getattr(module, tool_name)
+
     def handle_plan(self, args: str) -> dict:
-        return {"success": True, "output": {"plan": "Planning system", "action": args or "list"}}
+        objective = args.strip()
+        if not objective:
+            last_plan = self._memory.get("last_plan")
+            if last_plan:
+                return {"success": True, "output": last_plan}
+            return {"success": False, "error": "Usage: /plan <objective>"}
+
+        try:
+            task_decompose = self._load_core_tool("planner", "task_decompose")
+            dependency_graph = self._load_core_tool("planner", "dependency_graph")
+        except FileNotFoundError as e:
+            return {"success": False, "error": str(e)}
+
+        tasks = task_decompose(objective=objective)
+        graph = dependency_graph(tasks=tasks)
+        by_name = {t["name"]: t for t in tasks}
+        plan = {
+            "objective": objective,
+            "tasks": [by_name[name] for name in graph["execution_order"]],
+            "parallel_groups": graph["parallel_groups"],
+            "total": len(tasks),
+        }
+        self._memory["last_plan"] = plan
+        return {"success": True, "output": plan}
     
     def handle_think(self, args: str) -> dict:
         mode = args.strip() if args else "on"

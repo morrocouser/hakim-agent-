@@ -1,3 +1,4 @@
+import re
 from dataclasses import dataclass
 from typing import Protocol, Optional, Any
 from pathlib import Path
@@ -61,14 +62,34 @@ class ToolRouter:
         log.warning("   🔀 Aucun skill trouvé pour: %s", intent[:60])
         raise ValueError(f"No skill found for intent: {intent}")
 
+    def _score_skill(self, skill: SkillManifest, intent: str) -> int:
+        """Score how well an intent matches a skill's triggers and tool names.
+
+        Multi-word triggers ("read file", "pull request") count when the whole
+        phrase appears in the intent, and weigh more than single words. Tool
+        names are split on "_" so "decompose" matches "task_decompose".
+        """
+        intent_lower = intent.lower()
+        words = set(re.findall(r"\w+", intent_lower))
+        score = 0
+        for trigger in skill.triggers:
+            trigger = trigger.lower().strip()
+            if " " in trigger:
+                if re.search(rf"\b{re.escape(trigger)}\b", intent_lower):
+                    score += 2 * len(trigger.split())
+            elif trigger in words:
+                score += 2
+        for tool in skill.tools:
+            score += len(words & set(tool.lower().split("_")))
+        return score
+
     def _keyword_match(self, intent: str) -> list[SkillManifest]:
-        words = set(intent.lower().split())
         scored = []
         for skill in self.registry.all_skills():
-            haystack = " ".join(skill.triggers + skill.tools).lower()
-            overlap = len(words & set(haystack.split()))
-            if overlap > 0:
-                scored.append((overlap, skill))
+            score = self._score_skill(skill, intent)
+            if score > 0:
+                scored.append((score, skill))
+        # sort() is stable, so equal scores keep registry order.
         scored.sort(key=lambda x: x[0], reverse=True)
         return [s for _, s in scored[:5]]
 
@@ -93,9 +114,15 @@ class ToolRouter:
         return dot_product / (norm_a * norm_b) if norm_a and norm_b else 0.0
 
     def _score_and_select(self, candidates: list[SkillManifest], intent: str, context: dict) -> RouteResult:
-        best = candidates[0]
-        tool_name = self._select_best_tool(best, intent)
-        return self._select_tool(best, intent, context, 0.7)
+        scores = [self._score_skill(c, intent) for c in candidates]
+        best_index = max(range(len(candidates)), key=lambda i: scores[i])
+        best_score = scores[best_index]
+        # More evidence → more confidence, capped below the exact-match levels.
+        confidence = min(0.85, 0.5 + 0.1 * best_score)
+        if scores.count(best_score) > 1:
+            # Several skills are equally plausible: the pick is a coin flip.
+            confidence = min(confidence, 0.6)
+        return self._select_tool(candidates[best_index], intent, context, confidence)
 
     def _select_best_tool(self, skill: SkillManifest, intent: str) -> str:
         if len(skill.tools) == 1:
@@ -112,7 +139,7 @@ class ToolRouter:
             skill_name=skill.name,
             tool_name=tool_name,
             confidence=confidence,
-            reasoning=f"Matched '{intent}' to {skill.name}.{tool_name} (trigger/tool overlap)",
+            reasoning=f"Matched '{intent}' to {skill.name}.{tool_name} (trigger/tool overlap, confidence {confidence:.2f})",
         )
 
     def _load_tool(self, skill: SkillManifest, tool_name: str) -> Tool:
