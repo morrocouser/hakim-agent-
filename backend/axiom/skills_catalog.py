@@ -8,6 +8,7 @@ every integrated skill with its source repository.
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 from typing import Any, Optional
 
@@ -49,16 +50,52 @@ def get_skill_readme(repo: str, skill: str) -> Optional[str]:
     return None
 
 
+# Per-field weight of a query term match: a hit in the skill name counts
+# more than a hit in its repository, which counts more than the description.
+_FIELD_WEIGHTS = (("skill", 5), ("repo", 2), ("description", 1))
+
+
+def _tokenize(text: str) -> list[str]:
+    return re.findall(r"[a-z0-9]+", text.lower())
+
+
+def score_skill(skill: dict, terms: list[str], phrase: str = "") -> tuple[int, int]:
+    """Return (matched_terms, weighted_score) for a skill against query terms.
+
+    Skills matching more distinct terms always rank first; the weighted score
+    breaks ties. An exact skill-name match and a full-phrase match get a bonus.
+    """
+    fields = {k: str(skill.get(k, "")).lower() for k, _ in _FIELD_WEIGHTS}
+    matched = 0
+    score = 0
+    for term in terms:
+        term_score = sum(w for k, w in _FIELD_WEIGHTS if term in fields[k])
+        if term_score:
+            matched += 1
+            score += term_score
+    if phrase:
+        if fields["skill"] == phrase.replace(" ", "-"):
+            score += 10
+        elif phrase in fields["description"] or phrase in fields["skill"]:
+            score += 3
+    return matched, score
+
+
 def search_skills(query: str, limit: int = 20) -> list[dict]:
-    """Search skills by name/description/repo (case-insensitive)."""
-    q = query.lower()
-    results = []
-    for s in list_skills():
-        haystack = " ".join(
-            str(s.get(k, "")) for k in ("skill", "description", "repo", "source_url")
-        ).lower()
-        if q in haystack:
-            results.append(s)
-        if len(results) >= limit:
-            break
-    return results
+    """Search skills by name/description/repo, ranked by relevance.
+
+    The query is split into terms (case-insensitive); a skill matches if it
+    contains at least one term, and skills matching every term come first.
+    """
+    terms = list(dict.fromkeys(_tokenize(query)))
+    if not terms:
+        return []
+    phrase = " ".join(terms)
+    scored = []
+    for index, s in enumerate(list_skills()):
+        matched, score = score_skill(s, terms, phrase)
+        if matched:
+            # The original index keeps the order stable for equal scores.
+            scored.append((-matched, -score, index, s))
+    scored.sort(key=lambda item: item[:3])
+    return [s for *_, s in scored[:limit]]

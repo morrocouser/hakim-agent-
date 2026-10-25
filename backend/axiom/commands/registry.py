@@ -129,6 +129,13 @@ class CommandRegistry:
             examples=["/find-skills python", "/find-skills react"]
         ))
         self.register(Command(
+            name="/skill-info",
+            description="Show a skill's details and its SKILL.md instructions",
+            group=CommandGroup.SYSTEM,
+            usage="/skill-info <skill> | <repo>/<skill>",
+            examples=["/skill-info karpathy-guidelines", "/skill-info taste-skill/taste-skill"]
+        ))
+        self.register(Command(
             name="/memory",
             description="View and manage memory",
             group=CommandGroup.SYSTEM,
@@ -174,10 +181,10 @@ class CommandRegistry:
         # Agent commands
         self.register(Command(
             name="/plan",
-            description="Create or view implementation plans",
+            description="Break an objective into ordered tasks with the planner skill",
             group=CommandGroup.AGENT,
-            usage="/plan [action] [args]",
-            examples=["/plan create", "/plan list", "/plan show 1"]
+            usage="/plan <objective> | /plan (show last plan)",
+            examples=["/plan Build a REST API with authentication", "/plan"]
         ))
         self.register(Command(
             name="/think",
