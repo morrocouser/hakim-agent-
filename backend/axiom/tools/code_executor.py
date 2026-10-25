@@ -29,6 +29,14 @@ MAX_EXECUTION_TIME = 30  # seconds
 MAX_MEMORY_MB = 512  # megabytes
 MAX_CPU_SHARES = 0.5  # CPU quota (0.5 = 50% of one CPU)
 MAX_OUTPUT_BYTES = 100_000  # 100KB output limit
+MAX_PIDS = 64  # processus/threads max dans le conteneur
+SANDBOX_USER = "65534:65534"  # nobody:nogroup
+# Images surchargeables (HAKIM_SANDBOX_IMAGE_PYTHON / _JAVASCRIPT) pour les
+# figer par digest : "python:3.11-slim@sha256:..."
+DOCKER_IMAGES = {
+    "python": os.getenv("HAKIM_SANDBOX_IMAGE_PYTHON", "python:3.11-slim"),
+    "javascript": os.getenv("HAKIM_SANDBOX_IMAGE_JAVASCRIPT", "node:18-alpine"),
+}
 
 # Try to import security tools for additional validation
 try:
@@ -211,31 +219,31 @@ class CodeExecutor:
     def _get_docker_command(self, language: str, tmp_dir: str, code: str) -> list:
         """Build Docker command with security constraints."""
         language = language.lower()
-        
+
         if language == "python":
-            return [
-                "docker", "run", "--rm",
-                "--memory", f"{MAX_MEMORY_MB}m",
-                "--cpus", str(MAX_CPU_SHARES),
-                "--network", "none",  # No network access
-                "-v", f"{tmp_dir}:/code",
-                "-w", "/code",
-                "python:3.11-slim",
-                "python", "script.py"
-            ]
+            image, runner = DOCKER_IMAGES["python"], ["python", "script.py"]
         elif language == "javascript":
-            return [
-                "docker", "run", "--rm",
-                "--memory", f"{MAX_MEMORY_MB}m",
-                "--cpus", str(MAX_CPU_SHARES),
-                "--network", "none",
-                "-v", f"{tmp_dir}:/code",
-                "-w", "/code",
-                "node:18-alpine",
-                "node", "script.mjs"
-            ]
+            image, runner = DOCKER_IMAGES["javascript"], ["node", "script.mjs"]
         else:
             raise SecurityError(f"Unsupported language: {language}")
+
+        return [
+            "docker", "run", "--rm",
+            "--memory", f"{MAX_MEMORY_MB}m",
+            "--memory-swap", f"{MAX_MEMORY_MB}m",  # pas de swap
+            "--cpus", str(MAX_CPU_SHARES),
+            "--pids-limit", str(MAX_PIDS),  # anti fork-bomb
+            "--network", "none",  # No network access
+            "--read-only",  # rootfs en lecture seule
+            "--tmpfs", "/tmp:rw,noexec,nosuid,size=16m",
+            "--cap-drop", "ALL",
+            "--security-opt", "no-new-privileges",
+            "--user", SANDBOX_USER,  # non-root
+            "-v", f"{tmp_dir}:/code:ro",  # code monté en lecture seule
+            "-w", "/code",
+            image,
+            *runner,
+        ]
 
     def _write_code_file(self, tmp_dir: str, language: str, code: str) -> str:
         """Write code to temporary file with validation."""
@@ -256,7 +264,11 @@ class CodeExecutor:
         
         with open(path, "w", encoding="utf-8") as f:
             f.write(secure_code)
-        
+        # mkdtemp crée un dossier 0700 : l'utilisateur non-root du conteneur
+        # doit pouvoir lire le dossier et le script (monté en :ro).
+        os.chmod(tmp_dir, 0o755)
+        os.chmod(path, 0o644)
+
         return path
 
     def execute(self, language: str, code: str) -> str:

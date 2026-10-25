@@ -220,3 +220,26 @@ def test_auth_login_is_rate_limited_even_with_rotating_user_agent(client):
 def test_auth_me_not_under_strict_quota(client):
     _, tok, _ = _register(client)
     assert all(client.get("/auth/me", headers=_bearer(tok)).status_code == 200 for _ in range(10))
+
+
+# --- 7. sandbox Docker ---------------------------------------------------------
+
+@pytest.mark.parametrize("lang", ["python", "javascript"])
+def test_docker_command_is_locked_down(lang):
+    from axiom.tools.code_executor import CodeExecutor
+    cmd = CodeExecutor(docker_enabled=False)._get_docker_command(lang, "/tmp/x", "")
+    joined = " ".join(cmd)
+    for flag in ("--read-only", "--cap-drop ALL", "--security-opt no-new-privileges",
+                 "--pids-limit", "--network none", "--user 65534:65534", "/tmp/x:/code:ro"):
+        assert flag in joined, flag
+    assert "--privileged" not in joined
+
+
+def test_sandbox_script_readable_by_unprivileged_user(tmp_path):
+    import stat
+    from axiom.tools.code_executor import CodeExecutor
+    d = tmp_path / "w"
+    d.mkdir(mode=0o700)
+    p = CodeExecutor(docker_enabled=False)._write_code_file(str(d), "python", "print(1)")
+    assert stat.S_IMODE(os.stat(p).st_mode) == 0o644
+    assert stat.S_IMODE(os.stat(d).st_mode) == 0o755

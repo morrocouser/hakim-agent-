@@ -106,7 +106,7 @@ def save_config():
         # Set secure file permissions (read/write for owner only)
         try:
             os.chmod(config_file, stat.S_IRUSR | stat.S_IWUSR)
-            config_dir.chmod(stat.S_IRUSR | stat.S_IWUSR)
+            config_dir.chmod(stat.S_IRWXU)  # 0700 : le bit x est requis pour traverser un dossier
         except Exception:
             pass
     except Exception:
