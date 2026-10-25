@@ -215,10 +215,11 @@ class AxiomCLIEngine:
 
         # 1. Vérification des permissions pour modification / shell
         if name in ["write_file", "edit_file", "bash"] and not self.auto_approve:
-            if permission_callback:
-                allowed = permission_callback(name, args)
-                if not allowed:
-                    return False, f"Action '{name}' refusée par l'utilisateur."
+            # Fail-closed : sans callback de confirmation, l'action est refusée.
+            if not permission_callback:
+                return False, f"Action '{name}' refusée : aucune confirmation utilisateur disponible."
+            if not permission_callback(name, args):
+                return False, f"Action '{name}' refusée par l'utilisateur."
 
         # 2. Instantané préalable pour write_file / edit_file
         if name in ["write_file", "edit_file"] and "path" in args:

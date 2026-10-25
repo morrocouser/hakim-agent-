@@ -14,7 +14,7 @@ from axiom.tools.file_manager import FileManager
 from axiom.tools.error_log import ErrorLog
 from axiom.logging_setup import log
 from axiom.db.models import Conversation, Message, User, get_session
-from axiom.auth.jwt import get_current_user
+from axiom.auth.jwt import get_current_user, require_admin, is_admin
 from sqlalchemy import select
 import json
 import asyncio
@@ -151,6 +151,7 @@ async def score_task(req: TaskRequest):
 @router.post("/execute", response_model=TaskResult)
 async def execute_task(
     req: TaskRequest,
+    user: User = Depends(get_current_user),
     loop: Optional[ReActLoop] = Depends(get_loop),
 ):
     """Exécute une tâche avec injection de dépendance ReActLoop."""
@@ -186,17 +187,15 @@ async def chat(
     try:
         if convo_id:
             result = await session.execute(
-                select(Conversation).where(Conversation.id == convo_id)
+                select(Conversation).where(
+                    Conversation.id == convo_id, Conversation.user_id == user.id
+                )
             )
             convo = result.scalar_one_or_none()
             if not convo:
-                convo = Conversation(user_id=user.id if user else 0, title=message.content[:80])
-                session.add(convo)
-                await session.commit()
-                await session.refresh(convo)
-                convo_id = convo.id
+                raise HTTPException(status_code=404, detail="Conversation non trouvée")
         else:
-            convo = Conversation(user_id=user.id if user else 0, title=message.content[:80])
+            convo = Conversation(user_id=user.id, title=message.content[:80])
             session.add(convo)
             await session.commit()
             await session.refresh(convo)
@@ -244,7 +243,9 @@ async def chat(
 
         # Update conversation timestamp
         convo_result = await session.execute(
-            select(Conversation).where(Conversation.id == convo_id)
+            select(Conversation).where(
+                Conversation.id == convo_id, Conversation.user_id == user.id
+            )
         )
         convo = convo_result.scalar_one_or_none()
         if convo:
@@ -264,12 +265,15 @@ async def chat(
 
 
 @router.get("/memory")
-async def get_memory(memory: MemoryManager = Depends(get_memory)):
+async def read_memory(
+    user: User = Depends(get_current_user),
+    memory: MemoryManager = Depends(get_memory),
+):
     """Récupère la mémoire avec injection de dépendance."""
     return memory.export()
 
 
-@router.post("/memory/project")
+@router.post("/memory/project", dependencies=[Depends(require_admin)])
 async def set_project(
     name: str,
     project_type: str = "SaaS",
@@ -282,7 +286,7 @@ async def set_project(
     return {"status": "ok"}
 
 
-@router.post("/memory/stack")
+@router.post("/memory/stack", dependencies=[Depends(require_admin)])
 async def set_stack(
     frontend: str = "",
     backend: str = "",
@@ -298,7 +302,7 @@ async def set_stack(
     return {"status": "ok"}
 
 
-@router.post("/memory/decision")
+@router.post("/memory/decision", dependencies=[Depends(require_admin)])
 async def add_decision(
     decision: str,
     reason: str,
@@ -329,6 +333,7 @@ async def list_agents():
 @router.post("/chat/stream")
 async def chat_stream(
     message: ChatMessage,
+    user: User = Depends(get_current_user),
     claude: Optional[LocalAPIClient] = Depends(get_claude),
 ):
     """Endpoint de streaming SSE pour le chat."""
@@ -476,13 +481,16 @@ async def list_files(
 
 
 @router.get("/errors")
-async def get_errors(error_log: ErrorLog = Depends(get_error_log)):
+async def get_errors(
+    user: User = Depends(get_current_user),
+    error_log: ErrorLog = Depends(get_error_log),
+):
     """Récupère le journal d'erreurs avec injection de dépendance."""
     entries = error_log.get_all()
     return {"errors": [e.to_dict() for e in entries]}
 
 
-@router.post("/errors")
+@router.post("/errors", dependencies=[Depends(require_admin)])
 async def log_error_endpoint(
     tier: int = 1,
     agent: str = "",
@@ -559,7 +567,11 @@ async def execute_command(
     args: str = "",
     user: User = Depends(get_current_user),
 ):
-    """Exécute une commande slash côté backend."""
+    """Exécute une commande slash côté backend.
+
+    Les commandes qui lancent des processus (shell, git, docker, cloud, ...)
+    sont réservées aux administrateurs (HAKIM_ADMIN_USERS).
+    """
     from axiom.commands.registry import CommandRegistry
     from axiom.commands.handlers import CommandHandlers
     reg = CommandRegistry()
@@ -567,5 +579,7 @@ async def execute_command(
     cmd = reg.get(command)
     if not cmd:
         raise HTTPException(status_code=404, detail=f"Commande inconnue: {command}")
+    if handlers.spawns_process(cmd) and not is_admin(user):
+        raise HTTPException(status_code=403, detail="Droits administrateur requis pour cette commande")
     res = handlers.execute(cmd, args)
     return res

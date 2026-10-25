@@ -38,7 +38,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     log.info("🚀 APEX v4.0 — Serveur démarré")
     log.info("   API: http://localhost:8000")
     log.info("   Docs: http://localhost:8000/docs")
-    log.info("   Auth: /api/auth/login | /api/auth/register")
+    log.info("   Auth: /auth/login | /auth/register")
     log.info("   Conversations: /api/conversations")
     log.info("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
     
@@ -110,12 +110,16 @@ app.add_middleware(
 log.info("CORS configuré: origines=%s, credentials=%s", allow_origins_list, allow_credentials)
 
 
+AUTH_STRICT_PATHS = {"/auth/login", "/auth/register", "/auth/refresh"}
+
+
 def _client_identifier_from_request(request: Request) -> ClientIdentifier:
     client_ip = request.client.host if request.client else "127.0.0.1"
     return ClientIdentifier(
         client_id=client_ip,
         ip_address=client_ip,
-        user_agent=request.headers.get("user-agent"),
+        # Pas de user-agent dans la clé : il est contrôlé par le client et
+        # permettrait de contourner la limite en le faisant varier.
     )
 
 
@@ -125,11 +129,20 @@ async def rate_limit_middleware(request: Request, call_next):
     if request.method == "OPTIONS":
         return await call_next(request)
 
-    # Ne limite que l'API
-    if not request.url.path.startswith("/api/"):
+    # Limite l'API et les routes d'authentification (/auth, hors /api)
+    path = request.url.path
+    is_auth_path = path.startswith("/auth/")
+    if not (path.startswith("/api/") or is_auth_path):
         return await call_next(request)
 
-    endpoint_cfg = get_default_rate_limit_for_endpoint(request.url.path)
+    if is_auth_path:
+        # Quota strict (anti brute-force) sur login/register/refresh uniquement ;
+        # /auth/me, /auth/logout suivent le quota par défaut.
+        strict = path in AUTH_STRICT_PATHS
+        endpoint_cfg = get_default_rate_limit_for_endpoint("/auth/login" if strict else "/")
+        endpoint_cfg.key_prefix = "auth" if strict else endpoint_cfg.key_prefix
+    else:
+        endpoint_cfg = get_default_rate_limit_for_endpoint(path)
     cfg = RateLimitConfig(
         max_requests=min(endpoint_cfg.max_requests, RATE_LIMIT_PER_MIN),
         window_seconds=endpoint_cfg.window_seconds,

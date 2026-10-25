@@ -1,6 +1,7 @@
 """Auth Routes — Login, Register, Profile, Refresh Tokens."""
 
 import os
+from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Request, Response
 from pydantic import BaseModel, Field
@@ -10,7 +11,8 @@ from axiom.db.models import User, get_session
 from axiom.auth.jwt import (
     hash_password, verify_password, create_access_token,
     create_refresh_token, decode_token, get_current_user,
-    TOKEN_TYPE_REFRESH,
+    is_token_revoked, revoke_token,
+    TOKEN_TYPE_ACCESS, TOKEN_TYPE_REFRESH,
 )
 from axiom.logging_setup import log
 
@@ -160,53 +162,66 @@ async def get_me(user: User = Depends(get_current_user)):
 
 
 class RefreshTokenRequest(BaseModel):
-    refresh_token: str = Field(..., description="Refresh token valide")
+    refresh_token: Optional[str] = Field(None, description="Refresh token valide (sinon cookie httpOnly)")
 
 
 @router.post("/refresh", response_model=RefreshResponse)
-async def refresh_token(req: RefreshTokenRequest):
+async def refresh_token(response: Response, request: Request, req: Optional[RefreshTokenRequest] = None):
     """
     Rafraîchir l'access token avec un refresh token valide.
+
+    Rotation : le refresh token présenté est révoqué ; le rejouer renvoie 401.
     """
-    # Décoder le refresh token
-    payload = decode_token(req.refresh_token)
-    
+    raw = (req.refresh_token if req else None) or request.cookies.get("refresh_token")
+    payload = decode_token(raw, expected_type=TOKEN_TYPE_REFRESH) if raw else None
+
     if not payload:
         log.warning("Refresh token invalide ou expiré")
         raise HTTPException(status_code=401, detail="Refresh token invalide")
-    
-    # Vérifier que c'est bien un refresh token
-    if payload.get("type") != TOKEN_TYPE_REFRESH:
-        log.warning(f"Type de token incorrect: {payload.get('type')}")
-        raise HTTPException(status_code=401, detail="Token invalide")
-    
-    # Vérifier que l'utilisateur existe
+
     session = await get_session()
     try:
+        if await is_token_revoked(session, payload.get("jti")):
+            log.warning("Refresh token révoqué/rejoué")
+            raise HTTPException(status_code=401, detail="Refresh token invalide")
+
         user_id = payload.get("user_id")
         result = await session.execute(select(User).where(User.id == user_id))
         user = result.scalar_one_or_none()
-        
+
         if not user:
             raise HTTPException(status_code=401, detail="Utilisateur non trouvé")
-        
-        # Créer de nouveaux tokens
+
+        await revoke_token(session, payload)
+
         access_token = create_access_token({"user_id": user.id, "username": user.username})
-        refresh_token = create_refresh_token({"user_id": user.id})
-        
+        new_refresh = create_refresh_token({"user_id": user.id})
+        _set_auth_cookies(response, access_token, new_refresh)
+
         return RefreshResponse(
             access_token=access_token,
-            refresh_token=refresh_token,
+            refresh_token=new_refresh,
         )
     finally:
         await session.close()
 
 
 @router.post("/logout", response_model=LogoutResponse)
-async def logout(_: Request = None, response: Response = None):
-    """Déconnexion — efface les cookies httpOnly et demande au client de vider son état."""
-    if response:
-        response.delete_cookie("access_token", path="/")
-        response.delete_cookie("refresh_token", path="/auth")
+async def logout(request: Request, response: Response):
+    """Déconnexion — révoque les jetons présentés et efface les cookies httpOnly."""
+    candidates = [request.cookies.get("access_token"), request.cookies.get("refresh_token")]
+    auth = request.headers.get("authorization", "")
+    if auth.lower().startswith("bearer "):
+        candidates.append(auth[7:])
+    session = await get_session()
+    try:
+        for raw in candidates:
+            payload = decode_token(raw) if raw else None
+            if payload:
+                await revoke_token(session, payload)
+    finally:
+        await session.close()
+    response.delete_cookie("access_token", path="/")
+    response.delete_cookie("refresh_token", path="/auth")
     log.info("Déconnexion demandée")
     return LogoutResponse(message="Déconnexion réussie.")

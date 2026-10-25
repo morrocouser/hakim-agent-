@@ -10,8 +10,8 @@ from jose import jwt, JWTError
 import bcrypt
 from fastapi import Depends, HTTPException, status, Request, Response
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from sqlalchemy import select
-from axiom.db.models import User, get_session
+from sqlalchemy import select, delete
+from axiom.db.models import User, RevokedToken, get_session
 from axiom.logging_setup import log
 
 # Load .env relative to backend directory
@@ -86,13 +86,15 @@ def create_refresh_token(data: dict, expires_delta: Optional[timedelta] = None) 
     )
 
 
-def decode_token(token: str) -> Optional[dict]:
+def decode_token(token: str, expected_type: Optional[str] = None) -> Optional[dict]:
     """
     Decode and validate JWT token.
-    
+
     Args:
         token: JWT token string
-    
+        expected_type: si fourni, le claim `type` doit correspondre exactement
+            (un refresh token ne doit jamais être accepté comme access token).
+
     Returns:
         Decoded payload or None if invalid
     """
@@ -103,17 +105,40 @@ def decode_token(token: str) -> Optional[dict]:
             algorithms=[ALGORITHM],
             options={"verify_type": False}  # We check type manually
         )
-        
-        # Verify token type
+
         token_type = payload.get("type")
         if token_type not in [TOKEN_TYPE_ACCESS, TOKEN_TYPE_REFRESH]:
             log.warning(f"Type de token invalide: {token_type}")
             return None
-        
+        if expected_type and token_type != expected_type:
+            log.warning(f"Type de token inattendu: {token_type} (attendu {expected_type})")
+            return None
+
         return payload
     except JWTError as e:
         log.warning(f"Décodage token échoué: {e}")
         return None
+
+
+async def is_token_revoked(session, jti: Optional[str]) -> bool:
+    """Vrai si le jti est absent (jeton non révocable) ou présent dans la liste de révocation."""
+    if not jti:
+        return True
+    result = await session.execute(select(RevokedToken.jti).where(RevokedToken.jti == jti))
+    return result.scalar_one_or_none() is not None
+
+
+async def revoke_token(session, payload: dict) -> None:
+    """Révoque le jti d'un payload décodé (idempotent) et purge les entrées expirées."""
+    jti = payload.get("jti")
+    if not jti:
+        return
+    exp = payload.get("exp")
+    expires_at = datetime.utcfromtimestamp(exp) if exp else datetime.utcnow() + timedelta(days=REFRESH_TOKEN_EXPIRE_DAYS)
+    await session.execute(delete(RevokedToken).where(RevokedToken.expires_at < datetime.utcnow()))
+    if not await is_token_revoked(session, jti):
+        session.add(RevokedToken(jti=jti, expires_at=expires_at))
+    await session.commit()
 
 
 async def get_current_user(
@@ -134,12 +159,14 @@ async def get_current_user(
     if not token:
         raise HTTPException(status_code=401, detail="Non authentifié")
 
-    payload = decode_token(token)
+    payload = decode_token(token, expected_type=TOKEN_TYPE_ACCESS)
     if not payload or "user_id" not in payload:
         raise HTTPException(status_code=401, detail="Token invalide ou expiré")
 
     session = await get_session()
     try:
+        if await is_token_revoked(session, payload.get("jti")):
+            raise HTTPException(status_code=401, detail="Token révoqué")
         result = await session.execute(select(User).where(User.id == payload["user_id"]))
         user = result.scalar_one_or_none()
         if not user:
@@ -159,3 +186,20 @@ async def optional_user(
     except HTTPException:
         return None
 
+
+
+def _admin_usernames() -> set[str]:
+    raw = os.getenv("HAKIM_ADMIN_USERS", "")
+    return {u.strip().lower() for u in raw.split(",") if u.strip()}
+
+
+def is_admin(user: User) -> bool:
+    """Admin = username listé dans HAKIM_ADMIN_USERS (vide => personne, fail-closed)."""
+    return user.username.lower() in _admin_usernames()
+
+
+async def require_admin(user: User = Depends(get_current_user)) -> User:
+    """Dépendance FastAPI : réserve une route aux administrateurs."""
+    if not is_admin(user):
+        raise HTTPException(status_code=403, detail="Droits administrateur requis")
+    return user

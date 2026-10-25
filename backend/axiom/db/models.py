@@ -38,6 +38,14 @@ class User(Base):
     conversations = relationship("Conversation", back_populates="user", cascade="all, delete-orphan")
 
 
+class RevokedToken(Base):
+    """JTI de jetons révoqués (logout, rotation des refresh tokens)."""
+    __tablename__ = "revoked_tokens"
+
+    jti = Column(String(64), primary_key=True)
+    expires_at = Column(DateTime, nullable=False, index=True)
+
+
 class Conversation(Base):
     """Modèle de conversation."""
     __tablename__ = "conversations"

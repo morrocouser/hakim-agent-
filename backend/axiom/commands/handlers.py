@@ -1,7 +1,10 @@
 # Command Handlers - Implementation for all slash commands
 
 import os
+import re
 import json
+import inspect
+import shlex
 import subprocess
 import platform
 from pathlib import Path
@@ -19,6 +22,40 @@ class CommandHandlers:
         self._command_history = []
         self._memory = {}
     
+    # Appels qui lancent un processus ; toute commande qui les atteint (même
+    # transitivement) est considérée comme "spawning".
+    _SPAWN_SINKS = {"_run_shell", "_run_git", "_run_gh"}
+
+    def _handler_for(self, command: Command):
+        name = f"handle_{command.name[1:].replace('-', '_').replace('/', '_')}"
+        return name, getattr(self, name, None)
+
+    def spawns_process(self, command: Command) -> bool:
+        """Vrai si le handler de la commande lance (même indirectement) un sous-processus."""
+        name, handler = self._handler_for(command)
+        if handler is None:
+            return False
+        seen: set[str] = set()
+        todo = [name]
+        while todo:
+            current = todo.pop()
+            if current in seen:
+                continue
+            seen.add(current)
+            if current in self._SPAWN_SINKS:
+                return True
+            fn = getattr(type(self), current, None)
+            if fn is None:
+                continue
+            try:
+                src = inspect.getsource(fn)
+            except (OSError, TypeError):
+                return True  # fail-closed
+            if "subprocess." in src:
+                return True
+            todo.extend(re.findall(r"self\.(\w+)\(", src))
+        return False
+
     def execute(self, command: Command, args: str) -> dict:
         """Execute a command with arguments"""
         self._command_history.append({
@@ -301,15 +338,40 @@ class CommandHandlers:
         return {"success": True, "output": {"structure_depth": depth}}
     
     # Git Commands
-    def handle_git(self, args: str) -> dict:
+    # Options git/gh permettant d'exécuter un programme arbitraire ou de
+    # sortir du dépôt courant.
+    _GIT_FORBIDDEN = (
+        "-c", "--config", "--config-env", "--exec-path", "--upload-pack",
+        "--receive-pack", "--exec", "--git-dir", "--work-tree", "--ext-cmd",
+        "--ssh-command",
+    )
+
+    def _run_git(self, argv: list[str], binary: str = "git") -> dict:
+        for tok in argv:
+            low = tok.lower()
+            if any(low == f or low.startswith(f + "=") for f in self._GIT_FORBIDDEN):
+                return {"success": False, "error": f"Option non autorisée: {tok}"}
+        if binary == "git" and argv and argv[0].startswith("-"):
+            return {"success": False, "error": "Sous-commande git requise"}
         try:
-            result = subprocess.run(["git"] + args.split(), capture_output=True, text=True, timeout=30)
+            result = subprocess.run([binary] + argv, capture_output=True, text=True, timeout=30)
             return {"success": result.returncode == 0, "output": {"stdout": result.stdout, "stderr": result.stderr}}
+        except FileNotFoundError:
+            return {"success": False, "error": f"{binary} not installed"}
         except Exception as e:
             return {"success": False, "error": str(e)}
-    
+
+    def _run_gh(self, argv: list[str]) -> dict:
+        return self._run_git(argv, binary="gh")
+
+    def handle_git(self, args: str) -> dict:
+        try:
+            return self._run_git(shlex.split(args))
+        except ValueError as e:
+            return {"success": False, "error": str(e)}
+
     def handle_commit(self, args: str) -> dict:
-        return self.handle_git(f"commit -m '{args}'" if args else "status")
+        return self._run_git(["commit", "-m", args] if args else ["status"])
     
     def handle_push(self, args: str) -> dict:
         return self.handle_git(f"push {args}".strip())
@@ -328,11 +390,8 @@ class CommandHandlers:
     
     def handle_pr(self, args: str) -> dict:
         try:
-            result = subprocess.run(["gh"] + args.split(), capture_output=True, text=True, timeout=30)
-            return {"success": result.returncode == 0, "output": {"stdout": result.stdout, "stderr": result.stderr}}
-        except FileNotFoundError:
-            return {"success": False, "error": "GitHub CLI (gh) not installed"}
-        except Exception as e:
+            return self._run_gh(shlex.split(args))
+        except ValueError as e:
             return {"success": False, "error": str(e)}
     
     def handle_issues(self, args: str) -> dict:
@@ -353,11 +412,12 @@ class CommandHandlers:
         """
         import shlex
 
+        # Pas d'interpréteurs/shells (bash, sh, python, node, powershell, cmd...) :
+        # ils annuleraient toute la liste blanche (`bash -c "..."`).
         ALLOWED_BINARIES = {
-            "bash", "sh", "powershell", "cmd", "zsh",
             "npm", "pnpm", "yarn", "bun", "pip", "pip3", "cargo", "go",
             "docker", "docker-compose", "kubectl", "aws", "gcloud", "az",
-            "vercel", "wrangler", "git", "gh", "python", "python3", "node",
+            "vercel", "wrangler", "git", "gh",
         }
 
         try:
@@ -366,28 +426,10 @@ class CommandHandlers:
             if not parts:
                 return {"success": False, "error": "Commande vide"}
             binary = parts[0]
-            # Normalise "powershell -Command ..." et "cmd /c ..." en appel direct
-            if binary in ("powershell", "pwsh"):
-                if len(parts) >= 3 and parts[1] in ("-Command", "-c"):
-                    prog, flag, rest = parts[0], parts[1], " ".join(parts[2:])
-                    result = subprocess.run(
-                        [prog, flag, rest], capture_output=True, text=True, timeout=60
-                    )
-                    return {"success": result.returncode == 0,
-                            "output": {"stdout": result.stdout, "stderr": result.stderr}}
-                return {"success": False, "error": "powershell nécessite -Command"}
-            if binary == "cmd":
-                if len(parts) >= 3 and parts[1] == "/c":
-                    prog, flag, rest = parts[0], parts[1], " ".join(parts[2:])
-                    result = subprocess.run(
-                        [prog, flag, rest], capture_output=True, text=True, timeout=60
-                    )
-                    return {"success": result.returncode == 0,
-                            "output": {"stdout": result.stdout, "stderr": result.stderr}}
-                return {"success": False, "error": "cmd nécessite /c"}
-
             if binary not in ALLOWED_BINARIES:
                 return {"success": False, "error": f"Binaire non autorisé: {binary}"}
+            if binary in ("git", "gh"):
+                return self._run_git(parts[1:], binary=binary)
 
             result = subprocess.run(parts, capture_output=True, text=True, timeout=60)
             return {"success": result.returncode == 0,

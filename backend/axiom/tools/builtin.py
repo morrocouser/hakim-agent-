@@ -264,11 +264,17 @@ class BashTool(BaseTool):
         command = params["command"]
         timeout = params.get("timeout", self._timeout)
 
-        # Bloquer les commandes dangereuses
-        dangerous = ["rm -rf /", "mkfs", ":(){", "dd if=/dev"]
+        # Garde-fou best-effort (une liste noire reste contournable) : la vraie
+        # protection est la confirmation utilisateur imposée par CLIEngine
+        # (fail-closed) avant tout appel à cet outil.
+        normalized = re.sub(r"\s+", " ", command)
+        dangerous = [
+            r"\brm\s+-\w*[rf]\w*\s+(-\w+\s+)*(/|~|\$HOME)(\s|\*|$)",
+            r"\bmkfs", r":\(\)\s*\{", r"\bdd\s+if=/dev", r">\s*/dev/sd",
+        ]
         for d in dangerous:
-            if d in command:
-                return ToolResult(ok=False, error=f"Commande dangereuse bloquée: {d}", type=ToolResultType.ERROR)
+            if re.search(d, normalized):
+                return ToolResult(ok=False, error="Commande dangereuse bloquée", type=ToolResultType.ERROR)
 
         try:
             proc = await asyncio.create_subprocess_shell(
