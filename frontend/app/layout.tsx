@@ -4,8 +4,8 @@ import { ThemeProvider } from '@/components/ThemeProvider'
 import { AuthProvider } from '@/contexts/AuthContext'
 
 export const metadata: Metadata = {
-  title: 'HakimAgent / APEX v4.0 — Orchestrateur Multi-Agents IA',
-  description: 'Plateforme et orchestrateur d\'agents IA haute performance avec routage intelligent, scoring et interface responsive moderne.',
+  title: 'HakimAgent — Orchestrateur Multi-Agents IA (Claude Theme)',
+  description: 'Plateforme et orchestrateur d\'agents IA haute performance avec routage intelligent, scoring et interface éditoriale chaleureuse.',
   metadataBase: new URL('http://localhost:3000'),
   robots: {
     index: true,
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'HakimAgent — Orchestrateur Multi-Agents IA',
-    description: 'Système d\'orchestration d\'agents IA autonome avec scoring algorithmique et interface glassmorphic.',
+    description: 'Système d\'orchestration d\'agents IA autonome avec scoring algorithmique et interface éditoriale Claude.',
     url: 'http://localhost:3000',
     siteName: 'HakimAgent',
     locale: 'fr_FR',
@@ -44,7 +44,10 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&family=Geist:wght@100..900&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600;6..72,700&display=swap" rel="stylesheet" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Geist+Mono:wght@400;600&family=Geist:wght@400;600&display=swap"
+          rel="stylesheet"
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

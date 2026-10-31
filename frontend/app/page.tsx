@@ -26,21 +26,23 @@ import {
   Layers,
   Code2,
   Compass,
-  RefreshCw,
+  RefreshCw,
+  CreditCard,
 } from "lucide-react";
 
 import GlassCard, { InteractiveButton, MetricCard } from "@/components/GlassCard";
 
-export const productName = "HakimAgent";
+const productName = "HakimAgent";
 
-export const metricCards: { metric: string; title: string; detail: string }[] = [
+const metricCards: { metric: string; title: string; detail: string }[] = [
   { metric: "0 ms", title: "Telemetry overhead", detail: "Tourne en local sans télémétrie ni appel externe forcé." },
   { metric: "Strict DAG", title: "Execution", detail: "Graphe orienté acyclique avec typage statique (pyright strict)." },
   { metric: "asyncio", title: "Parallélisme", detail: "Isolation des contextes d'agents via tâches async sans blocage." },
   { metric: "SQLite", title: "Persistance", detail: "Historique des runs et état des mémoires indexés en local." },
 ];
 
-export const navigationItems = [
+const navigationItems = [
+  { label: "Tarifs & Pro", href: "/pricing" },
   { label: "Installation", href: "#installation" },
   { label: "Utilisation", href: "#utilisation" },
   { label: "Architecture", href: "#architecture" },
@@ -48,14 +50,14 @@ export const navigationItems = [
   { label: "Limites + tests", href: "#limites-tests" },
 ] as const;
 
-export const envManagers = ["uv", "Poetry", "pip"] as const;
+const envManagers = ["uv", "Poetry", "pip"] as const;
 
-export const installCommand = `cd /home/ubuntu/hakim-agent
+const installCommand = `cd /home/ubuntu/hakim-agent
 python3 -m venv .venv
 . .venv/bin/activate
 pip install hakimagent`;
 
-export const environmentCommand = `export OPENAI_API_KEY="..."
+const environmentCommand = `export OPENAI_API_KEY="..."
 export OPENAI_API_BASE="..."
 
 # Affiner le routage par modèle
@@ -64,11 +66,11 @@ export HAKIM_MODEL_ADVANCED="claude-3-5-haiku"
 export HAKIM_MODEL_STANDARD="ollama/qwen2.5-coder"
 export HAKIM_MODEL_FAST="ollama/llama3.1"`;
 
-export const cliCommand = `hakimagent "Explique le problème et propose un plan de correction"
+const cliCommand = `hakimagent "Explique le problème et propose un plan de correction"
 hakimagent --json "Analyse ce fichier CSV et donne les tendances principales"
 cat demande.txt | hakimagent`;
 
-export const httpCommand = `uvicorn hakim_agent.api:app --host 127.0.0.1 --port 8000
+const httpCommand = `uvicorn hakim_agent.api:app --host 127.0.0.1 --port 8000
 
 curl http://127.0.0.1:8000/health
 
@@ -361,8 +363,14 @@ export default function Home() {
               {item.label}
             </a>
           ))}
-          <Link href="/agent" className="nav-cta">
-            <span>▶</span>WEB IDE
+          <Link href="/coworkers" className="text-xs font-semibold text-[var(--accent)] hover:underline">
+            Coworkers
+          </Link>
+          <Link href="/audit" className="text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
+            Audit
+          </Link>
+          <Link href="/chat" className="nav-cta">
+            <span>▶</span>OUVRIR L'AGENT
           </Link>
         </nav>
 
@@ -384,8 +392,14 @@ export default function Home() {
               {item.label}
             </a>
           ))}
-          <Link href="/agent" onClick={closeMenu} className="nav-cta" style={{ color: "#fff", textDecoration: "none" }}>
-            <span>▶</span>OUVRIR LE WEB IDE
+          <Link href="/coworkers" onClick={closeMenu}>
+            Coworkers (OpenBot)
+          </Link>
+          <Link href="/audit" onClick={closeMenu}>
+            Audit & Gouvernance
+          </Link>
+          <Link href="/chat" onClick={closeMenu} className="nav-cta" style={{ color: "#fff", textDecoration: "none" }}>
+            <span>▶</span>OUVRIR L'AGENT
           </Link>
         </nav>
       )}
@@ -433,6 +447,24 @@ export default function Home() {
             <Link href="#installation" className="btn-doc">
               <span>Explorer la doc</span>
               <ExternalLink size={16} strokeWidth={2.5} />
+            </Link>
+          </div>
+
+          <div className="flex flex-wrap items-center justify-center gap-3 my-6">
+            <Link
+              href="/chat"
+              className="inline-flex items-center gap-2.5 px-6 py-3 rounded-lg bg-[#cc785c] hover:bg-[#a9583e] text-white font-medium text-sm tracking-normal shadow-sm transition-all transform hover:-translate-y-0.5 cursor-pointer"
+            >
+              <Sparkles size={16} className="text-white" />
+              <span>Ouvrir l'Interface de l'Agent</span>
+              <ArrowRight size={14} className="text-white" />
+            </Link>
+            <Link
+              href="/pricing"
+              className="inline-flex items-center gap-2.5 px-6 py-3 rounded-lg bg-[var(--surface-soft)] hover:bg-[var(--surface)] text-[var(--text-primary)] border border-[var(--border)] font-medium text-sm tracking-normal shadow-sm transition-all transform hover:-translate-y-0.5 cursor-pointer"
+            >
+              <CreditCard size={16} className="text-[#cc785c]" />
+              <span>Tarifs & Abonnements</span>
             </Link>
           </div>
 

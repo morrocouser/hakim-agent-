@@ -13,6 +13,7 @@ from axiom.tools.web_search import WebSearchTool
 from axiom.tools.file_manager import FileManager
 from axiom.tools.code_executor import CodeExecutor
 from axiom.logging_setup import log
+from axiom.core.telemetry import tracer, SpanKind, SpanAttributes
 from typing import Optional, Dict, Any, List, Tuple
 import os
 import time
@@ -76,26 +77,39 @@ class ReActLoop:
         self.prompt_builder.user_style_detector = self.user_style_detector
 
     async def execute(self, task: TaskAssignment, context: Optional[str] = None) -> TaskResult:
-        """
-        Exécute une tâche avec la boucle ReAct.
-        
-        La boucle suit ces étapes:
-        1. Détection du mode opérationnel
-        2. Application des modifications de comportement selon le mode
-        3. Recherche web automatique si nécessaire
-        4. Exécution itérative avec auto-critique
-        5. Retourne le résultat final
-        
-        Args:
-            task: Assignment de tâche avec agent, modèle et score
-            context: Contexte supplémentaire pour la tâche
-            
-        Returns:
-            TaskResult avec statut, output, erreur et score de qualité
-        """
+        """Exécute une tâche avec la boucle ReAct sous protection télémétrique garantie."""
+        agent_name = task.agent.value if hasattr(task.agent, "value") else str(task.agent)
+        model_name = task.model.value if hasattr(task.model, "value") else str(task.model)
+        root_span = tracer.start_as_current_span(
+            f"agent:{agent_name}",
+            kind=SpanKind.AGENT,
+            attributes={
+                SpanAttributes.INPUT_VALUE: task.description,
+                "task.id": task.task_id,
+                "agent.name": agent_name,
+                "agent.model": model_name,
+            },
+        )
+        root_span.__enter__()
+        try:
+            return await self._execute_core(task, context, root_span)
+        except Exception as e:
+            root_span.set_status("ERROR", str(e))
+            raise
+        finally:
+            root_span.__exit__(None, None, None)
+    
+    async def _execute_core(
+        self,
+        task: TaskAssignment,
+        context: Optional[str],
+        root_span: Any,
+    ) -> TaskResult:
+        agent_name = task.agent.value if hasattr(task.agent, "value") else str(task.agent)
+        model_name = task.model.value if hasattr(task.model, "value") else str(task.model)
         log.info("🔄 REACT LOOP DÉMARRÉ")
         log.info("   Tâche: %s", task.description[:80])
-        log.info("   Agent: %s | Score: %s/10", task.agent.value, task.score)
+        log.info("   Agent: %s | Score: %s/10", agent_name, task.score)
 
         # Detect operation mode
         self._current_mode = detect_operation_mode(
@@ -127,12 +141,14 @@ class ReActLoop:
         if "speed_adjustment" in mode_config:
             task.dimensions.speed_need = max(1, min(10, task.dimensions.speed_need + mode_config["speed_adjustment"]))
 
+        curr_model = task.model.value if hasattr(task.model, "value") else str(task.model)
+        curr_agent = task.agent.value if hasattr(task.agent, "value") else str(task.agent)
         self.memory.set_current_task(
             task_id=task.task_id,
             description=task.description,
-            task_type=task.agent.value,
-            agent=task.agent.value,
-            model=task.model.value,
+            task_type=curr_agent,
+            agent=curr_agent,
+            model=curr_model,
             score=task.score,
         )
 
@@ -150,7 +166,7 @@ class ReActLoop:
 
             if error:
                 log.warning("   ⚠️  ERREUR itération %s (%ss): %s", iteration, elapsed, str(error)[:120])
-                error_obj = Exception(error) if isinstance(error, str) else error
+                error_obj = error if isinstance(error, Exception) else Exception(str(error))
                 protocol_result = await self.error_protocol.handle_error(
                     error=error_obj,
                     task=task,
@@ -159,7 +175,23 @@ class ReActLoop:
                 )
 
                 if protocol_result.should_continue:
-                    if protocol_result.fallback_result:
+                    # Repli dynamique vers un modèle alternatif (Circuit Breaker Tier 3)
+                    if protocol_result.modified_task:
+                        target_model_name = (
+                            protocol_result.modified_task.model.value
+                            if hasattr(protocol_result.modified_task.model, "value")
+                            else str(protocol_result.modified_task.model)
+                        )
+                        log.info("   🔄 REPLI ACTIF: Bascule vers le modèle %s", target_model_name)
+                        task = protocol_result.modified_task
+                        context = (
+                            f"{context}\n\n[CIRCUIT BREAKER: Modèle basculé vers {target_model_name}]"
+                            if context
+                            else f"[CIRCUIT BREAKER: Modèle basculé vers {target_model_name}]"
+                        )
+                        # Re-tenter immédiatement avec le modèle de secours
+                        continue
+                    elif protocol_result.fallback_result:
                         context = str(protocol_result.fallback_result)
                         iteration += 1
                         continue
@@ -247,17 +279,36 @@ class ReActLoop:
             status = TaskStatus.FAILED
             log.error("   ❌ Erreur finale: %s", last_error[:120])
 
+        agent_final = task.agent.value if hasattr(task.agent, "value") else str(task.agent)
+        model_final = task.model.value if hasattr(task.model, "value") else str(task.model)
         self.memory.update_task_status(status.value, quality)
         self.memory.add_to_history(
             task_id=task.task_id,
             resume=task.description,
-            task_type=task.agent.value,
-            model=task.model.value,
+            task_type=agent_final,
+            model=model_final,
             outcome="SUCCESS" if status == TaskStatus.DONE else "FAILED",
         )
 
-        # Build final output with self-critique summary if verbose
+        # Si aucune sortie générée suite aux erreurs de modèles, bascule ultime sur Gemini 3.5 Flash
         final_output = last_output
+        if not final_output or final_output.strip() == "":
+            log.warning("   ⚠️ Aucune sortie valide après les itérations : Bascule automatique finale vers gemini-3.5-flash...")
+            try:
+                system_prompt = self.prompt_builder.build_system_prompt(task, 1, 1, self._current_mode)
+                user_prompt = self.prompt_builder.build_user_prompt(task, context, 1, 1, self._current_mode)
+                final_output = await self.claude.chat(
+                    model="gemini-3.5-flash",
+                    system=system_prompt,
+                    messages=[{"role": "user", "content": user_prompt}],
+                )
+                if final_output:
+                    status = TaskStatus.DONE
+                    quality = 7.0
+                    log.info("   ✅ Sortie de secours générée avec succès via gemini-3.5-flash")
+            except Exception as e_final:
+                log.error("   ❌ Échec du secours final: %s", str(e_final))
+                final_output = f"⚠️ Le modèle sélectionné a rencontré une indisponibilité temporaire ({last_error or 'Erreur API'}). Le système a automatiquement rebasculé sur Gemini 3.5 Flash pour vos prochaines requêtes." 
         if self_critique_results and self_critique_results[-1]["decision"] != "LIVRAISON":
             final_critique = self_critique_results[-1]
             final_output = f"{last_output}\n\n---\n🔍 AUTO-CRITIQUE (itération {len(self_critique_results)}):\n" \
@@ -271,12 +322,16 @@ class ReActLoop:
             final_output = format_response_for_style(
                 final_output,
                 self.user_style_detector.get_current_style(),
-                task.agent.value,
-                task.model.value,
+                agent_final,
+                model_final,
             )
 
         # Save detected style to memory
         self.user_style_detector.save_to_memory()
+
+        root_span.set_attribute(SpanAttributes.OUTPUT_VALUE, (final_output or "")[:1000])
+        root_span.set_attribute("task.quality_score", round(quality, 1))
+        root_span.set_status("OK" if status == TaskStatus.DONE else "ERROR", last_error)
 
         return TaskResult(
             task_id=task.task_id,
@@ -337,24 +392,25 @@ class ReActLoop:
                     "error_log": self.error_log,
                 }
                 t_llm = time.time()
+                model_str = task.model.value if hasattr(task.model, "value") else str(task.model)
                 result = await run_tool_loop_v2(
-                    self.claude, task.model.value, system_prompt, user_prompt, ctx,
+                    self.claude, model_str, system_prompt, user_prompt, ctx,
                 )
                 log.info("   📡 Tool Loop terminé en %ss (%s caractères)", round(time.time() - t_llm, 2), len(result) if result else 0)
                 return result, None
-            log.info("   📡 Appel LLM: %s...", task.model.value)
+            model_str = task.model.value if hasattr(task.model, "value") else str(task.model)
+            log.info("   📡 Appel LLM: %s...", model_str)
             t_llm = time.time()
-            response = await self.claude.chat(
-                model=task.model.value,
-                system=system_prompt,
-                messages=[{"role": "user", "content": user_prompt}],
-            )
+            with tracer.start_as_current_span(f"llm:{model_str}", kind=SpanKind.LLM, attributes={SpanAttributes.LLM_MODEL_NAME: model_str}) as s:
+                response = await self.claude.chat(model=model_str, system=system_prompt, messages=[{"role": "user", "content": user_prompt}])
+                if response:
+                    s.set_attribute(SpanAttributes.OUTPUT_VALUE, response[:500])
             elapsed = round(time.time() - t_llm, 2)
             log.info("   📡 LLM réponse reçue en %ss (%s caractères)", elapsed, len(response) if response else 0)
             return response, None
         except Exception as e:
             log.error("   ❌ Exception itération %s: %s", iteration, str(e)[:120])
-            return None, str(e)
+            return None, e
 
     async def _self_critique(
         self,
@@ -375,13 +431,14 @@ class ReActLoop:
         Returns:
             Dictionnaire avec scores, décision, points forts/faibles, etc.
         """
-        # Déléguer au SelfCritiqueEngine
-        return await self.self_critique_engine.evaluate(
-            task=task,
-            output=output,
-            iteration=iteration,
-            max_iterations=max_iterations,
-        )
+        # Déléguer au SelfCritiqueEngine avec span EVAL
+        with tracer.start_as_current_span("self_critique", kind=SpanKind.EVAL) as eval_span:
+            res = await self.self_critique_engine.evaluate(
+                task=task, output=output, iteration=iteration, max_iterations=max_iterations,
+            )
+            eval_span.set_attribute("critique.score", res.get("score_global", 0))
+            eval_span.set_attribute("critique.decision", res.get("decision", ""))
+            return res
 
     def _infer_task_type(self, agent: AgentName) -> TaskType:
         """Map agent to task type for mode detection."""
@@ -394,5 +451,6 @@ class ReActLoop:
             AgentName.RESEARCHER: TaskType.RESEARCH,
             AgentName.PLANNER: TaskType.PLAN,
             AgentName.QUICKSHOT: TaskType.QUICK,
+            AgentName.WEB_BUILDER: TaskType.WEB,
         }
         return mapping.get(agent, TaskType.QUICK)

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test_Qa_Showcase - SaaS Landing Page (AutoDS/Linear style)</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: { 50: '#eef2ff', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca' }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen">
+  <!-- NAVBAR -->
+  <nav class="fixed top-0 w-full z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-2">
+        <i data-lucide="zap" class="w-7 h-7 text-brand-500 fill-brand-500"></i>
+        <span class="text-xl font-bold tracking-wide">Test_Qa_Showcase</span>
+      </div>
+      <div class="hidden md:flex space-x-8 text-sm font-medium text-slate-300">
+        <a href="#features" class="hover:text-white transition">Fonctionnalités</a>
+        <a href="#pricing" class="hover:text-white transition">Tarifs</a>
+      </div>
+      <a href="#pricing" class="bg-brand-600 hover:bg-brand-500 text-white px-4 py-2 rounded-lg text-sm font-semibold transition">
+        Commencer
+      </a>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section class="pt-36 pb-20 px-6 text-center max-w-5xl mx-auto">
+    <span class="bg-brand-500/10 text-brand-500 border border-brand-500/20 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider inline-block mb-4">
+      SaaS Landing Page (AutoDS/Linear style)
+    </span>
+    <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight mb-6">
+      Votre Plateforme Web de Nouvelle Génération
+    </h1>
+    <p class="text-lg text-slate-400 max-w-2xl mx-auto mb-8">
+      Landing page SaaS moderne avec hero animé, mockup de dashboard, toggle de prix mensuel/annuel et preuve sociale.
+    </p>
+    <div class="flex flex-col sm:flex-row justify-center gap-4">
+      <a href="#pricing" class="bg-brand-600 hover:bg-brand-500 text-white px-8 py-3.5 rounded-xl font-semibold transition shadow-lg shadow-brand-600/30">
+        Essayer Gratuitement
+      </a>
+      <a href="#features" class="bg-slate-900 hover:bg-slate-800 border border-slate-800 text-white px-8 py-3.5 rounded-xl font-semibold transition">
+        Découvrir
+      </a>
+    </div>
+  </section>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

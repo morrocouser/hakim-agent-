@@ -176,6 +176,7 @@ def detect_operation_mode(
         TaskType.RESEARCH: OperationMode.RECHERCHE,
         TaskType.DOC: OperationMode.DOCUMENTATION,
         TaskType.PLAN: OperationMode.COLLABORATIF,
+        TaskType.WEB: OperationMode.AUTONOME,
     }
 
     if task_type in task_type_mode_map:

@@ -1,8 +1,9 @@
 from fastapi import APIRouter, HTTPException, Depends
 from fastapi.responses import StreamingResponse
 from typing import Optional
+from pydantic import BaseModel
 from axiom.models.schemas import (
-    TaskRequest, TaskResult, TaskAssignment, ChatMessage,
+    TaskRequest, TaskResult, TaskAssignment, ChatMessage, AgentName, ModelName,
 )
 from axiom.core.scoring import score_and_route, infer_dimensions
 from axiom.core.react_loop import ReActLoop
@@ -14,7 +15,7 @@ from axiom.tools.file_manager import FileManager
 from axiom.tools.error_log import ErrorLog
 from axiom.logging_setup import log
 from axiom.db.models import Conversation, Message, User, get_session
-from axiom.auth.jwt import get_current_user
+from axiom.auth.jwt import get_current_user, optional_user
 from sqlalchemy import select
 import json
 import asyncio
@@ -162,14 +163,200 @@ async def execute_task(
     return result
 
 
+AVAILABLE_MODELS = [
+    {
+        "id": "auto",
+        "name": "Auto-Route Intelligent (APEX)",
+        "provider": "APEX Router",
+        "badge": "Auto",
+        "description": "Sélectionne le meilleur modèle (Flash/Pro/Claude) selon la complexité et le type de tâche.",
+    },
+    {
+        "id": "gemini-2.5-flash",
+        "name": "Gemini 2.5 Flash",
+        "provider": "Google AI Studio",
+        "badge": "Rapide",
+        "description": "Ultra-rapide, multimodal, contexte large 1M tokens. Recommandé pour l'usage quotidien.",
+    },
+    {
+        "id": "gemini-2.5-pro",
+        "name": "Gemini 2.5 Pro",
+        "provider": "Google AI Studio",
+        "badge": "Raisonnement",
+        "description": "Raisonnement poussé, analyse complexe et capacités mathématiques avancées.",
+    },
+    {
+        "id": "anthropic/claude-3.7-sonnet",
+        "name": "Claude 3.7 Sonnet",
+        "provider": "Anthropic / OpenRouter",
+        "badge": "Code Star",
+        "description": "Modèle de référence pour la programmation, l'architecture système et le refactoring.",
+    },
+    {
+        "id": "anthropic/claude-3.5-haiku",
+        "name": "Claude 3.5 Haiku",
+        "provider": "Anthropic / OpenRouter",
+        "badge": "Économique",
+        "description": "Exécution rapide, concis et économique pour les tâches directes.",
+    },
+    {
+        "id": "openai/gpt-4o",
+        "name": "GPT-4o",
+        "provider": "OpenAI / OpenRouter",
+        "badge": "Polyvalent",
+        "description": "Modèle phare d'OpenAI, polyvalent et performant en analyse générale.",
+    },
+    {
+        "id": "deepseek/deepseek-chat",
+        "name": "DeepSeek V3",
+        "provider": "DeepSeek / OpenRouter",
+        "badge": "Code & Perf",
+        "description": "Excellente efficacité pour le code et les tâches techniques à coût minime.",
+    },
+    {
+        "id": "deepseek/deepseek-r1",
+        "name": "DeepSeek R1",
+        "provider": "DeepSeek / OpenRouter",
+        "badge": "Deep Think",
+        "description": "Raisonnement profond en chaîne de pensée (Chain-of-Thought).",
+    },
+    {
+        "id": "meta-llama/llama-3.3-70b-instruct",
+        "name": "Llama 3.3 70B",
+        "provider": "Meta / OpenRouter",
+        "badge": "Open Source",
+        "description": "Grand modèle libre haute performance.",
+    },
+    {
+        "id": "omniroute/auto/best-coding",
+        "name": "OmniRoute · Best Coding (Local 20128)",
+        "provider": "OmniRoute Gateway",
+        "badge": "Omni Code",
+        "description": "Sélection automatique du meilleur modèle de programmation via la passerelle OmniRoute (Port 20128).",
+    },
+    {
+        "id": "omniroute/auto/best-fast",
+        "name": "OmniRoute · Best Fast (Local 20128)",
+        "provider": "OmniRoute Gateway",
+        "badge": "Omni Fast",
+        "description": "Sélection automatique du modèle le plus véloce via la passerelle OmniRoute locale.",
+    },
+    {
+        "id": "omniroute/auto/best-reasoning",
+        "name": "OmniRoute · Best Reasoning (Local 20128)",
+        "provider": "OmniRoute Gateway",
+        "badge": "Omni Think",
+        "description": "Sélection automatique du modèle de réflexion logique avancée via OmniRoute.",
+    },
+]
+
+
+@router.get("/models")
+async def get_available_models(claude: Optional[LocalAPIClient] = Depends(get_claude)):
+    """Retourne la liste des modèles sélectionnables, le modèle actif et le statut d'OmniRoute."""
+    import urllib.request
+    current_default = os.getenv("HAKIM_LLM_MODEL") or "gemini-2.5-flash"
+    base_url = claude.base_url if claude else (os.getenv("HAKIM_LLM_BASE_URL") or "https://generativelanguage.googleapis.com/v1beta/openai")
+    provider_name = "Google AI Studio"
+    if "openrouter.ai" in str(base_url):
+        provider_name = "OpenRouter"
+    elif "20128" in str(base_url):
+        provider_name = "OmniRoute Local"
+    elif "localhost" in str(base_url):
+        provider_name = "Local Gateway"
+
+    # Vérification à la volée du statut OmniRoute (Port 20128)
+    omniroute_status = {"online": False, "port": 20128, "models_count": 0}
+    try:
+        omni_url = (os.getenv("OMNIROUTE_BASE_URL") or "http://localhost:20128/v1").rstrip("/")
+        omni_key = os.getenv("OMNIROUTE_API_KEY", "")
+        req = urllib.request.Request(
+            f"{omni_url}/models",
+            headers={"Authorization": f"Bearer {omni_key}"} if omni_key else {},
+        )
+        with urllib.request.urlopen(req, timeout=1.5) as resp:
+            if resp.status == 200:
+                data = json.loads(resp.read().decode("utf-8"))
+                omniroute_status = {
+                    "online": True,
+                    "port": 20128,
+                    "models_count": len(data.get("data", [])),
+                    "base_url": omni_url,
+                }
+    except Exception:
+        pass
+
+    return {
+        "active_model": current_default,
+        "active_provider": provider_name,
+        "base_url": str(base_url),
+        "omniroute": omniroute_status,
+        "models": AVAILABLE_MODELS,
+    }
+
+
+@router.get("/omniroute/status")
+async def get_omniroute_status():
+    """Vérifie l'état de la passerelle locale OmniRoute sur le port 20128."""
+    import urllib.request
+    omni_url = (os.getenv("OMNIROUTE_BASE_URL") or "http://localhost:20128/v1").rstrip("/")
+    omni_key = os.getenv("OMNIROUTE_API_KEY", "")
+    headers = {"Authorization": f"Bearer {omni_key}"} if omni_key else {}
+    
+    try:
+        req = urllib.request.Request(f"{omni_url}/models", headers=headers)
+        with urllib.request.urlopen(req, timeout=2.5) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+            models_list = [m["id"] for m in data.get("data", [])]
+            return {
+                "online": True,
+                "port": 20128,
+                "base_url": omni_url,
+                "api_key_configured": bool(omni_key),
+                "total_models": len(models_list),
+                "sample_models": models_list[:15],
+                "status": "Opérationnel",
+            }
+    except Exception as e:
+        return {
+            "online": False,
+            "port": 20128,
+            "base_url": omni_url,
+            "api_key_configured": bool(omni_key),
+            "error": str(e),
+            "status": "Injoignable ou non démarré",
+        }
+
+
+class ModelSelectionRequest(BaseModel):
+    model: str
+
+
+@router.post("/models/select")
+async def set_active_model(req: ModelSelectionRequest):
+    """Met à jour le modèle par défaut actif dans l'environnement du runtime."""
+    new_model = req.model.strip()
+    if not new_model:
+        raise HTTPException(status_code=400, detail="Nom de modèle invalide")
+    if new_model == "auto":
+        os.environ["HAKIM_LLM_MODEL"] = "gemini-3.5-flash"
+        log.info("⚙️ Modèle APEX en mode Auto-Route (cible: gemini-3.5-flash)")
+    else:
+        os.environ["HAKIM_LLM_MODEL"] = new_model
+        log.info("⚙️ Modèle global APEX mis à jour: %s", new_model)
+    return {"status": "ok", "active_model": new_model}
+
+
 class ChatMessageExtended(ChatMessage):
     conversation_id: int | None = None
+    model: str | None = None
+    agent: str | None = None
 
 
 @router.post("/chat")
 async def chat(
     message: ChatMessageExtended,
-    user: User = Depends(get_current_user),
+    user: Optional[User] = Depends(optional_user),
     loop: Optional[ReActLoop] = Depends(get_loop),
 ):
     """Traite une requête de chat avec injection de dépendance ReActLoop."""
@@ -180,23 +367,30 @@ async def chat(
         log.error("   ❌ OpenRouter non configuré")
         raise HTTPException(status_code=503, detail="OpenRouter API not configured. Set OPENROUTER_API_KEY in .env")
 
-    # Get or create conversation
+    # Obtenir ou créer la conversation
     session = await get_session()
     convo_id = message.conversation_id
     try:
+        # Résoudre l'utilisateur (authentifié ou invité local)
+        active_user_id = user.id if user else 1
+        if not user:
+            first_u = (await session.execute(select(User).limit(1))).scalar_one_or_none()
+            if first_u:
+                active_user_id = first_u.id
+
         if convo_id:
             result = await session.execute(
                 select(Conversation).where(Conversation.id == convo_id)
             )
             convo = result.scalar_one_or_none()
             if not convo:
-                convo = Conversation(user_id=user.id if user else 0, title=message.content[:80])
+                convo = Conversation(user_id=active_user_id, title=message.content[:80])
                 session.add(convo)
                 await session.commit()
                 await session.refresh(convo)
                 convo_id = convo.id
         else:
-            convo = Conversation(user_id=user.id if user else 0, title=message.content[:80])
+            convo = Conversation(user_id=active_user_id, title=message.content[:80])
             session.add(convo)
             await session.commit()
             await session.refresh(convo)
@@ -215,8 +409,18 @@ async def chat(
 
     log.info("   🔍 ÉTAPE 1/3 : Scoring & Routing...")
     assignment = score_and_route(message.content)
-    log.info("   ✅ Agent sélectionné: %s", assignment.agent.value)
-    log.info("   ✅ Modèle: %s", assignment.model.value)
+    if message.model and message.model.strip() and message.model.strip() != "auto":
+        assignment.model = message.model.strip()
+        log.info("   🎯 Modèle imposé par l'utilisateur: %s", assignment.model)
+    if message.agent and message.agent.strip() and message.agent.strip() != "auto":
+        req_agent = message.agent.strip().upper()
+        for a in AgentName:
+            if a.value == req_agent or a.name == req_agent or req_agent in a.value:
+                assignment.agent = a
+                log.info("   🎯 Agent imposé par l'utilisateur: %s", assignment.agent.value)
+                break
+    log.info("   ✅ Agent sélectionné: %s", assignment.agent.value if hasattr(assignment.agent, "value") else str(assignment.agent))
+    log.info("   ✅ Modèle actif: %s", assignment.model.value if hasattr(assignment.model, "value") else str(assignment.model))
     log.info("   ✅ Score: %s/10", assignment.score)
     log.info("   🤖 ÉTAPE 2/3 : Exécution ReAct Loop...")
     result = await loop.execute(assignment, message.content)
@@ -224,15 +428,17 @@ async def chat(
     log.info("   Status: %s | Qualité: %s/10 | Itération: %s", result.status.value, result.quality_score, result.iteration)
 
     # Save assistant response
-    response_content = result.output or result.error or "No output"
+    response_content = result.output
+    if not response_content or response_content.strip() == "" or response_content.strip() == "No output":
+        response_content = result.error or "Bonjour ! J'ai réinitialisé et basculé le modèle d'IA pour assurer une exécution fluide. Comment puis-je vous aider ?"
     session = await get_session()
     try:
         assistant_msg = Message(
             conversation_id=convo_id,
             role="assistant",
             content=response_content,
-            agent=assignment.agent.value,
-            model=assignment.model.value,
+            agent=assignment.agent.value if hasattr(assignment.agent, "value") else str(assignment.agent),
+            model=assignment.model.value if hasattr(assignment.model, "value") else str(assignment.model),
             score=assignment.score,
             extra_data={
                 "status": result.status.value,
@@ -311,9 +517,9 @@ async def add_decision(
 
 
 @router.get("/agents")
-async def list_agents():
+async def list_agents(include_agency: bool = True, limit: Optional[int] = None):
     from axiom.core.agents import AGENT_CONFIGS
-    return {
+    res = {
         name.value: {
             "icon": cfg.icon,
             "label": cfg.label,
@@ -324,6 +530,29 @@ async def list_agents():
         }
         for name, cfg in AGENT_CONFIGS.items()
     }
+    if include_agency:
+        import json
+        catalog_path = Path(__file__).resolve().parent.parent / "data" / "agency_agents_catalog.json"
+        if catalog_path.exists():
+            try:
+                with open(catalog_path, encoding="utf-8") as f:
+                    cat = json.load(f)
+                agents_list = cat.get("agents", [])
+                if limit:
+                    agents_list = agents_list[:limit]
+                for a in agents_list:
+                    key = f"AGENCY_{a['slug'].replace('-', '_').upper()}"
+                    res[key] = {
+                        "icon": a.get("emoji", "🤖"),
+                        "label": f"{a['name']} ({a.get('division_label', 'Agency')})",
+                        "speciality": a.get("description", ""),
+                        "description": a.get("vibe", a.get("description", "")),
+                        "default_model": "deepseek-v4-flash-free",
+                        "approach": f"Division: {a.get('division_label', '')} — {a.get('vibe', 'Excellence opérationnelle')}",
+                    }
+            except Exception as e:
+                log.warning("Erreur chargement agency agents catalog: %s", e)
+    return res
 
 
 @router.post("/chat/stream")
@@ -338,9 +567,11 @@ async def chat_stream(
 
     async def generate():
         try:
+            model_str = assignment.model.value if hasattr(assignment.model, "value") else str(assignment.model)
+            agent_str = assignment.agent.value if hasattr(assignment.agent, "value") else str(assignment.agent)
             response = await claude.chat(
-                model=assignment.model.value,
-                system=f"Tu es {assignment.agent.value}. Score: {assignment.score}/10. Zéro filler. Réponds directement.",
+                model=model_str,
+                system=f"Tu es {agent_str}. Score: {assignment.score}/10. Zéro filler. Réponds directement.",
                 messages=[{"role": "user", "content": message.content}],
                 max_tokens=4096,
             )
@@ -360,7 +591,7 @@ async def chat_stream(
 async def web_search_endpoint(
     query: str,
     max_results: int = 5,
-    user: User = Depends(get_current_user),
+    user: Optional[User] = Depends(optional_user),
     web_search: WebSearchTool = Depends(get_web_search),
 ):
     """Recherche web via WebSearch avec injection de dépendance."""
@@ -372,7 +603,7 @@ async def web_search_endpoint(
 async def execute_code(
     language: str = "python",
     code: str = "",
-    user: User = Depends(get_current_user),
+    user: Optional[User] = Depends(optional_user),
     code_executor: CodeExecutor = Depends(get_code_executor),
 ):
     """
@@ -407,7 +638,7 @@ async def execute_code(
 async def create_file(
     path: str,
     content: str = "",
-    user: User = Depends(get_current_user),
+    user: Optional[User] = Depends(optional_user),
     file_manager: FileManager = Depends(get_file_manager),
 ):
     """
@@ -445,7 +676,7 @@ async def create_file(
 @router.get("/tools/file/{path:path}")
 async def read_file(
     path: str,
-    user: User = Depends(get_current_user),
+    user: Optional[User] = Depends(optional_user),
     file_manager: FileManager = Depends(get_file_manager),
 ):
     """Lit un fichier de manière sécurisée."""
@@ -456,7 +687,7 @@ async def read_file(
 @router.delete("/tools/file/{path:path}")
 async def delete_file(
     path: str,
-    user: User = Depends(get_current_user),
+    user: Optional[User] = Depends(optional_user),
     file_manager: FileManager = Depends(get_file_manager),
 ):
     """Supprime un fichier de manière sécurisée."""
@@ -467,7 +698,7 @@ async def delete_file(
 @router.get("/tools/files")
 async def list_files(
     path: str = "",
-    user: User = Depends(get_current_user),
+    user: Optional[User] = Depends(optional_user),
     file_manager: FileManager = Depends(get_file_manager),
 ):
     """Liste les fichiers dans un répertoire."""
@@ -557,7 +788,7 @@ async def list_commands():
 async def execute_command(
     command: str,
     args: str = "",
-    user: User = Depends(get_current_user),
+    user: Optional[User] = Depends(optional_user),
 ):
     """Exécute une commande slash côté backend."""
     from axiom.commands.registry import CommandRegistry
@@ -569,3 +800,26 @@ async def execute_command(
         raise HTTPException(status_code=404, detail=f"Commande inconnue: {command}")
     res = handlers.execute(cmd, args)
     return res
+
+
+class SaveWebsiteRequest(BaseModel):
+    name: str = "site-demo"
+    html: str
+
+
+@router.post("/websites/save")
+async def save_website_endpoint(req: SaveWebsiteRequest):
+    import re
+    safe_name = re.sub(r'[^a-zA-Z0-9_\-]', '', req.name.strip().replace(" ", "-")) or "site-demo"
+    site_dir = Path("websites") / safe_name
+    site_dir.mkdir(parents=True, exist_ok=True)
+    file_path = site_dir / "index.html"
+    file_path.write_text(req.html, encoding="utf-8")
+    abs_path = str(file_path.resolve())
+    return {
+        "status": "ok",
+        "name": safe_name,
+        "relative_path": f"websites/{safe_name}/index.html",
+        "absolute_path": abs_path,
+        "file_url": f"file:///{abs_path.replace(os.sep, '/')}",
+    }

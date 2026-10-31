@@ -31,6 +31,7 @@ AGENT_ICONS: Dict[str, str] = {
     "AGENT_RESEARCHER": "🔍",
     "AGENT_PLANNER": "🎯",
     "AGENT_QUICKSHOT": "⚡",
+    "AGENT_WEB_BUILDER": "🌐",
 }
 
 AGENT_INSTRUCTIONS: Dict[str, str] = {
@@ -73,6 +74,11 @@ LIVRABLES: Plan structuré étapes/dépendances/délais, matrice priorisation im
 SPÉCIALITÉ: Réponses rapides, extraction, classification, reformulation
 APPROCHE: Direct → Concise → Done
 LIVRABLES: Réponse directe minimale immédiate, données structurées (JSON/CSV), résumé bullet-point si liste
+""",
+    "AGENT_WEB_BUILDER": """
+SPÉCIALITÉ: Création de sites web complets, landing pages modernes, UI/UX Tailwind CSS, composants interactifs, HTML5 responsive
+APPROCHE: Besoins & Univers visuel → Architecture de page (Hero, Features, Social Proof, CTA, Footer) → Code HTML/Tailwind complet et autonome → Micro-interactions JavaScript
+LIVRABLES: Code complet prêt à l'emploi (HTML5 + Tailwind CSS CDN moderne + JS vanilla ou React), responsive mobile/tablette/desktop, accessibilité sémantique, design épuré et premium sans dépendances superflues
 """,
 }
 
@@ -127,14 +133,16 @@ class PromptBuilder:
         Returns:
             Prompt système formaté
         """
+        agent_name = task.agent.value if hasattr(task.agent, "value") else str(task.agent)
+        model_name = task.model.value if hasattr(task.model, "value") else str(task.model)
         # Récupérer l'icône de l'agent
-        icon = AGENT_ICONS.get(task.agent.value, "🤖")
+        icon = AGENT_ICONS.get(agent_name, "🤖")
         
         # Indicateur de mode
         mode_indicator = f" [MODE: {current_mode.value}]" if current_mode else ""
         
         # Instructions spécifiques à l'agent
-        agent_instructions = AGENT_INSTRUCTIONS.get(task.agent.value, "")
+        agent_instructions = AGENT_INSTRUCTIONS.get(agent_name, "")
         
         # Appliquer le style utilisateur
         style_prompt = ""
@@ -149,8 +157,8 @@ class PromptBuilder:
 
 ---
 CONTEXTE EXÉCUTION:
-Agent: {icon} {task.agent.value}{mode_indicator}
-Modèle: {task.model.value}
+Agent: {icon} {agent_name}{mode_indicator}
+Modèle: {model_name}
 Score tâche: {task.score}/10
 Itération: {iteration}/{max_iterations}
 
@@ -209,6 +217,17 @@ Itération: {iteration}/{max_iterations}
             config = MODE_CONFIGS[current_mode]
             parts.append(f"\nCOMPORTEMENT MODE {current_mode.value}: {config.behavior_notes}")
         
+        # Injection proactive de la RepoMap AST pour les tâches d'ingénierie logicielle
+        if iteration == 1 and task.agent in (AgentName.CODER, AgentName.DEBUGGER, AgentName.ARCHITECT):
+            if not context or "[CARTOGRAPHIE" not in context:
+                try:
+                    from axiom.tools.repo_map import get_repository_map
+                    repo_map = get_repository_map(max_tokens=800)
+                    if repo_map and not repo_map.startswith("[Aucun fichier"):
+                        parts.append(f"\n[CARTOGRAPHIE SYNTAXIQUE DU PROJET (REPOMAP)]:\n{repo_map}")
+                except Exception:
+                    pass
+
         parts.append("\nProduis le résultat complet directement. Format réponse standard APEX requis.")
         
         return "\n".join(parts)

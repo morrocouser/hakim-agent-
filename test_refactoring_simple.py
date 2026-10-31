@@ -8,6 +8,13 @@ import sys
 import os
 import re
 
+if hasattr(sys.stdout, 'reconfigure'):
+    try:
+        sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+        sys.stderr.reconfigure(encoding='utf-8', errors='replace')
+    except Exception:
+        pass
+
 
 def test_file_structure():
     """Test that all expected files exist."""
@@ -190,7 +197,7 @@ def test_line_counts():
     print("\n🧪 Testing line counts...")
     
     files_to_check = [
-        ('react_loop.py', 350, 400),  # Should be around 382
+        ('react_loop.py', 350, 450),  # Should be around 382-440 with Circuit Breaker & Telemetry
         ('prompt_builder.py', 200, 300),  # Should be 250
         ('self_critique_engine.py', 250, 350),  # Should be 298
     ]

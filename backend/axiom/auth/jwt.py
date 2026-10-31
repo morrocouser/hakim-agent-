@@ -20,11 +20,18 @@ load_dotenv(dotenv_path=env_path)
 
 SECRET_KEY = os.getenv("HAKIM_JWT_SECRET") or os.getenv("AXIOM_JWT_SECRET")
 if not SECRET_KEY:
-    raise RuntimeError(
-        "HAKIM_JWT_SECRET is not set. The server refuses to start with an "
-        "insecure default. Generate one with: "
-        "python -c \"import secrets; print(secrets.token_urlsafe(64))\""
-    )
+    # Persister un secret local partagé pour supporter le multi-worker (uvicorn --workers > 1) et les redémarrages
+    secret_file = Path(__file__).resolve().parent.parent.parent / "data" / ".jwt_secret"
+    if secret_file.exists():
+        SECRET_KEY = secret_file.read_text(encoding="utf-8").strip()
+    else:
+        SECRET_KEY = secrets.token_urlsafe(64)
+        try:
+            secret_file.parent.mkdir(parents=True, exist_ok=True)
+            secret_file.write_text(SECRET_KEY, encoding="utf-8")
+            log.info("Génération et persistance d'un secret JWT local partagé dans %s", secret_file)
+        except Exception:
+            pass
 
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 15  # 15 minutes (reduced from 7 days)
@@ -137,6 +144,12 @@ async def get_current_user(
     payload = decode_token(token)
     if not payload or "user_id" not in payload:
         raise HTTPException(status_code=401, detail="Token invalide ou expiré")
+
+    if payload.get("type") != TOKEN_TYPE_ACCESS:
+        raise HTTPException(
+            status_code=401,
+            detail="Token d'accès requis (type refresh non autorisé)",
+        )
 
     session = await get_session()
     try:

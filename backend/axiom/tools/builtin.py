@@ -460,6 +460,85 @@ class GrepTool(BaseTool):
             return ToolResult(ok=False, error=f"Erreur grep: {e}", type=ToolResultType.ERROR)
 
 
+# ─── RepoMapTool ────────────────────────────────────────────────────────────
+
+class RepoMapTool(BaseTool):
+    """Cartographie syntaxique AST du code (classes, méthodes, signatures)."""
+
+    _name = "repo_map"
+    _description = (
+        "Génère une carte synthétique AST des définitions (classes, fonctions, "
+        "signatures, types, exports) de la base de code pour un budget de tokens donné."
+    )
+    _permission = ToolPermission.READ
+
+    def __init__(self, base_dir: str = "."):
+        self._base_dir = Path(base_dir).resolve()
+        self._schema = ToolSchema(
+            name=self._name,
+            description=self._description,
+            parameters={
+                "type": "object",
+                "properties": {
+                    "path": {
+                        "type": "string",
+                        "description": "Sous-répertoire ou fichier à cartographier (optionnel)",
+                        "default": ".",
+                    },
+                    "max_tokens": {
+                        "type": "integer",
+                        "description": "Budget de tokens pour la carte (défaut: 1000)",
+                        "default": 1000,
+                    },
+                    "focus": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "Mots-clés pour prioriser les symboles pertinents",
+                    },
+                },
+            },
+        )
+
+    async def _execute(self, params: dict, context: dict) -> ToolResult:
+        sub_path = params.get("path", ".")
+        max_tokens = params.get("max_tokens", 1000)
+        focus = params.get("focus")
+
+        target = Path(sub_path)
+        if not target.is_absolute():
+            target = (self._base_dir / target).resolve()
+
+        try:
+            target.relative_to(self._base_dir)
+        except ValueError:
+            return ToolResult(
+                ok=False,
+                error=f"[Erreur de Sécurité] Accès refusé : Chemin en dehors de {self._base_dir}",
+                type=ToolResultType.ERROR,
+            )
+
+        if not target.exists():
+            return ToolResult(ok=False, error=f"Chemin introuvable: {target}", type=ToolResultType.ERROR)
+
+        from axiom.tools.repo_map import CodebaseMapper
+        try:
+            if target.is_file():
+                mapper = CodebaseMapper(self._base_dir)
+                outline = mapper.get_file_outline(target)
+                return ToolResult(ok=True, content=outline, type=ToolResultType.TEXT)
+
+            mapper = CodebaseMapper(target)
+            symbol_map = mapper.generate_symbol_map(max_tokens=max_tokens, focus_keywords=focus)
+            return ToolResult(
+                ok=True,
+                content=symbol_map,
+                type=ToolResultType.TEXT,
+                metadata={"root": str(target), "max_tokens": max_tokens},
+            )
+        except Exception as e:
+            return ToolResult(ok=False, error=f"Erreur repo_map: {e}", type=ToolResultType.ERROR)
+
+
 # ─── Register All Built-in Tools ────────────────────────────────────────────
 
 def register_builtin_tools(registry=None, base_dir: str = ".") -> None:
@@ -468,6 +547,10 @@ def register_builtin_tools(registry=None, base_dir: str = ".") -> None:
     from axiom.tools.google_services import (
         GoogleDriveTool, EmailManagerTool, YouTubeTool, GoogleSearchTool,
     )
+    from axiom.integrations.bots import TelegramTool, DiscordTool
+    from axiom.tools.n8n_tool import N8nTool
+    from axiom.tools.figma_tool import FigmaTool
+    from axiom.tools.web_builder_tool import WebBuilderTool
     reg = registry or get_registry()
 
     tools = [
@@ -476,11 +559,17 @@ def register_builtin_tools(registry=None, base_dir: str = ".") -> None:
         (EditTool(base_dir), "filesystem"),
         (GlobTool(base_dir), "filesystem"),
         (GrepTool(base_dir), "filesystem"),
+        (RepoMapTool(base_dir), "code_analysis"),
         (BashTool(base_dir), "execution"),
         (GoogleDriveTool(base_dir), "google"),
         (EmailManagerTool(base_dir), "communication"),
         (YouTubeTool(base_dir), "media"),
         (GoogleSearchTool(base_dir), "research"),
+        (TelegramTool(base_dir), "communication"),
+        (DiscordTool(base_dir), "communication"),
+        (N8nTool(base_dir), "automation"),
+        (FigmaTool(base_dir), "design"),
+        (WebBuilderTool(base_dir), "web_design"),
     ]
 
     for tool, category in tools:

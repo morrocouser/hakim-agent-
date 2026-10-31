@@ -1,7 +1,14 @@
 {
-  "generated": "2026-08-04",
-  "total_skills": 464,
+  "generated": "2026-10-11",
+  "total_skills": 732,
   "skills": [
+    {
+      "repo": "hakimagent-core-skills",
+      "source_url": "https://github.com/hakimagent/axiom",
+      "skill": "web-site-builder",
+      "path": "backend/skills/web_builder",
+      "description": "Skill de création, scaffolding et architecture de sites web complets pour HakimAgent. Génère du code HTML5 sémantique, Tailwind CSS moderne et composants responsives avec prévisualisation live."
+    },
     {
       "repo": "andrej-karpathy-skills",
       "source_url": "https://github.com/andrej-karpathy-skills",
@@ -3249,6 +3256,2676 @@
       "skill": "_reference",
       "path": "skills/_reference/strix",
       "description": "Reference / curated list (no SKILL.md skills)"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-anthropologist",
+      "path": "skills/agency-agents/academic/agency-anthropologist",
+      "division": "academic",
+      "division_label": "Academic",
+      "emoji": "🌍",
+      "description": "Expert in cultural systems, rituals, kinship, belief systems, and ethnographic method — builds culturally coherent societies that feel lived-in rather than invented"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-geographer",
+      "path": "skills/agency-agents/academic/agency-geographer",
+      "division": "academic",
+      "division_label": "Academic",
+      "emoji": "🗺️",
+      "description": "Expert in physical and human geography, climate systems, cartography, and spatial analysis — builds geographically coherent worlds where terrain, climate, resources, and settlement patterns make scientific sense"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-historian",
+      "path": "skills/agency-agents/academic/agency-historian",
+      "division": "academic",
+      "division_label": "Academic",
+      "emoji": "📚",
+      "description": "Expert in historical analysis, periodization, material culture, and historiography — validates historical coherence and enriches settings with authentic period detail grounded in primary and secondary sources"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-narratologist",
+      "path": "skills/agency-agents/academic/agency-narratologist",
+      "division": "academic",
+      "division_label": "Academic",
+      "emoji": "📜",
+      "description": "Expert in narrative theory, story structure, character arcs, and literary analysis — grounds advice in established frameworks from Propp to Campbell to modern narratology"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-psychologist",
+      "path": "skills/agency-agents/academic/agency-psychologist",
+      "division": "academic",
+      "division_label": "Academic",
+      "emoji": "🧠",
+      "description": "Expert in human behavior, personality theory, motivation, and cognitive patterns — builds psychologically credible characters and interactions grounded in clinical and research frameworks"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-statistician",
+      "path": "skills/agency-agents/academic/agency-statistician",
+      "division": "academic",
+      "division_label": "Academic",
+      "emoji": "📊",
+      "description": "Expert in quantitative research methodology, experimental design, and statistical inference — pressure-tests claims, designs sound studies, and separates real signal from noise, chance, and bias"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-brand-guardian",
+      "path": "skills/agency-agents/design/agency-brand-guardian",
+      "division": "design",
+      "division_label": "Design",
+      "emoji": "🎨",
+      "description": "Expert brand strategist and guardian specializing in brand identity development, consistency maintenance, and strategic brand positioning"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-image-prompt-engineer",
+      "path": "skills/agency-agents/design/agency-image-prompt-engineer",
+      "division": "design",
+      "division_label": "Design",
+      "emoji": "📷",
+      "description": "Expert photography prompt engineer specializing in crafting detailed, evocative prompts for AI image generation. Masters the art of translating visual concepts into precise language that produces stunning, professional-quality photography through generative AI tools."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-inclusive-visuals-specialist",
+      "path": "skills/agency-agents/design/agency-inclusive-visuals-specialist",
+      "division": "design",
+      "division_label": "Design",
+      "emoji": "🌈",
+      "description": "Representation expert who defeats systemic AI biases to generate culturally accurate, affirming, and non-stereotypical images and video."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-persona-walkthrough-specialist",
+      "path": "skills/agency-agents/design/agency-persona-walkthrough-specialist",
+      "division": "design",
+      "division_label": "Design",
+      "emoji": "🎭",
+      "description": "Simulate cognitive walkthroughs of web pages from a defined persona's psychological perspective — captures emotional reactions and rational thought at each scroll position, then delivers structured CRO reports grounded in LIFT, Cialdini, and Fogg frameworks"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-ui-designer",
+      "path": "skills/agency-agents/design/agency-ui-designer",
+      "division": "design",
+      "division_label": "Design",
+      "emoji": "🎨",
+      "description": "Expert UI designer specializing in visual design systems, component libraries, and pixel-perfect interface creation. Creates beautiful, consistent, accessible user interfaces that enhance UX and reflect brand identity"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-ui-finish-gate-reviewer",
+      "path": "skills/agency-agents/design/agency-ui-finish-gate-reviewer",
+      "division": "design",
+      "division_label": "Design",
+      "emoji": "🧱",
+      "description": "Product-interface reviewer who catches generic, interchangeable UI before it ships by grounding critique in real product evidence, a written design contract, and a hard implementation finish gate."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-ux-architect",
+      "path": "skills/agency-agents/design/agency-ux-architect",
+      "division": "design",
+      "division_label": "Design",
+      "emoji": "📐",
+      "description": "Technical architecture and UX specialist who provides developers with solid foundations, CSS systems, and clear implementation guidance"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-ux-researcher",
+      "path": "skills/agency-agents/design/agency-ux-researcher",
+      "division": "design",
+      "division_label": "Design",
+      "emoji": "🔬",
+      "description": "Expert user experience researcher specializing in user behavior analysis, usability testing, and data-driven design insights. Provides actionable research findings that improve product usability and user satisfaction"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-visual-storyteller",
+      "path": "skills/agency-agents/design/agency-visual-storyteller",
+      "division": "design",
+      "division_label": "Design",
+      "emoji": "🎬",
+      "description": "Expert visual communication specialist focused on creating compelling visual narratives, multimedia content, and brand storytelling through design. Specializes in transforming complex information into engaging visual stories that connect with audiences and drive emotional engagement."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-whimsy-injector",
+      "path": "skills/agency-agents/design/agency-whimsy-injector",
+      "division": "design",
+      "division_label": "Design",
+      "emoji": "✨",
+      "description": "Expert creative specialist focused on adding personality, delight, and playful elements to brand experiences. Creates memorable, joyful interactions that differentiate brands through unexpected moments of whimsy"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-ai-data-remediation-engineer",
+      "path": "skills/agency-agents/engineering/agency-ai-data-remediation-engineer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🧬",
+      "description": "Specialist in self-healing data pipelines — uses air-gapped local SLMs and semantic clustering to automatically detect, classify, and fix data anomalies at scale. Focuses exclusively on the remediation layer: intercepting bad data, generating deterministic fix logic via Ollama, and guaranteeing zero data loss. Not a general data engineer — a surgical specialist for when your data is broken and the pipeline can't stop."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-ai-engineer",
+      "path": "skills/agency-agents/engineering/agency-ai-engineer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🤖",
+      "description": "Expert AI/ML engineer specializing in machine learning model development, deployment, and integration into production systems. Focused on building intelligent features, data pipelines, and AI-powered applications with emphasis on practical, scalable solutions."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-api-platform-engineer",
+      "path": "skills/agency-agents/engineering/agency-api-platform-engineer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🔌",
+      "description": "Expert API platform engineer for public and partner APIs — contract-first design (OpenAPI/gRPC), versioning and deprecation policy, SDK generation, API gateway concerns (auth, rate limiting, quotas), and developer-portal DX."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-ats-validator-architect",
+      "path": "skills/agency-agents/engineering/agency-ats-validator-architect",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🎯",
+      "description": "Architect and validator for Applicant Tracking Systems (ATS) and resume parsers. Combines deterministic information retrieval (BM25/TF-IDF and n-grams without AI), quantified Google/IBM X-Y-Z heuristics calibrated by seniority, layout linearization and PDF text layer integrity auditing, regulatory compliance (EU AI Act, NYC LL 144), sub-5ms client-side execution, and Agent-Native BYOK architecture."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-autonomous-optimization-architect",
+      "path": "skills/agency-agents/engineering/agency-autonomous-optimization-architect",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "⚡",
+      "description": "Intelligent system governor that continuously shadow-tests APIs for performance while enforcing strict financial and security guardrails against runaway costs."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-backend-architect",
+      "path": "skills/agency-agents/engineering/agency-backend-architect",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🏗️",
+      "description": "Senior backend architect specializing in scalable system design, database architecture, API development, and cloud infrastructure. Builds robust, secure, performant server-side applications and microservices"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-china-network-engineer",
+      "path": "skills/agency-agents/engineering/agency-china-network-engineer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🌏",
+      "description": "Expert in mainland China's mainstream enterprise networking stacks — Huawei VRP, H3C Comware, Ruijie RGOS, and Hillstone StoneOS — covering routing, switching, firewalling, NAT, and MLPS 2.0 (等保) compliant border design for domestic deployments."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-cms-developer",
+      "path": "skills/agency-agents/engineering/agency-cms-developer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🧱",
+      "description": "Drupal and WordPress specialist for theme development, custom plugins/modules, content architecture, and code-first CMS implementation"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-code-reviewer",
+      "path": "skills/agency-agents/engineering/agency-code-reviewer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "👁️",
+      "description": "Expert code reviewer who provides constructive, actionable feedback focused on correctness, maintainability, security, and performance — not style preferences."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-codebase-onboarding-engineer",
+      "path": "skills/agency-agents/engineering/agency-codebase-onboarding-engineer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🧭",
+      "description": "Expert developer onboarding specialist who helps new engineers understand unfamiliar codebases fast by reading source code, tracing code paths, and stating only facts grounded in the code."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-data-engineer",
+      "path": "skills/agency-agents/engineering/agency-data-engineer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🔧",
+      "description": "Expert data engineer specializing in building reliable data pipelines, lakehouse architectures, and scalable data infrastructure. Masters ETL/ELT, Apache Spark, dbt, streaming systems, and cloud data platforms to turn raw data into trusted, analytics-ready assets."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-data-visualization-engineer",
+      "path": "skills/agency-agents/engineering/agency-data-visualization-engineer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "📈",
+      "description": "Expert data visualization engineer — chart-type selection by data and question, perceptually honest encodings, colorblind-safe data palettes, accessible and interactive charts, and rendering large datasets performantly with D3, Vega, and charting libraries."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-database-optimizer",
+      "path": "skills/agency-agents/engineering/agency-database-optimizer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🗄️",
+      "description": "Expert database specialist focusing on schema design, query optimization, indexing strategies, and performance tuning for PostgreSQL, MySQL, and modern databases like Supabase and PlanetScale."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-database-reliability-engineer",
+      "path": "skills/agency-agents/engineering/agency-database-reliability-engineer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🛟",
+      "description": "Expert database reliability engineer (DBRE) — high availability and replication, automated failover, backup and point-in-time recovery, zero-downtime online schema migrations, connection pooling, and disaster-recovery drills. Focused on keeping data safe and available, not query tuning."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-desktop-app-engineer",
+      "path": "skills/agency-agents/engineering/agency-desktop-app-engineer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "💻",
+      "description": "Expert desktop application engineer for Electron and Tauri — secure IPC and process isolation, code signing and notarization, auto-update pipelines, native OS integration, and resource-footprint discipline."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-developer-tooling-engineer",
+      "path": "skills/agency-agents/engineering/agency-developer-tooling-engineer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🛠️",
+      "description": "Expert developer-tooling and CLI engineer — building command-line tools and internal developer platforms with great DX: intuitive command design, helpful errors, shell completions, fast startup, cross-platform distribution, and scriptable, composable interfaces."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-devops-automator",
+      "path": "skills/agency-agents/engineering/agency-devops-automator",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "⚙️",
+      "description": "Expert DevOps engineer specializing in infrastructure automation, CI/CD pipeline development, and cloud operations"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-drupal-performance-engineer",
+      "path": "skills/agency-agents/engineering/agency-drupal-performance-engineer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "⚡",
+      "description": "Expert Drupal 10/11 performance engineer specializing in Core Web Vitals, render and dynamic page caching, BigPipe, cache tags and contexts, database query and Views optimization, CSS/JS aggregation, responsive images and lazy loading, CDN integration, and opcache/PHP-FPM tuning for fast, audit-passing sites"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-drupal-shopping-cart-engineer",
+      "path": "skills/agency-agents/engineering/agency-drupal-shopping-cart-engineer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🛒",
+      "description": "Expert Drupal e-commerce engineer specializing in Drupal Commerce for product catalog management, payment gateway integration, checkout workflow design, order management, tax and promotion configuration, and high-reliability storefront delivery on Drupal 10/11"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-email-intelligence-engineer",
+      "path": "skills/agency-agents/engineering/agency-email-intelligence-engineer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "📧",
+      "description": "Expert in extracting structured, reasoning-ready data from raw email threads for AI agents and automation systems"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-embedded-firmware-engineer",
+      "path": "skills/agency-agents/engineering/agency-embedded-firmware-engineer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🔩",
+      "description": "Specialist in bare-metal and RTOS firmware - ESP32/ESP-IDF, PlatformIO, Arduino, ARM Cortex-M, STM32 HAL/LL, Nordic nRF5/nRF Connect SDK, FreeRTOS, Zephyr"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-feishu-integration-developer",
+      "path": "skills/agency-agents/engineering/agency-feishu-integration-developer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🔗",
+      "description": "Full-stack integration expert specializing in the Feishu (Lark) Open Platform — proficient in Feishu bots, mini programs, approval workflows, Bitable (multidimensional spreadsheets), interactive message cards, Webhooks, SSO authentication, and workflow automation, building enterprise-grade collaboration and automation solutions within the Feishu ecosystem."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-filament-optimization-specialist",
+      "path": "skills/agency-agents/engineering/agency-filament-optimization-specialist",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🔧",
+      "description": "Expert in restructuring and optimizing Filament PHP admin interfaces for maximum usability and efficiency. Focuses on impactful structural changes — not just cosmetic tweaks."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-finops-engineer",
+      "path": "skills/agency-agents/engineering/agency-finops-engineer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "💰",
+      "description": "Expert cloud cost engineer for AWS/GCP/Azure — cost allocation and tagging, rightsizing, commitment planning (reserved instances/savings plans), egress and storage optimization, and unit-economics dashboards that tie spend to business value."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-frontend-developer",
+      "path": "skills/agency-agents/engineering/agency-frontend-developer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🖥️",
+      "description": "Expert frontend developer specializing in modern web technologies, React/Vue/Angular frameworks, UI implementation, and performance optimization"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-gaussdb-expert-engineer",
+      "path": "skills/agency-agents/engineering/agency-gaussdb-expert-engineer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🗄️",
+      "description": "Expert database specialist focusing on GaussDB OLTP — Huawei's self-developed enterprise-grade relational database (NOT GaussDB(DWS) OLAP, NOT GaussDB(for openGauss) cloud service, NOT GaussDB(for MySQL)). Covers schema design, distributed table design, query optimization, indexing, Ustore engine, and performance tuning for both distributed and centralized deployments."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-git-workflow-master",
+      "path": "skills/agency-agents/engineering/agency-git-workflow-master",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🌿",
+      "description": "Expert in Git workflows, branching strategies, and version control best practices including conventional commits, rebasing, worktrees, and CI-friendly branch management."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-internationalization-engineer",
+      "path": "skills/agency-agents/engineering/agency-internationalization-engineer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🌍",
+      "description": "Expert i18n engineer for ICU MessageFormat, CLDR plural rules, RTL and bidirectional layouts, locale-aware date/number/currency formatting, string extraction pipelines, and pseudo-localization testing."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-identity-access-engineer",
+      "path": "skills/agency-agents/engineering/agency-identity-access-engineer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🔐",
+      "description": "Expert identity engineer for OAuth 2.0/OIDC flows, enterprise SSO (SAML/OIDC) and SCIM provisioning, passkeys/WebAuthn, session architecture, and multi-tenant authorization with RBAC/ABAC."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-incident-response-commander",
+      "path": "skills/agency-agents/engineering/agency-incident-response-commander",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🚨",
+      "description": "Expert incident commander specializing in production incident management, structured response coordination, post-mortem facilitation, SLO/SLI tracking, and on-call process design for reliable engineering organizations."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-iot-fleet-engineer",
+      "path": "skills/agency-agents/engineering/agency-iot-fleet-engineer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "📡",
+      "description": "Expert IoT and edge fleet engineer — device provisioning and identity, MQTT/telemetry pipelines, staged over-the-air (OTA) firmware updates with rollback, edge compute, and observability across fleets of unreliable, intermittently-connected devices."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-it-service-manager",
+      "path": "skills/agency-agents/engineering/agency-it-service-manager",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🖧",
+      "description": "Expert IT service management specialist using ITIL 4 framework for service catalog design, incident and problem management, change control, SLA governance, CMDB maintenance, and continual service improvement — ensuring IT delivers reliable, measurable business value across any organization size"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-knowledge-graph-engineer",
+      "path": "skills/agency-agents/engineering/agency-knowledge-graph-engineer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🧠",
+      "description": "Structures information and capabilities into interconnected nodes (entities) and edges (relationships) — enabling dynamic context navigation, modular competency chaining, lower token costs, and hallucination reduction."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-llm-post-training-engineer",
+      "path": "skills/agency-agents/engineering/agency-llm-post-training-engineer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🧪",
+      "description": "Evidence-driven owner for SFT, preference optimization, RLHF/RLVR, MoE post-training, and the release gates that turn a checkpoint into a defensible model change."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-minimal-change-engineer",
+      "path": "skills/agency-agents/engineering/agency-minimal-change-engineer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🪡",
+      "description": "Engineering specialist focused on minimum-viable diffs — fixes only what was asked, refuses scope creep, prefers three similar lines over a premature abstraction. The discipline that prevents bug-fix PRs from becoming refactor avalanches."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-mobile-app-builder",
+      "path": "skills/agency-agents/engineering/agency-mobile-app-builder",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "📲",
+      "description": "Specialized mobile application developer with expertise in native iOS/Android development and cross-platform frameworks"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-mobile-release-engineer",
+      "path": "skills/agency-agents/engineering/agency-mobile-release-engineer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🚀",
+      "description": "Expert mobile release and distribution engineer for iOS and Android — code signing, provisioning, fastlane pipelines, App Store Connect and Play Console submission, phased rollouts, and crash-triaged release health."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-multi-agent-systems-architect",
+      "path": "skills/agency-agents/engineering/agency-multi-agent-systems-architect",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🕸️",
+      "description": "Systems architect specializing in the design, coordination, and governance of multi-agent AI pipelines — covering topology selection, context management, inter-agent trust, failure recovery, human-in-the-loop gating, and observability for production-grade agent systems."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-network-engineer",
+      "path": "skills/agency-agents/engineering/agency-network-engineer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🌐",
+      "description": "Expert network engineer for Cisco IOS/IOS-XE, Cisco ASA/FTD, Juniper Junos, and Palo Alto PAN-OS routing, switching, firewalling, and troubleshooting."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-orgscript-engineer",
+      "path": "skills/agency-agents/engineering/agency-orgscript-engineer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "📜",
+      "description": "Expert in designing, parsing, and implementing OrgScript grammar, AST validation, and business logic definitions."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-payments-billing-engineer",
+      "path": "skills/agency-agents/engineering/agency-payments-billing-engineer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "💳",
+      "description": "Expert payments engineer for PSP integrations (Stripe, Adyen, Braintree, PayPal), idempotent payment flows, webhook processing, subscription billing, SCA/3DS, PCI scope reduction, and financial reconciliation."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-pdf-engine-architect",
+      "path": "skills/agency-agents/engineering/agency-pdf-engine-architect",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "📑",
+      "description": "Architect and specialist in deterministic HTML-to-PDF document compilation, Playwright browser context pools, dynamic Euclidean page sizing, LayoutNG subpixel budgeting, tagged PDF (PDF/UA-1 & PDF/A-2b), and 1:1 sheet canvas editors."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-platform-engineer",
+      "path": "skills/agency-agents/engineering/agency-platform-engineer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🛤️",
+      "description": "Expert internal developer platform (IDP) engineer specializing in golden paths, paved roads, and self-serve infrastructure that multiplies engineering velocity."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-privacy-engineer",
+      "path": "skills/agency-agents/engineering/agency-privacy-engineer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🕵️",
+      "description": "Expert privacy engineer who implements privacy in code — PII discovery and classification, data minimization, consent enforcement at the API layer, automated DSAR and deletion across services, pseudonymization/tokenization, and retention automation. Builds the technical controls a privacy policy only promises."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-prompt-engineer",
+      "path": "skills/agency-agents/engineering/agency-prompt-engineer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🧬",
+      "description": "Specialist in crafting, testing, and systematically optimizing prompts for LLMs — turning vague instructions into reliable, production-grade AI behaviors."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-rag-pipeline-engineer",
+      "path": "skills/agency-agents/engineering/agency-rag-pipeline-engineer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🔍",
+      "description": "Production RAG specialist focused on chunking strategy, retrieval quality, hybrid search, re-ranking, and eval-driven iteration. Builds pipelines that actually retrieve the right context — not just pipelines that run."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-rapid-prototyper",
+      "path": "skills/agency-agents/engineering/agency-rapid-prototyper",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "⚡",
+      "description": "Specialized in ultra-fast proof-of-concept development and MVP creation using efficient tools and frameworks"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-realtime-collaboration-engineer",
+      "path": "skills/agency-agents/engineering/agency-realtime-collaboration-engineer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🤝",
+      "description": "Expert realtime systems engineer for WebSocket/SSE infrastructure, presence, CRDT and OT-based collaborative editing, offline-first sync engines, and fan-out scaling with reconnect-safe protocols."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-rust-refactoring-specialist",
+      "path": "skills/agency-agents/engineering/agency-rust-refactoring-specialist",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🦀",
+      "description": "Expert Rust engineer for repository-scale refactoring, safe renames, module restructuring, duplication removal, panic hardening, ownership improvements, and compiler or Clippy remediation."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-search-relevance-engineer",
+      "path": "skills/agency-agents/engineering/agency-search-relevance-engineer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🔎",
+      "description": "Expert search engineer for Elasticsearch and OpenSearch — index and analyzer design, BM25 query tuning, hybrid lexical+vector retrieval, and judgment-based relevance evaluation with nDCG and online experiments."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-section-508-accessibility-specialist",
+      "path": "skills/agency-agents/engineering/agency-section-508-accessibility-specialist",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "♿",
+      "description": "Expert U.S. federal Section 508 accessibility engineer (the 508 legal baseline is WCAG 2.0 Level AA; WCAG 2.1/2.2 AA are recommended best practice, and ADA Title II requires WCAG 2.1 AA for state/local government) specializing in accessible web development, ARIA implementation, screen reader testing (JAWS/NVDA/VoiceOver), keyboard navigation, color contrast, accessible forms and PDFs, VPAT/ACR authoring, automated and manual auditing (axe/WAVE/Lighthouse), and remediation for government and enterprise sites"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-senior-developer",
+      "path": "skills/agency-agents/engineering/agency-senior-developer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "💎",
+      "description": "Premium implementation specialist - Masters Laravel/Livewire/FluxUI, advanced CSS, Three.js integration"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-servicenow-developer-mentor",
+      "path": "skills/agency-agents/engineering/agency-servicenow-developer-mentor",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🛠️",
+      "description": "ServiceNow platform developer and step-by-step troubleshooter — Business Rules, Script Includes, GlideRecord/GlideAggregate, Flow Designer, ACLs, and \"is this OOTB or did custom break it?\" isolation"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-software-architect",
+      "path": "skills/agency-agents/engineering/agency-software-architect",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🏛️",
+      "description": "Expert software architect specializing in system design, domain-driven design, architectural patterns, and technical decision-making for scalable, maintainable systems."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-solidity-smart-contract-engineer",
+      "path": "skills/agency-agents/engineering/agency-solidity-smart-contract-engineer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "⛓️",
+      "description": "Expert Solidity developer specializing in EVM smart contract architecture, gas optimization, upgradeable proxy patterns, DeFi protocol development, and security-first contract design across Ethereum and L2 chains."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-sre-site-reliability-engineer",
+      "path": "skills/agency-agents/engineering/agency-sre-site-reliability-engineer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🛡️",
+      "description": "Expert site reliability engineer specializing in SLOs, error budgets, observability, chaos engineering, and toil reduction for production systems at scale."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-technical-writer",
+      "path": "skills/agency-agents/engineering/agency-technical-writer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "📚",
+      "description": "Expert technical writer specializing in developer documentation, API references, README files, and tutorials. Transforms complex engineering concepts into clear, accurate, and engaging docs that developers actually read and use."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-universal-document-compiler",
+      "path": "skills/agency-agents/engineering/agency-universal-document-compiler",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "📑",
+      "description": "Architect of schema-agnostic document ASTs, algorithmic data-shape layout inference, bidirectional CST-to-canvas synchronization, and universal paged document publishing."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-uswds-developer",
+      "path": "skills/agency-agents/engineering/agency-uswds-developer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🏛️",
+      "description": "Expert U.S. Web Design System frontend developer specializing in USWDS components and design tokens, accessible-by-default patterns, responsive government UI, Sass settings/theming, the federal design language, integration into CMS platforms (Drupal/WordPress), and compliance with 21st Century IDEA and the Federal Website Standards"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-video-streaming-engineer",
+      "path": "skills/agency-agents/engineering/agency-video-streaming-engineer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🎬",
+      "description": "Expert video streaming engineer for adaptive bitrate delivery — HLS/DASH packaging, ffmpeg transcode ladders, CMAF low-latency, DRM, CDN delivery, and QoE-driven player tuning."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-voice-ai-integration-engineer",
+      "path": "skills/agency-agents/engineering/agency-voice-ai-integration-engineer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🎙️",
+      "description": "Expert in building end-to-end speech transcription pipelines using Whisper-style models and cloud ASR services — from raw audio ingestion through preprocessing, transcript cleanup, subtitle generation, speaker diarization, and structured downstream integration into apps, APIs, and CMS platforms."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-webassembly-engineer",
+      "path": "skills/agency-agents/engineering/agency-webassembly-engineer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🧩",
+      "description": "Expert WebAssembly engineer — compiling Rust/C++/Go to Wasm, JS interop and the boundary marshalling cost, WASI and server-side runtimes (Wasmtime/Wasmer), the component model, and near-native performance tuning."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-wechat-mini-program-developer",
+      "path": "skills/agency-agents/engineering/agency-wechat-mini-program-developer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "💬",
+      "description": "Expert WeChat Mini Program developer specializing in 小程序 development with WXML/WXSS/WXS, WeChat API integration, payment systems, subscription messaging, and the full WeChat ecosystem."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-wordpress-performance-engineer",
+      "path": "skills/agency-agents/engineering/agency-wordpress-performance-engineer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "⚡",
+      "description": "Expert WordPress performance engineer specializing in Core Web Vitals, object caching (Redis/Memcached), page caching, database and WP_Query optimization, the Transients API, asset minification/deferral/critical CSS, image optimization and lazy loading, CDN integration, plugin performance auditing, and PHP-FPM/opcache tuning for fast, audit-passing sites"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-wordpress-shopping-cart-engineer",
+      "path": "skills/agency-agents/engineering/agency-wordpress-shopping-cart-engineer",
+      "division": "engineering",
+      "division_label": "Engineering",
+      "emoji": "🛍️",
+      "description": "Expert WordPress e-commerce engineer specializing in WooCommerce for product catalog management, payment gateway integration, checkout customization, order management, tax and coupon configuration, and conversion-optimized storefront delivery on WordPress"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-bookkeeper-controller",
+      "path": "skills/agency-agents/finance/agency-bookkeeper-controller",
+      "division": "finance",
+      "division_label": "Finance",
+      "emoji": "📒",
+      "description": "Expert bookkeeper and controller specializing in day-to-day accounting operations, financial reconciliations, month-end close processes, and internal controls. Ensures the accuracy, completeness, and timeliness of financial records while maintaining GAAP compliance and audit readiness at all times."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-financial-analyst",
+      "path": "skills/agency-agents/finance/agency-financial-analyst",
+      "division": "finance",
+      "division_label": "Finance",
+      "emoji": "📊",
+      "description": "Expert financial analyst specializing in financial modeling, forecasting, scenario analysis, and data-driven decision support. Transforms raw financial data into actionable business intelligence that drives strategic planning, investment decisions, and operational optimization."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-fp-a-analyst",
+      "path": "skills/agency-agents/finance/agency-fp-a-analyst",
+      "division": "finance",
+      "division_label": "Finance",
+      "emoji": "📈",
+      "description": "Expert Financial Planning & Analysis (FP&A) analyst specializing in budgeting, variance analysis, financial planning, rolling forecasts, and strategic decision support. Bridges the gap between the numbers and the business narrative to drive operational performance and strategic resource allocation."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-investment-researcher",
+      "path": "skills/agency-agents/finance/agency-investment-researcher",
+      "division": "finance",
+      "division_label": "Finance",
+      "emoji": "🔍",
+      "description": "Expert investment researcher specializing in market research, due diligence, portfolio analysis, and asset valuation. Conducts rigorous fundamental and quantitative analysis to identify investment opportunities, assess risks, and support data-driven portfolio decisions across public equities, private markets, and alternative assets."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-tax-strategist",
+      "path": "skills/agency-agents/finance/agency-tax-strategist",
+      "division": "finance",
+      "division_label": "Finance",
+      "emoji": "🏛️",
+      "description": "Expert tax strategist specializing in tax optimization, multi-jurisdictional compliance, transfer pricing, and strategic tax planning. Navigates complex tax codes to minimize liability while ensuring full regulatory compliance across local, state, federal, and international tax regimes."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-economy-designer",
+      "path": "skills/agency-agents/game-development/agency-economy-designer",
+      "division": "game-development",
+      "division_label": "Game Development",
+      "emoji": "💰",
+      "description": "Virtual economy architect - Masters currency systems, sources and sinks, monetization modeling, inflation control, and data-driven economic balancing for live games"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-game-audio-engineer",
+      "path": "skills/agency-agents/game-development/agency-game-audio-engineer",
+      "division": "game-development",
+      "division_label": "Game Development",
+      "emoji": "🎵",
+      "description": "Interactive audio specialist - Masters FMOD/Wwise integration, adaptive music systems, spatial audio, and audio performance budgeting across all game engines"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-game-designer",
+      "path": "skills/agency-agents/game-development/agency-game-designer",
+      "division": "game-development",
+      "division_label": "Game Development",
+      "emoji": "🎮",
+      "description": "Systems and mechanics architect - Masters GDD authorship, player psychology, economy balancing, and gameplay loop design across all engines and genres"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-level-designer",
+      "path": "skills/agency-agents/game-development/agency-level-designer",
+      "division": "game-development",
+      "division_label": "Game Development",
+      "emoji": "🗺️",
+      "description": "Spatial storytelling and flow specialist - Masters layout theory, pacing architecture, encounter design, and environmental narrative across all game engines"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-narrative-designer",
+      "path": "skills/agency-agents/game-development/agency-narrative-designer",
+      "division": "game-development",
+      "division_label": "Game Development",
+      "emoji": "📖",
+      "description": "Story systems and dialogue architect - Masters GDD-aligned narrative design, branching dialogue, lore architecture, and environmental storytelling across all game engines"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-technical-artist",
+      "path": "skills/agency-agents/game-development/agency-technical-artist",
+      "division": "game-development",
+      "division_label": "Game Development",
+      "emoji": "🎨",
+      "description": "Art-to-engine pipeline specialist - Masters shaders, VFX systems, LOD pipelines, performance budgeting, and cross-engine asset optimization"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-3d-scene-developer",
+      "path": "skills/agency-agents/gis/agency-3d-scene-developer",
+      "division": "gis",
+      "division_label": "GIS",
+      "emoji": "🏔️",
+      "description": "Web 3D visualization specialist who creates immersive 3D scenes, terrain models, point cloud visualizations, and interactive web experiences using Cesium, ArcGIS Scene Viewer, and modern 3D web frameworks."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-gis-analyst",
+      "path": "skills/agency-agents/gis/agency-gis-analyst",
+      "division": "gis",
+      "division_label": "GIS",
+      "emoji": "🖥️",
+      "description": "Day-to-day GIS operator who creates maps, manages layers, performs spatial queries, and maintains geospatial data integrity across desktop and web environments."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-bim-gis-specialist",
+      "path": "skills/agency-agents/gis/agency-bim-gis-specialist",
+      "division": "gis",
+      "division_label": "GIS",
+      "emoji": "🏗️",
+      "description": "Integration specialist who bridges Building Information Modeling and Geographic Information Systems — Revit/IFC data conversion, indoor mapping, digital twin architecture, and facility management data models."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-cartography-designer",
+      "path": "skills/agency-agents/gis/agency-cartography-designer",
+      "division": "gis",
+      "division_label": "GIS",
+      "emoji": "🎨",
+      "description": "Map aesthetics specialist who designs beautiful, readable, and effective maps — color theory, typography, label placement, basemap selection, and visual hierarchy for both print and web."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-drone-reality-mapping-specialist",
+      "path": "skills/agency-agents/gis/agency-drone-reality-mapping-specialist",
+      "division": "gis",
+      "division_label": "GIS",
+      "emoji": "🛸",
+      "description": "Photogrammetry and reality capture expert who processes drone imagery into orthomosaics, digital terrain models, point clouds, and 3D meshes — bridging field capture and GIS-ready products."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-geoai-ml-engineer",
+      "path": "skills/agency-agents/gis/agency-geoai-ml-engineer",
+      "division": "gis",
+      "division_label": "GIS",
+      "emoji": "🤖",
+      "description": "Geospatial machine learning specialist who builds models for feature extraction, object detection, image segmentation, and land cover classification from satellite and aerial imagery."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-geoprocessing-specialist",
+      "path": "skills/agency-agents/gis/agency-geoprocessing-specialist",
+      "division": "gis",
+      "division_label": "GIS",
+      "emoji": "⚙️",
+      "description": "ArcPy and Python toolbox expert who automates spatial workflows — builds .pyt toolboxes, Model Builder processes, batch geoprocessing automation, and custom analysis scripts for ArcGIS Pro."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-gis-qa-engineer",
+      "path": "skills/agency-agents/gis/agency-gis-qa-engineer",
+      "division": "gis",
+      "division_label": "GIS",
+      "emoji": "✅",
+      "description": "Quality assurance specialist who validates geospatial data integrity — topology checks, metadata audits, CRS consistency, accuracy assessment, and compliance verification."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-solution-engineer",
+      "path": "skills/agency-agents/gis/agency-solution-engineer",
+      "division": "gis",
+      "division_label": "GIS",
+      "emoji": "🔧",
+      "description": "Hands-on GIS prototype builder who takes strategy from Technical Consultant and turns it into working demos, proof-of-concepts, and technical validations across the full Esri and open-source stack."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-spatial-data-engineer",
+      "path": "skills/agency-agents/gis/agency-spatial-data-engineer",
+      "division": "gis",
+      "division_label": "GIS",
+      "emoji": "📦",
+      "description": "ETL specialist who transforms messy geospatial data from any source into clean, standardized, production-ready datasets — format conversion, CRS reprojection, attribute normalization, and automated pipelines."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-spatial-data-scientist",
+      "path": "skills/agency-agents/gis/agency-spatial-data-scientist",
+      "division": "gis",
+      "division_label": "GIS",
+      "emoji": "📊",
+      "description": "Advanced spatial analytics specialist who applies statistical modeling, spatial econometrics, clustering, and predictive analytics to geospatial data — finding patterns that aren't visible on a map."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-technical-consultant",
+      "path": "skills/agency-agents/gis/agency-technical-consultant",
+      "division": "gis",
+      "division_label": "GIS",
+      "emoji": "🧠",
+      "description": "Strategic GIS advisor who translates business problems into geospatial solutions — gap analysis, technology roadmaps, RFP responses, and digital transformation strategy across Esri and open-source ecosystems."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-web-gis-developer",
+      "path": "skills/agency-agents/gis/agency-web-gis-developer",
+      "division": "gis",
+      "division_label": "GIS",
+      "emoji": "🌐",
+      "description": "Full-stack web GIS engineer who builds interactive mapping applications — MapLibre GL JS, ArcGIS JS API, Leaflet, real-time dashboards, REST API integration, and geospatial web services."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-clinical-evidence-agent",
+      "path": "skills/agency-agents/healthcare/agency-clinical-evidence-agent",
+      "division": "healthcare",
+      "division_label": "Healthcare",
+      "emoji": "🩺",
+      "description": "Evidence standards and clinical credibility framework for AI agents operating in healthcare contexts. Defines how to distinguish validated from unvalidated clinical claims, how to write for both peer review and investor audiences from the same evidence base, and how to frame clinical decision support without claiming diagnostic authority."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-healthcare-innovation-strategist",
+      "path": "skills/agency-agents/healthcare/agency-healthcare-innovation-strategist",
+      "division": "healthcare",
+      "division_label": "Healthcare",
+      "emoji": "🧭",
+      "description": "Strategic narrative architect for healthcare founders operating at the intersection of clinical credibility, healthcare finance, and complex deployment contexts. Maintains narrative coherence across investor, regulatory, sovereign, and clinical audiences. Built for founders who need to translate complex clinical and financial realities into language that moves capital, changes policy, and builds trust with doctors and patients simultaneously."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-sovereign-health-systems-agent",
+      "path": "skills/agency-agents/healthcare/agency-sovereign-health-systems-agent",
+      "division": "healthcare",
+      "division_label": "Healthcare",
+      "emoji": "🌍",
+      "description": "Government health mandate engagement framework for AI agents operating at the intersection of national health infrastructure, UHC policy, and emerging market deployment. Defines how to navigate sovereign health ministry engagement, frame health technology for mandate alignment, and sequence a dual-market launch across regulated and sovereign contexts."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-aeo-foundations-architect",
+      "path": "skills/agency-agents/marketing/agency-aeo-foundations-architect",
+      "division": "marketing",
+      "division_label": "Marketing",
+      "emoji": "🏗️",
+      "description": "Expert in AI Engine Optimization infrastructure — implements llms.txt, AI-aware robots.txt, token-budgeted content, structured Markdown availability, and agent discovery files so AI crawlers, citation engines, and browsing agents can find, parse, and act on your site"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-agentic-search-optimizer",
+      "path": "skills/agency-agents/marketing/agency-agentic-search-optimizer",
+      "division": "marketing",
+      "division_label": "Marketing",
+      "emoji": "🤖",
+      "description": "Expert in WebMCP readiness and agentic task completion — audits whether AI agents can actually accomplish tasks on your site (book, buy, register, subscribe), implements WebMCP declarative and imperative patterns, and measures task completion rates across AI browsing agents"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-ai-citation-strategist",
+      "path": "skills/agency-agents/marketing/agency-ai-citation-strategist",
+      "division": "marketing",
+      "division_label": "Marketing",
+      "emoji": "🔮",
+      "description": "Expert in AI recommendation engine optimization (AEO/GEO) — audits brand visibility across ChatGPT, Claude, Gemini, and Perplexity, identifies why competitors get cited instead, and delivers content fixes that improve AI citations"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-app-store-optimizer",
+      "path": "skills/agency-agents/marketing/agency-app-store-optimizer",
+      "division": "marketing",
+      "division_label": "Marketing",
+      "emoji": "📱",
+      "description": "Expert app store marketing specialist focused on App Store Optimization (ASO), conversion rate optimization, and app discoverability"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-baidu-seo-specialist",
+      "path": "skills/agency-agents/marketing/agency-baidu-seo-specialist",
+      "division": "marketing",
+      "division_label": "Marketing",
+      "emoji": "🇨🇳",
+      "description": "Expert Baidu search optimization specialist focused on Chinese search engine ranking, Baidu ecosystem integration, ICP compliance, Chinese keyword research, and mobile-first indexing for the China market."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-bilibili-content-strategist",
+      "path": "skills/agency-agents/marketing/agency-bilibili-content-strategist",
+      "division": "marketing",
+      "division_label": "Marketing",
+      "emoji": "🎬",
+      "description": "Expert Bilibili marketing specialist focused on UP主 growth, danmaku culture mastery, B站 algorithm optimization, community building, and branded content strategy for China's leading video community platform."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-book-co-author",
+      "path": "skills/agency-agents/marketing/agency-book-co-author",
+      "division": "marketing",
+      "division_label": "Marketing",
+      "emoji": "📘",
+      "description": "Strategic thought-leadership book collaborator for founders, experts, and operators turning voice notes, fragments, and positioning into structured first-person chapters."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-carousel-growth-engine",
+      "path": "skills/agency-agents/marketing/agency-carousel-growth-engine",
+      "division": "marketing",
+      "division_label": "Marketing",
+      "emoji": "🎠",
+      "description": "Autonomous TikTok and Instagram carousel generation specialist. Analyzes any website URL with Playwright, generates viral 6-slide carousels via Gemini image generation, publishes directly to feed via Upload-Post API with auto trending music, fetches analytics, and iteratively improves through a data-driven learning loop."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-china-e-commerce-operator",
+      "path": "skills/agency-agents/marketing/agency-china-e-commerce-operator",
+      "division": "marketing",
+      "division_label": "Marketing",
+      "emoji": "🛒",
+      "description": "Expert China e-commerce operations specialist covering Taobao, Tmall, Pinduoduo, and JD ecosystems with deep expertise in product listing optimization, live commerce, store operations, 618/Double 11 campaigns, and cross-platform strategy."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-china-market-localization-strategist",
+      "path": "skills/agency-agents/marketing/agency-china-market-localization-strategist",
+      "division": "marketing",
+      "division_label": "Marketing",
+      "emoji": "🇨🇳",
+      "description": "Full-stack China market localization expert who transforms real-time trend signals into executable go-to-market strategies across Douyin, Xiaohongshu, WeChat, Bilibili, and beyond"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-content-creator",
+      "path": "skills/agency-agents/marketing/agency-content-creator",
+      "division": "marketing",
+      "division_label": "Marketing",
+      "emoji": "✍️",
+      "description": "Expert content strategist and creator for multi-platform campaigns. Develops editorial calendars, creates compelling copy, manages brand storytelling, and optimizes content for engagement across all digital channels."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-cross-border-e-commerce-specialist",
+      "path": "skills/agency-agents/marketing/agency-cross-border-e-commerce-specialist",
+      "division": "marketing",
+      "division_label": "Marketing",
+      "emoji": "🌏",
+      "description": "Full-funnel cross-border e-commerce strategist covering Amazon, Shopee, Lazada, AliExpress, Temu, and TikTok Shop operations, international logistics and overseas warehousing, compliance and taxation, multilingual listing optimization, brand globalization, and DTC independent site development."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-developer-community-builder",
+      "path": "skills/agency-agents/marketing/agency-developer-community-builder",
+      "division": "marketing",
+      "division_label": "Marketing",
+      "emoji": "🌱",
+      "description": "Grows and sustains developer communities — Discord servers, GitHub discussions, forums, and contributor programs — turning users into advocates and advocates into contributors."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-douyin-strategist",
+      "path": "skills/agency-agents/marketing/agency-douyin-strategist",
+      "division": "marketing",
+      "division_label": "Marketing",
+      "emoji": "🎵",
+      "description": "Short-video marketing expert specializing in the Douyin platform, with deep expertise in recommendation algorithm mechanics, viral video planning, livestream commerce workflows, and full-funnel brand growth through content matrix strategies."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-email-marketing-strategist",
+      "path": "skills/agency-agents/marketing/agency-email-marketing-strategist",
+      "division": "marketing",
+      "division_label": "Marketing",
+      "emoji": "📧",
+      "description": "Expert email marketing strategist for CRM-driven campaigns, lifecycle automation, segmentation architecture, and deliverability. Designs sequences (welcome, nurture, reactivation, win-back, review, referral) grounded in 2025-2026 benchmarks, AI-driven personalization, and post-Apple MPP measurement."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-global-podcast-strategist",
+      "path": "skills/agency-agents/marketing/agency-global-podcast-strategist",
+      "division": "marketing",
+      "division_label": "Marketing",
+      "emoji": "🎙️",
+      "description": "Expert podcast growth specialist focused on show positioning, audience development, content strategy, and monetisation. Transforms raw ideas into authoritative audio brands that compound listeners and revenue over time on Spotify, Apple Podcasts, and YouTube."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-growth-hacker",
+      "path": "skills/agency-agents/marketing/agency-growth-hacker",
+      "division": "marketing",
+      "division_label": "Marketing",
+      "emoji": "🚀",
+      "description": "Expert growth strategist specializing in rapid user acquisition through data-driven experimentation. Develops viral loops, optimizes conversion funnels, and finds scalable growth channels for exponential business growth."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-instagram-curator",
+      "path": "skills/agency-agents/marketing/agency-instagram-curator",
+      "division": "marketing",
+      "division_label": "Marketing",
+      "emoji": "📸",
+      "description": "Expert Instagram marketing specialist focused on visual storytelling, community building, and multi-format content optimization. Masters aesthetic development and drives meaningful engagement."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-kuaishou-strategist",
+      "path": "skills/agency-agents/marketing/agency-kuaishou-strategist",
+      "division": "marketing",
+      "division_label": "Marketing",
+      "emoji": "🎥",
+      "description": "Expert Kuaishou marketing strategist specializing in short-video content for China's lower-tier city markets, live commerce operations, community trust building, and grassroots audience growth on 快手."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-linkedin-content-creator",
+      "path": "skills/agency-agents/marketing/agency-linkedin-content-creator",
+      "division": "marketing",
+      "division_label": "Marketing",
+      "emoji": "💼",
+      "description": "Expert LinkedIn content strategist focused on thought leadership, personal brand building, and high-engagement professional content. Masters LinkedIn's algorithm and culture to drive inbound opportunities for founders, job seekers, developers, and anyone building a professional presence."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-livestream-commerce-coach",
+      "path": "skills/agency-agents/marketing/agency-livestream-commerce-coach",
+      "division": "marketing",
+      "division_label": "Marketing",
+      "emoji": "🎙️",
+      "description": "Veteran livestream e-commerce coach specializing in host training and live room operations across Douyin, Kuaishou, Taobao Live, and Channels, covering script design, product sequencing, paid-vs-organic traffic balancing, conversion closing techniques, and real-time data-driven optimization."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-multi-platform-publisher",
+      "path": "skills/agency-agents/marketing/agency-multi-platform-publisher",
+      "division": "marketing",
+      "division_label": "Marketing",
+      "emoji": "📡",
+      "description": "Expert orchestrator for one-click Chinese blog publishing. Routes a single article to 知乎 / 小红书 / CSDN / B站 / 公众号 / 掘金 via Wechatsync (main channel) with xhs-mcp and biliup as specialized fallbacks. Handles per-platform content adaptation, draft-first publishing, rate control, and risk-avoidance. Does NOT auto-publish — always stops at draft for human review."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-podcast-strategist",
+      "path": "skills/agency-agents/marketing/agency-podcast-strategist",
+      "division": "marketing",
+      "division_label": "Marketing",
+      "emoji": "🎧",
+      "description": "Content strategy and operations expert for the Chinese podcast market, with deep expertise in Xiaoyuzhou, Ximalaya, and other major audio platforms, covering show positioning, audio production, audience growth, multi-platform distribution, and monetization to help podcast creators build sticky audio content brands."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-pr-communications-manager",
+      "path": "skills/agency-agents/marketing/agency-pr-communications-manager",
+      "division": "marketing",
+      "division_label": "Marketing",
+      "emoji": "📣",
+      "description": "Strategic public relations and communications specialist for media relations, press releases, crisis communications, executive thought leadership, brand reputation management, and integrated communications planning — building and protecting reputations through earned media, storytelling, and proactive narrative control"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-private-domain-operator",
+      "path": "skills/agency-agents/marketing/agency-private-domain-operator",
+      "division": "marketing",
+      "division_label": "Marketing",
+      "emoji": "🔒",
+      "description": "Expert in building enterprise WeChat (WeCom) private domain ecosystems, with deep expertise in SCRM systems, segmented community operations, Mini Program commerce integration, user lifecycle management, and full-funnel conversion optimization."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-reddit-community-builder",
+      "path": "skills/agency-agents/marketing/agency-reddit-community-builder",
+      "division": "marketing",
+      "division_label": "Marketing",
+      "emoji": "💬",
+      "description": "Expert Reddit marketing specialist focused on authentic community engagement, value-driven content creation, and long-term relationship building. Masters Reddit culture navigation."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-seo-specialist",
+      "path": "skills/agency-agents/marketing/agency-seo-specialist",
+      "division": "marketing",
+      "division_label": "Marketing",
+      "emoji": "🔍",
+      "description": "Expert search engine optimization strategist specializing in technical SEO, content optimization, link authority building, and organic search growth. Drives sustainable traffic through data-driven search strategies."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-short-video-editing-coach",
+      "path": "skills/agency-agents/marketing/agency-short-video-editing-coach",
+      "division": "marketing",
+      "division_label": "Marketing",
+      "emoji": "🎬",
+      "description": "Hands-on short-video editing coach covering the full post-production pipeline, with mastery of CapCut Pro, Premiere Pro, DaVinci Resolve, and Final Cut Pro across composition and camera language, color grading, audio engineering, motion graphics and VFX, subtitle design, multi-platform export optimization, editing workflow efficiency, and AI-assisted editing."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-social-media-strategist",
+      "path": "skills/agency-agents/marketing/agency-social-media-strategist",
+      "division": "marketing",
+      "division_label": "Marketing",
+      "emoji": "📣",
+      "description": "Expert social media strategist for LinkedIn, Twitter, and professional platforms. Creates cross-platform campaigns, builds communities, manages real-time engagement, and develops thought leadership strategies."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-tiktok-strategist",
+      "path": "skills/agency-agents/marketing/agency-tiktok-strategist",
+      "division": "marketing",
+      "division_label": "Marketing",
+      "emoji": "🎵",
+      "description": "Expert TikTok marketing specialist focused on viral content creation, algorithm optimization, and community building. Masters TikTok's unique culture and features for brand growth."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-twitter-engager",
+      "path": "skills/agency-agents/marketing/agency-twitter-engager",
+      "division": "marketing",
+      "division_label": "Marketing",
+      "emoji": "🐦",
+      "description": "Expert Twitter marketing specialist focused on real-time engagement, thought leadership building, and community-driven growth. Builds brand authority through authentic conversation participation and viral thread creation."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-video-optimization-specialist",
+      "path": "skills/agency-agents/marketing/agency-video-optimization-specialist",
+      "division": "marketing",
+      "division_label": "Marketing",
+      "emoji": "🎬",
+      "description": "Video marketing strategist specializing in YouTube algorithm optimization, audience retention, chaptering, thumbnail concepts, and cross-platform video syndication."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-wechat-official-account-manager",
+      "path": "skills/agency-agents/marketing/agency-wechat-official-account-manager",
+      "division": "marketing",
+      "division_label": "Marketing",
+      "emoji": "📱",
+      "description": "Expert WeChat Official Account (OA) strategist specializing in content marketing, subscriber engagement, and conversion optimization. Masters multi-format content and builds loyal communities through consistent value delivery."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-weibo-strategist",
+      "path": "skills/agency-agents/marketing/agency-weibo-strategist",
+      "division": "marketing",
+      "division_label": "Marketing",
+      "emoji": "🔥",
+      "description": "Full-spectrum operations expert for Sina Weibo, with deep expertise in trending topic mechanics, Super Topic community management, public sentiment monitoring, fan economy strategies, and Weibo advertising, helping brands achieve viral reach and sustained growth on China's leading public discourse platform."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-x-twitter-intelligence-analyst",
+      "path": "skills/agency-agents/marketing/agency-x-twitter-intelligence-analyst",
+      "division": "marketing",
+      "division_label": "Marketing",
+      "emoji": "🛰️",
+      "description": "Social intelligence specialist for X/Twitter research, trend detection, account monitoring, and evidence-backed audience insights using public signals and structured data workflows."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-xiaohongshu-specialist",
+      "path": "skills/agency-agents/marketing/agency-xiaohongshu-specialist",
+      "division": "marketing",
+      "division_label": "Marketing",
+      "emoji": "🌸",
+      "description": "Expert Xiaohongshu marketing specialist focused on lifestyle content, trend-driven strategies, and authentic community engagement. Masters micro-content creation and drives viral growth through aesthetic storytelling."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-zhihu-strategist",
+      "path": "skills/agency-agents/marketing/agency-zhihu-strategist",
+      "division": "marketing",
+      "division_label": "Marketing",
+      "emoji": "🧠",
+      "description": "Expert Zhihu marketing specialist focused on thought leadership, community credibility, and knowledge-driven engagement. Masters question-answering strategy and builds brand authority through authentic expertise sharing."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-paid-media-auditor",
+      "path": "skills/agency-agents/paid-media/agency-paid-media-auditor",
+      "division": "paid-media",
+      "division_label": "Paid Media",
+      "emoji": "📋",
+      "description": "Comprehensive paid media auditor who systematically evaluates Google Ads, Microsoft Ads, and Meta accounts across 200+ checkpoints spanning account structure, tracking, bidding, creative, audiences, and competitive positioning. Produces actionable audit reports with prioritized recommendations and projected impact."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-ad-creative-strategist",
+      "path": "skills/agency-agents/paid-media/agency-ad-creative-strategist",
+      "division": "paid-media",
+      "division_label": "Paid Media",
+      "emoji": "✍️",
+      "description": "Paid media creative specialist focused on ad copywriting, RSA optimization, asset group design, and creative testing frameworks across Google, Meta, Microsoft, and programmatic platforms. Bridges the gap between performance data and persuasive messaging."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-paid-social-strategist",
+      "path": "skills/agency-agents/paid-media/agency-paid-social-strategist",
+      "division": "paid-media",
+      "division_label": "Paid Media",
+      "emoji": "📱",
+      "description": "Cross-platform paid social advertising specialist covering Meta (Facebook/Instagram), LinkedIn, TikTok, Pinterest, X, and Snapchat. Designs full-funnel social ad programs from prospecting through retargeting with platform-specific creative and audience strategies."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-ppc-campaign-strategist",
+      "path": "skills/agency-agents/paid-media/agency-ppc-campaign-strategist",
+      "division": "paid-media",
+      "division_label": "Paid Media",
+      "emoji": "💰",
+      "description": "Senior paid media strategist specializing in large-scale search, shopping, and performance max campaign architecture across Google, Microsoft, and Amazon ad platforms. Designs account structures, budget allocation frameworks, and bidding strategies that scale from $10K to $10M+ monthly spend."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-programmatic-display-buyer",
+      "path": "skills/agency-agents/paid-media/agency-programmatic-display-buyer",
+      "division": "paid-media",
+      "division_label": "Paid Media",
+      "emoji": "📺",
+      "description": "Display advertising and programmatic media buying specialist covering managed placements, Google Display Network, DV360, trade desk platforms, partner media (newsletters, sponsored content), and ABM display strategies via platforms like Demandbase and 6Sense."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-search-query-analyst",
+      "path": "skills/agency-agents/paid-media/agency-search-query-analyst",
+      "division": "paid-media",
+      "division_label": "Paid Media",
+      "emoji": "🔍",
+      "description": "Specialist in search term analysis, negative keyword architecture, and query-to-intent mapping. Turns raw search query data into actionable optimizations that eliminate waste and amplify high-intent traffic across paid search accounts."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-tracking-measurement-specialist",
+      "path": "skills/agency-agents/paid-media/agency-tracking-measurement-specialist",
+      "division": "paid-media",
+      "division_label": "Paid Media",
+      "emoji": "📡",
+      "description": "Expert in conversion tracking architecture, tag management, and attribution modeling across Google Tag Manager, GA4, Google Ads, Meta CAPI, LinkedIn Insight Tag, and server-side implementations. Ensures every conversion is counted correctly and every dollar of ad spend is measurable."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-behavioral-nudge-engine",
+      "path": "skills/agency-agents/product/agency-behavioral-nudge-engine",
+      "division": "product",
+      "division_label": "Product",
+      "emoji": "🧠",
+      "description": "Behavioral psychology specialist that adapts software interaction cadences and styles to maximize user motivation and success."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-dx-engineer",
+      "path": "skills/agency-agents/product/agency-dx-engineer",
+      "division": "product",
+      "division_label": "Product",
+      "emoji": "🔬",
+      "description": "Removes every unnecessary step between a developer and their first success — SDK samples, onboarding flows, error messages, and the feedback loops that make products feel like they were built by someone who's used them."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-feedback-synthesizer",
+      "path": "skills/agency-agents/product/agency-feedback-synthesizer",
+      "division": "product",
+      "division_label": "Product",
+      "emoji": "🔍",
+      "description": "Expert in collecting, analyzing, and synthesizing user feedback from multiple channels to extract actionable product insights. Transforms qualitative feedback into quantitative priorities and strategic recommendations."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-product-manager",
+      "path": "skills/agency-agents/product/agency-product-manager",
+      "division": "product",
+      "division_label": "Product",
+      "emoji": "🧭",
+      "description": "Holistic product leader who owns the full product lifecycle — from discovery and strategy through roadmap, stakeholder alignment, go-to-market, and outcome measurement. Bridges business goals, user needs, and technical reality to ship the right thing at the right time."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-sprint-prioritizer",
+      "path": "skills/agency-agents/product/agency-sprint-prioritizer",
+      "division": "product",
+      "division_label": "Product",
+      "emoji": "🎯",
+      "description": "Expert product manager specializing in agile sprint planning, feature prioritization, and resource allocation. Focused on maximizing team velocity and business value delivery through data-driven prioritization frameworks."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-trend-researcher",
+      "path": "skills/agency-agents/product/agency-trend-researcher",
+      "division": "product",
+      "division_label": "Product",
+      "emoji": "🔭",
+      "description": "Expert market intelligence analyst specializing in identifying emerging trends, competitive analysis, and opportunity assessment. Focused on providing actionable insights that drive product strategy and innovation decisions."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-experiment-tracker",
+      "path": "skills/agency-agents/project-management/agency-experiment-tracker",
+      "division": "project-management",
+      "division_label": "Project Management",
+      "emoji": "🧪",
+      "description": "Expert project manager specializing in experiment design, execution tracking, and data-driven decision making. Focused on managing A/B tests, feature experiments, and hypothesis validation through systematic experimentation and rigorous analysis."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-jira-workflow-steward",
+      "path": "skills/agency-agents/project-management/agency-jira-workflow-steward",
+      "division": "project-management",
+      "division_label": "Project Management",
+      "emoji": "📋",
+      "description": "Expert delivery operations specialist who enforces Jira-linked Git workflows, traceable commits, structured pull requests, and release-safe branch strategy across software teams."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-meeting-notes-specialist",
+      "path": "skills/agency-agents/project-management/agency-meeting-notes-specialist",
+      "division": "project-management",
+      "division_label": "Project Management",
+      "emoji": "📋",
+      "description": "Extract structured decisions, action items, and open questions from meeting transcripts or rough notes into a clean 4-section summary."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-project-shepherd",
+      "path": "skills/agency-agents/project-management/agency-project-shepherd",
+      "division": "project-management",
+      "division_label": "Project Management",
+      "emoji": "🐑",
+      "description": "Expert project manager specializing in cross-functional project coordination, timeline management, and stakeholder alignment. Focused on shepherding projects from conception to completion while managing resources, risks, and communications across multiple teams and departments."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-studio-operations",
+      "path": "skills/agency-agents/project-management/agency-studio-operations",
+      "division": "project-management",
+      "division_label": "Project Management",
+      "emoji": "🏭",
+      "description": "Expert operations manager specializing in day-to-day studio efficiency, process optimization, and resource coordination. Focused on ensuring smooth operations, maintaining productivity standards, and supporting all teams with the tools and processes needed for success."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-studio-producer",
+      "path": "skills/agency-agents/project-management/agency-studio-producer",
+      "division": "project-management",
+      "division_label": "Project Management",
+      "emoji": "🎬",
+      "description": "Senior strategic leader specializing in high-level creative and technical project orchestration, resource allocation, and multi-project portfolio management. Focused on aligning creative vision with business objectives while managing complex cross-functional initiatives and ensuring optimal studio operations."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-senior-project-manager",
+      "path": "skills/agency-agents/project-management/agency-senior-project-manager",
+      "division": "project-management",
+      "division_label": "Project Management",
+      "emoji": "📝",
+      "description": "Converts specs to tasks and remembers previous projects. Focused on realistic scope, no background processes, exact spec requirements"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-research-synthesist",
+      "path": "skills/agency-agents/research/agency-research-synthesist",
+      "division": "research",
+      "division_label": "Research",
+      "emoji": "🔍",
+      "description": "Expert in literature review, source evaluation, and evidence synthesis — turns a scattered pile of sources into a structured, honestly-weighted map of what the evidence actually supports"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-account-strategist",
+      "path": "skills/agency-agents/sales/agency-account-strategist",
+      "division": "sales",
+      "division_label": "Sales",
+      "emoji": "🗺️",
+      "description": "Expert post-sale account strategist specializing in land-and-expand execution, stakeholder mapping, QBR facilitation, and net revenue retention. Turns closed deals into long-term platform relationships through systematic expansion planning and multi-threaded account development."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-sales-coach",
+      "path": "skills/agency-agents/sales/agency-sales-coach",
+      "division": "sales",
+      "division_label": "Sales",
+      "emoji": "🏋️",
+      "description": "Expert sales coaching specialist focused on rep development, pipeline review facilitation, call coaching, deal strategy, and forecast accuracy. Makes every rep and every deal better through structured coaching methodology and behavioral feedback."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-deal-strategist",
+      "path": "skills/agency-agents/sales/agency-deal-strategist",
+      "division": "sales",
+      "division_label": "Sales",
+      "emoji": "♟️",
+      "description": "Senior deal strategist specializing in MEDDPICC qualification, competitive positioning, and win planning for complex B2B sales cycles. Scores opportunities, exposes pipeline risk, and builds deal strategies that survive forecast review."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-discovery-coach",
+      "path": "skills/agency-agents/sales/agency-discovery-coach",
+      "division": "sales",
+      "division_label": "Sales",
+      "emoji": "🔍",
+      "description": "Coaches sales teams on elite discovery methodology — question design, current-state mapping, gap quantification, and call structure that surfaces real buying motivation."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-sales-engineer",
+      "path": "skills/agency-agents/sales/agency-sales-engineer",
+      "division": "sales",
+      "division_label": "Sales",
+      "emoji": "🛠️",
+      "description": "Senior pre-sales engineer specializing in technical discovery, demo engineering, POC scoping, competitive battlecards, and bridging product capabilities to business outcomes. Wins the technical decision so the deal can close."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-offer-lead-gen-strategist",
+      "path": "skills/agency-agents/sales/agency-offer-lead-gen-strategist",
+      "division": "sales",
+      "division_label": "Sales",
+      "emoji": "🧲",
+      "description": "Top-of-funnel architect who designs irresistible offers and lead magnets that attract qualified buyers at scale. Specializes in value-equation offer construction, lead magnet typology, multi-channel lead generation, and compounding reach through customers, employees, agencies, and affiliates."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-outbound-strategist",
+      "path": "skills/agency-agents/sales/agency-outbound-strategist",
+      "division": "sales",
+      "division_label": "Sales",
+      "emoji": "🎯",
+      "description": "Signal-based outbound specialist who designs multi-channel prospecting sequences, defines ICPs, and builds pipeline through research-driven personalization — not volume."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-pipeline-analyst",
+      "path": "skills/agency-agents/sales/agency-pipeline-analyst",
+      "division": "sales",
+      "division_label": "Sales",
+      "emoji": "📊",
+      "description": "Revenue operations analyst specializing in pipeline health diagnostics, deal velocity analysis, forecast accuracy, and data-driven sales coaching. Turns CRM data into actionable pipeline intelligence that surfaces risks before they become missed quarters."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-proposal-strategist",
+      "path": "skills/agency-agents/sales/agency-proposal-strategist",
+      "division": "sales",
+      "division_label": "Sales",
+      "emoji": "🏹",
+      "description": "Strategic proposal architect who transforms RFPs and sales opportunities into compelling win narratives. Specializes in win theme development, competitive positioning, executive summary craft, and building proposals that persuade rather than merely comply."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-ai-generated-code-security-auditor",
+      "path": "skills/agency-agents/security/agency-ai-generated-code-security-auditor",
+      "division": "security",
+      "division_label": "Security",
+      "emoji": "🔎",
+      "description": "Security reviewer for AI-generated and vibe-coded apps — hunts the hardcoded secrets, broken row-level security, and prompt-injection sinks that coding assistants ship by default, then drives a scan, fix, and rescan loop with honest, CWE-mapped findings."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-application-security-engineer",
+      "path": "skills/agency-agents/security/agency-application-security-engineer",
+      "division": "security",
+      "division_label": "Security",
+      "emoji": "🔐",
+      "description": "AppSec specialist who secures the software development lifecycle through threat modeling, secure code review, SAST/DAST integration, and developer security education that makes secure code the default."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-security-architect",
+      "path": "skills/agency-agents/security/agency-security-architect",
+      "division": "security",
+      "division_label": "Security",
+      "emoji": "🛡️",
+      "description": "Expert security architect specializing in threat modeling, secure-by-design architecture, trust-boundary analysis, defense-in-depth, and risk-based security reviews across web, API, cloud-native, and distributed systems. Designs the security model; hands code-level SAST/DAST and SDLC work to the AppSec Engineer."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-blockchain-security-auditor",
+      "path": "skills/agency-agents/security/agency-blockchain-security-auditor",
+      "division": "security",
+      "division_label": "Security",
+      "emoji": "🛡️",
+      "description": "Expert smart contract security auditor specializing in vulnerability detection, formal verification, exploit analysis, and comprehensive audit report writing for DeFi protocols and blockchain applications."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-cloud-security-architect",
+      "path": "skills/agency-agents/security/agency-cloud-security-architect",
+      "division": "security",
+      "division_label": "Security",
+      "emoji": "☁️",
+      "description": "Cloud-native security specialist designing zero trust architectures, implementing defense-in-depth across AWS, Azure, and GCP, and securing infrastructure-as-code pipelines from day one."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-compliance-auditor",
+      "path": "skills/agency-agents/security/agency-compliance-auditor",
+      "division": "security",
+      "division_label": "Security",
+      "emoji": "📋",
+      "description": "Expert technical compliance auditor specializing in SOC 2, ISO 27001, HIPAA, and PCI-DSS audits — from readiness assessment through evidence collection to certification."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-incident-responder",
+      "path": "skills/agency-agents/security/agency-incident-responder",
+      "division": "security",
+      "division_label": "Security",
+      "emoji": "🚨",
+      "description": "Digital forensics and incident response specialist who leads breach investigations, contains active threats, coordinates crisis response, and writes post-mortems that prevent recurrence."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-penetration-tester",
+      "path": "skills/agency-agents/security/agency-penetration-tester",
+      "division": "security",
+      "division_label": "Security",
+      "emoji": "🗡️",
+      "description": "Offensive security specialist conducting authorized penetration tests, red team operations, and vulnerability assessments across networks, web applications, and cloud infrastructure."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-secrets-credential-hygiene-engineer",
+      "path": "skills/agency-agents/security/agency-secrets-credential-hygiene-engineer",
+      "division": "security",
+      "division_label": "Security",
+      "emoji": "🔑",
+      "description": "Owns the full lifecycle of secrets and credentials — detection, prevention, vaulting, rotation, and leak response — so an application runs on short-lived, least-privilege credentials that are never in the code and are already rotated by the time a leak is found."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-senior-secops-engineer",
+      "path": "skills/agency-agents/security/agency-senior-secops-engineer",
+      "division": "security",
+      "division_label": "Security",
+      "emoji": "🛡️",
+      "description": "Defensive application security specialist who scans every code submission for secrets and sensitive data exposure before anything else, then implements or audits security controls following the organization's security standard — covering authentication, authorization, tokens, cookies, HTTP headers, CORS, rate limiting, CSP, secrets management, input validation, and secure logging."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-threat-detection-engineer",
+      "path": "skills/agency-agents/security/agency-threat-detection-engineer",
+      "division": "security",
+      "division_label": "Security",
+      "emoji": "🎯",
+      "description": "Expert detection engineer specializing in SIEM rule development, MITRE ATT&CK coverage mapping, threat hunting, alert tuning, and detection-as-code pipelines for security operations teams."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-threat-intelligence-analyst",
+      "path": "skills/agency-agents/security/agency-threat-intelligence-analyst",
+      "division": "security",
+      "division_label": "Security",
+      "emoji": "🔍",
+      "description": "Cyber threat intelligence specialist who tracks adversary groups, maps attack campaigns to MITRE ATT&CK, produces actionable intelligence reports, and builds detection rules that catch real threats."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-macos-spatial-metal-engineer",
+      "path": "skills/agency-agents/spatial-computing/agency-macos-spatial-metal-engineer",
+      "division": "spatial-computing",
+      "division_label": "Spatial Computing",
+      "emoji": "🍎",
+      "description": "Native Swift and Metal specialist building high-performance 3D rendering systems and spatial computing experiences for macOS and Vision Pro"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-terminal-integration-specialist",
+      "path": "skills/agency-agents/spatial-computing/agency-terminal-integration-specialist",
+      "division": "spatial-computing",
+      "division_label": "Spatial Computing",
+      "emoji": "🖥️",
+      "description": "Terminal emulation, text rendering optimization, and SwiftTerm integration for modern Swift applications"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-visionos-spatial-engineer",
+      "path": "skills/agency-agents/spatial-computing/agency-visionos-spatial-engineer",
+      "division": "spatial-computing",
+      "division_label": "Spatial Computing",
+      "emoji": "🥽",
+      "description": "Native visionOS spatial computing, SwiftUI volumetric interfaces, and Liquid Glass design implementation"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-xr-cockpit-interaction-specialist",
+      "path": "skills/agency-agents/spatial-computing/agency-xr-cockpit-interaction-specialist",
+      "division": "spatial-computing",
+      "division_label": "Spatial Computing",
+      "emoji": "🕹️",
+      "description": "Specialist in designing and developing immersive cockpit-based control systems for XR environments"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-xr-immersive-developer",
+      "path": "skills/agency-agents/spatial-computing/agency-xr-immersive-developer",
+      "division": "spatial-computing",
+      "division_label": "Spatial Computing",
+      "emoji": "🌐",
+      "description": "Expert WebXR and immersive technology developer with specialization in browser-based AR/VR/XR applications"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-xr-interface-architect",
+      "path": "skills/agency-agents/spatial-computing/agency-xr-interface-architect",
+      "division": "spatial-computing",
+      "division_label": "Spatial Computing",
+      "emoji": "🫧",
+      "description": "Spatial interaction designer and interface strategist for immersive AR/VR/XR environments"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-accounts-payable-agent",
+      "path": "skills/agency-agents/specialized/agency-accounts-payable-agent",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "💸",
+      "description": "Autonomous payment processing specialist that executes vendor payments, contractor invoices, and recurring bills across any payment rail — crypto, fiat, stablecoins. Integrates with AI agent workflows via tool calls."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-agentic-identity-trust-architect",
+      "path": "skills/agency-agents/specialized/agency-agentic-identity-trust-architect",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🔐",
+      "description": "Designs identity, authentication, and trust verification systems for autonomous AI agents operating in multi-agent environments. Ensures agents can prove who they are, what they're authorized to do, and what they actually did."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-agents-orchestrator",
+      "path": "skills/agency-agents/specialized/agency-agents-orchestrator",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🎛️",
+      "description": "Autonomous pipeline manager that orchestrates the entire development workflow. You are the leader of this process."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-automation-governance-architect",
+      "path": "skills/agency-agents/specialized/agency-automation-governance-architect",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "⚙️",
+      "description": "Governance-first architect for business automations (n8n-first) who audits value, risk, and maintainability before implementation."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-business-strategist",
+      "path": "skills/agency-agents/specialized/agency-business-strategist",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "♟️",
+      "description": "Senior management consulting specialist for competitive analysis, market entry strategy, business model design, growth planning, organizational strategy, and strategic decision-making — translating complex market dynamics into clear, actionable strategies that create sustainable competitive advantage"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-change-management-consultant",
+      "path": "skills/agency-agents/specialized/agency-change-management-consultant",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🔄",
+      "description": "Expert change management specialist using ADKAR, Kotter, and Prosci frameworks to guide organizations through technology implementations, restructuring, culture transformation, and M&A integration — managing resistance, building adoption, and ensuring changes stick long after go-live"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-chief-financial-officer",
+      "path": "skills/agency-agents/specialized/agency-chief-financial-officer",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "💼",
+      "description": "Strategic finance executive who governs capital allocation, treasury operations, financial planning, M&A finance, investor relations, and board reporting — translating financial complexity into clear decisions that drive business performance and stakeholder confidence."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-corporate-training-designer",
+      "path": "skills/agency-agents/specialized/agency-corporate-training-designer",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "📚",
+      "description": "Expert in enterprise training system design and curriculum development — proficient in training needs analysis, instructional design methodology, blended learning program design, internal trainer development, leadership programs, and training effectiveness evaluation and continuous optimization."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-customer-service",
+      "path": "skills/agency-agents/specialized/agency-customer-service",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🎧",
+      "description": "Friendly, professional customer service specialist for any industry — handling inquiries, complaints, account support, FAQs, and seamless escalation with warmth, efficiency, and a genuine commitment to customer satisfaction"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-customer-success-manager",
+      "path": "skills/agency-agents/specialized/agency-customer-success-manager",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🌟",
+      "description": "Strategic customer success specialist for onboarding, health scoring, QBR facilitation, churn prevention, expansion identification, and renewal management — driving net revenue retention by turning customers into long-term partners who achieve measurable outcomes"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-data-consolidation-agent",
+      "path": "skills/agency-agents/specialized/agency-data-consolidation-agent",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🗄️",
+      "description": "AI agent that consolidates extracted sales data into live reporting dashboards with territory, rep, and pipeline summaries"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-data-privacy-officer",
+      "path": "skills/agency-agents/specialized/agency-data-privacy-officer",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🔐",
+      "description": "Corporate data privacy specialist and DPO who builds GDPR, CCPA, and global privacy compliance programs — covering data mapping, privacy impact assessments, consent management, breach response, vendor due diligence, and regulatory engagement."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-esg-sustainability-officer",
+      "path": "skills/agency-agents/specialized/agency-esg-sustainability-officer",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🌱",
+      "description": "Corporate sustainability strategist and ESG reporting specialist who builds environmental, social, and governance programs, manages disclosures, drives decarbonization initiatives, and aligns business strategy with stakeholder and regulatory expectations."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-government-digital-presales-consultant",
+      "path": "skills/agency-agents/specialized/agency-government-digital-presales-consultant",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🏛️",
+      "description": "Presales expert for China's government digital transformation market (ToG), proficient in policy interpretation, solution design, bid document preparation, POC validation, compliance requirements (classified protection/cryptographic assessment/Xinchuang domestic IT), and stakeholder management — helping technical teams efficiently win government IT projects."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-grant-writer",
+      "path": "skills/agency-agents/specialized/agency-grant-writer",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "📝",
+      "description": "Expert grant writing specialist for nonprofits, research institutions, and social enterprises — covering prospect research, letter of inquiry writing, full proposal development, budget narratives, federal and foundation grants, and post-award reporting to maximize funding success"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-aging-parent-care-companion",
+      "path": "skills/agency-agents/specialized/agency-aging-parent-care-companion",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🧡",
+      "description": "Compassionate, HIPAA-aligned care coordination and decision-support agent for family caregivers managing an aging parent's appointments, medications, care team communication, and their own caregiver wellbeing"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-healthcare-customer-service",
+      "path": "skills/agency-agents/specialized/agency-healthcare-customer-service",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🏥",
+      "description": "Empathetic healthcare customer service specialist for patient support, billing inquiries, appointment management, insurance questions, complaint resolution, and seamless escalation to clinical or administrative staff"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-healthcare-marketing-compliance-specialist",
+      "path": "skills/agency-agents/specialized/agency-healthcare-marketing-compliance-specialist",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "⚕️",
+      "description": "Expert in healthcare marketing compliance in China, proficient in the Advertising Law, Medical Advertisement Management Measures, Drug Administration Law, and related regulations — covering pharmaceuticals, medical devices, medical aesthetics, health supplements, and internet healthcare across content review, risk control, platform rule interpretation, and patient privacy protection, helping enterprises conduct effective health marketing within legal boundaries."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-hospitality-guest-services",
+      "path": "skills/agency-agents/specialized/agency-hospitality-guest-services",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🏨",
+      "description": "Comprehensive hospitality guest services specialist for hotels, resorts, restaurants, and event venues — covering reservations, check-in/check-out, concierge services, guest complaint resolution, loyalty program management, and post-stay follow-up to deliver exceptional guest experiences that drive loyalty and revenue"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-hr-onboarding",
+      "path": "skills/agency-agents/specialized/agency-hr-onboarding",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🤝",
+      "description": "Comprehensive HR onboarding specialist for employee orientation, documentation management, compliance tracking, benefits enrollment, culture integration, and new hire support — delivering a seamless first-day-to-first-year experience that drives retention and productivity"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-identity-graph-operator",
+      "path": "skills/agency-agents/specialized/agency-identity-graph-operator",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🕸️",
+      "description": "Operates a shared identity graph that multiple AI agents resolve against. Ensures every agent in a multi-agent system gets the same canonical answer for \"who is this entity?\" - deterministically, even under concurrent writes."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-language-translator",
+      "path": "skills/agency-agents/specialized/agency-language-translator",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🌐",
+      "description": "Real-time Spanish ↔ English translation specialist with cultural context, regional dialect awareness, travel phrase guidance, and tone-appropriate communication for everyday, business, and emergency situations"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-legal-billing-time-tracking",
+      "path": "skills/agency-agents/specialized/agency-legal-billing-time-tracking",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "⏱️",
+      "description": "Comprehensive legal billing and time tracking specialist for accurate time capture, invoice generation, billing narrative writing, collections management, trust account compliance, and billing analysis — maximizing revenue recovery while maintaining client relationships and ethical compliance across any firm size or billing model"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-legal-client-intake",
+      "path": "skills/agency-agents/specialized/agency-legal-client-intake",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "📋",
+      "description": "Comprehensive legal client intake specialist for qualifying prospects, collecting case information, scheduling consultations, managing conflict checks, and delivering attorney-ready intake summaries across any practice area and firm size"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-legal-document-review",
+      "path": "skills/agency-agents/specialized/agency-legal-document-review",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "⚖️",
+      "description": "Comprehensive legal document review specialist for contracts, litigation documents, and real estate agreements — summarizing documents, flagging risk clauses, comparing contract versions, and checking compliance across any law firm size or practice area"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-loan-officer-assistant",
+      "path": "skills/agency-agents/specialized/agency-loan-officer-assistant",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🏦",
+      "description": "Comprehensive loan officer assistant for mortgage and lending professionals — covering borrower intake, pre-qualification, document collection, pipeline management, compliance tracking, rate quoting, and closing coordination across residential, commercial, and consumer lending"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-lsp-index-engineer",
+      "path": "skills/agency-agents/specialized/agency-lsp-index-engineer",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🔎",
+      "description": "Language Server Protocol specialist building unified code intelligence systems through LSP client orchestration and semantic indexing"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-m-a-integration-manager",
+      "path": "skills/agency-agents/specialized/agency-m-a-integration-manager",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🤝",
+      "description": "Mergers and acquisitions integration specialist who designs and executes post-merger integration programs — covering Day 1 readiness, 100-day planning, synergy tracking, cultural integration, functional workstream coordination, and transition service agreement management."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-medical-billing-coding-specialist",
+      "path": "skills/agency-agents/specialized/agency-medical-billing-coding-specialist",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🏥",
+      "description": "Expert medical billing and coding specialist for ICD-10-CM/PCS, CPT, and HCPCS coding, claim submission, denial management, revenue cycle optimization, compliance auditing, and payer contract analysis — maximizing clean claim rates and revenue recovery for healthcare providers of all sizes"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-operations-manager",
+      "path": "skills/agency-agents/specialized/agency-operations-manager",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "⚙️",
+      "description": "Business operations specialist who applies Lean, Six Sigma, and systems thinking to process mapping, capacity planning, KPI governance, vendor management, and organizational efficiency — turning operational complexity into repeatable, measurable performance."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-organizational-psychologist",
+      "path": "skills/agency-agents/specialized/agency-organizational-psychologist",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🧠",
+      "description": "Applied organizational psychologist who diagnoses team dynamics, psychological safety, burnout risk, and culture health — using evidence-based frameworks to help leaders build high-performing, resilient, and psychologically safe organizations."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-personal-growth-mentor",
+      "path": "skills/agency-agents/specialized/agency-personal-growth-mentor",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🌱",
+      "description": "Cross-domain personal development mentor for goal clarity, habit design, strategic decisions, and accountability without motivational fluff."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-real-estate-buyer-seller",
+      "path": "skills/agency-agents/specialized/agency-real-estate-buyer-seller",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🏠",
+      "description": "Comprehensive real estate agent assistant for buyer representation, seller representation, listing management, offer negotiation, transaction coordination, and closing support — delivering a world-class client experience from first showing to final closing across residential and investment real estate"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-recruitment-specialist",
+      "path": "skills/agency-agents/specialized/agency-recruitment-specialist",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🎯",
+      "description": "Expert recruitment operations and talent acquisition specialist — skilled in China's major hiring platforms, talent assessment frameworks, and labor law compliance. Helps companies efficiently attract, screen, and retain top talent while building a competitive employer brand."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-report-distribution-agent",
+      "path": "skills/agency-agents/specialized/agency-report-distribution-agent",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "📤",
+      "description": "AI agent that automates distribution of consolidated sales reports to representatives based on territorial parameters"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-resume-tailor",
+      "path": "skills/agency-agents/specialized/agency-resume-tailor",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🧾",
+      "description": "Candidate-side resume optimization specialist who analyzes job descriptions, maps real experience to role requirements, improves ATS keyword alignment, and rewrites bullets without fabricating qualifications."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-retail-customer-returns",
+      "path": "skills/agency-agents/specialized/agency-retail-customer-returns",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🛒",
+      "description": "Comprehensive retail customer returns specialist for processing returns, exchanges, and refunds across in-store, online, and omnichannel retail — handling policy enforcement, fraud prevention, customer retention, vendor returns, and returns analytics to maximize recovery while preserving customer loyalty"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-sales-data-extraction-agent",
+      "path": "skills/agency-agents/specialized/agency-sales-data-extraction-agent",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "📊",
+      "description": "AI agent specialized in monitoring Excel files and extracting key sales metrics (MTD, YTD, Year End) for internal live reporting"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-sales-outreach",
+      "path": "skills/agency-agents/specialized/agency-sales-outreach",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🎯",
+      "description": "Consultative B2B sales outreach specialist for cold prospecting, lead follow-up, objection handling, proposal writing, and pipeline management — combining data-driven targeting with genuine relationship-building to open doors and close deals"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-chief-of-staff",
+      "path": "skills/agency-agents/specialized/agency-chief-of-staff",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🧭",
+      "description": "Master coordinator for founders and executives — filters noise, owns processes, enforces consistency, routes decisions, and positions outputs for impact so the boss can think clearly."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-civil-engineer",
+      "path": "skills/agency-agents/specialized/agency-civil-engineer",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🏗️",
+      "description": "Expert civil and structural engineer with global standards coverage — Eurocode, DIN, ACI, AISC, ASCE, AS/NZS, CSA, GB, IS, AIJ, and more. Specializes in structural analysis, geotechnical design, construction documentation, building code compliance, and multi-standard international projects."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-codebase-archaeologist",
+      "path": "skills/agency-agents/specialized/agency-codebase-archaeologist",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🏺",
+      "description": "Multi-session, multi-tool drift detection specialist who audits codebases touched by several AI coding tools (Claude, Cursor, Copilot, Windsurf, etc.) over time, finding silent logic mismatches, dead code, and doc-vs-code divergence that no single session would ever notice on its own."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-cultural-intelligence-strategist",
+      "path": "skills/agency-agents/specialized/agency-cultural-intelligence-strategist",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🌍",
+      "description": "CQ specialist that detects invisible exclusion, researches global context, and ensures software resonates authentically across intersectional identities."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-developer-advocate",
+      "path": "skills/agency-agents/specialized/agency-developer-advocate",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🗣️",
+      "description": "Expert developer advocate specializing in building developer communities, creating compelling technical content, optimizing developer experience (DX), and driving platform adoption through authentic engineering engagement. Bridges product and engineering teams with external developers."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-document-generator",
+      "path": "skills/agency-agents/specialized/agency-document-generator",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "📄",
+      "description": "Expert document creation specialist who generates professional PDF, PPTX, DOCX, and XLSX files using code-based approaches with proper formatting, charts, and data visualization."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-fedramp-rmf-compliance-engineer",
+      "path": "skills/agency-agents/specialized/agency-fedramp-rmf-compliance-engineer",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🛡️",
+      "description": "Expert FedRAMP and NIST Risk Management Framework compliance engineer specializing in both FedRAMP authorization pathways — the traditional Rev5 path (NIST 800-53 Rev 5 control implementation, System Security Plans, 3PAO assessment, agency authorization) and the modernized FedRAMP 20x path (Key Security Indicators, automated machine-readable validation, compliance-as-code) — plus the ATO process, continuous monitoring (ConMon), POA&M management, FIPS 199 categorization, authorization boundary diagrams, OSCAL machine-readable packages, and cloud security compliance for government and regulated industries"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-focus-music-architect",
+      "path": "skills/agency-agents/specialized/agency-focus-music-architect",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🎧",
+      "description": "Instrumental focus music specialist and neuroacoustic prompt engineer — crafts high-yield prompts, soundscape architectures, BPM curves, and binaural layers for deep cognitive flow and generative audio models."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-french-consulting-market-navigator",
+      "path": "skills/agency-agents/specialized/agency-french-consulting-market-navigator",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🇫🇷",
+      "description": "Navigate the French ESN/SI freelance ecosystem — margin models, platform mechanics (Malt, collective.work), portage salarial, rate positioning, and payment cycle realities"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-korean-business-navigator",
+      "path": "skills/agency-agents/specialized/agency-korean-business-navigator",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🇰🇷",
+      "description": "Korean business culture for foreign professionals — 품의 decision process, nunchi reading, KakaoTalk business etiquette, hierarchy navigation, and relationship-first deal mechanics"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-master-plan-architect",
+      "path": "skills/agency-agents/specialized/agency-master-plan-architect",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🏛️",
+      "description": "Master planning architect, technical educator, and ruthless plan critic who specializes in deep architectural teaching, Red Teaming / risk critique, and crafting comprehensive Implementation Plans in Markdown with ZERO code execution."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-mcp-builder",
+      "path": "skills/agency-agents/specialized/agency-mcp-builder",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🔌",
+      "description": "Expert Model Context Protocol developer who designs, builds, and tests MCP servers that extend AI agent capabilities with custom tools, resources, and prompts."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-model-qa-specialist",
+      "path": "skills/agency-agents/specialized/agency-model-qa-specialist",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🔬",
+      "description": "Independent model QA expert who audits ML and statistical models end-to-end - from documentation review and data reconstruction to replication, calibration testing, interpretability analysis, performance monitoring, and audit-grade reporting."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-pricing-analyst",
+      "path": "skills/agency-agents/specialized/agency-pricing-analyst",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "💰",
+      "description": "Specialized pricing analyst who develops optimal pricing models through market research, competitor analysis, cost structure evaluation, and margin optimization — turning pricing from guesswork into a data-driven competitive advantage."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-salesforce-architect",
+      "path": "skills/agency-agents/specialized/agency-salesforce-architect",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "☁️",
+      "description": "Solution architecture for Salesforce platform — multi-cloud design, integration patterns, governor limits, deployment strategy, and data model governance for enterprise-scale orgs"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-strategy-duel-agent",
+      "path": "skills/agency-agents/specialized/agency-strategy-duel-agent",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "⚔️",
+      "description": "Conducts live strategy duels using game theory and the 36 Chinese stratagems"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-workflow-architect",
+      "path": "skills/agency-agents/specialized/agency-workflow-architect",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🗺️",
+      "description": "Workflow design specialist who maps complete workflow trees for every system, user journey, and agent interaction — covering happy paths, all branch conditions, failure modes, recovery paths, handoff contracts, and observable states to produce build-ready specs that agents can implement against and QA can test against."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-study-abroad-advisor",
+      "path": "skills/agency-agents/specialized/agency-study-abroad-advisor",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🎓",
+      "description": "Full-spectrum study abroad planning expert covering the US, UK, Canada, Australia, Europe, Hong Kong, and Singapore — proficient in undergraduate, master's, and PhD application strategy, school selection, essay coaching, profile enhancement, standardized test planning, visa preparation, and overseas life adaptation, helping Chinese students craft personalized end-to-end study abroad plans."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-supply-chain-strategist",
+      "path": "skills/agency-agents/specialized/agency-supply-chain-strategist",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🔗",
+      "description": "Expert supply chain management and procurement strategy specialist — skilled in supplier development, strategic sourcing, quality control, and supply chain digitalization. Grounded in China's manufacturing ecosystem, helps companies build efficient, resilient, and sustainable supply chains."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-zk-steward",
+      "path": "skills/agency-agents/specialized/agency-zk-steward",
+      "division": "specialized",
+      "division_label": "Specialized",
+      "emoji": "🗃️",
+      "description": "Knowledge-base steward in the spirit of Niklas Luhmann's Zettelkasten. Default perspective: Luhmann; switches to domain experts (Feynman, Munger, Ogilvy, etc.) by task. Enforces atomic notes, connectivity, and validation loops. Use for knowledge-base building, note linking, complex task breakdown, and cross-domain decision support."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-analytics-reporter",
+      "path": "skills/agency-agents/support/agency-analytics-reporter",
+      "division": "support",
+      "division_label": "Support",
+      "emoji": "📊",
+      "description": "Expert data analyst transforming raw data into actionable business insights. Creates dashboards, performs statistical analysis, tracks KPIs, and provides strategic decision support through data visualization and reporting."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-executive-summary-generator",
+      "path": "skills/agency-agents/support/agency-executive-summary-generator",
+      "division": "support",
+      "division_label": "Support",
+      "emoji": "📝",
+      "description": "Consultant-grade AI specialist trained to think and communicate like a senior strategy consultant. Transforms complex business inputs into concise, actionable executive summaries using McKinsey SCQA, BCG Pyramid Principle, and Bain frameworks for C-suite decision-makers."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-finance-tracker",
+      "path": "skills/agency-agents/support/agency-finance-tracker",
+      "division": "support",
+      "division_label": "Support",
+      "emoji": "💰",
+      "description": "Expert financial analyst and controller specializing in financial planning, budget management, and business performance analysis. Maintains financial health, optimizes cash flow, and provides strategic financial insights for business growth."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-infrastructure-maintainer",
+      "path": "skills/agency-agents/support/agency-infrastructure-maintainer",
+      "division": "support",
+      "division_label": "Support",
+      "emoji": "🏢",
+      "description": "Expert infrastructure specialist focused on system reliability, performance optimization, and technical operations management. Maintains robust, scalable infrastructure supporting business operations with security, performance, and cost efficiency."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-legal-compliance-checker",
+      "path": "skills/agency-agents/support/agency-legal-compliance-checker",
+      "division": "support",
+      "division_label": "Support",
+      "emoji": "⚖️",
+      "description": "Expert legal and compliance specialist ensuring business operations, data handling, and content creation comply with relevant laws, regulations, and industry standards across multiple jurisdictions."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-support-responder",
+      "path": "skills/agency-agents/support/agency-support-responder",
+      "division": "support",
+      "division_label": "Support",
+      "emoji": "💬",
+      "description": "Expert customer support specialist delivering exceptional customer service, issue resolution, and user experience optimization. Specializes in multi-channel support, proactive customer care, and turning support interactions into positive brand experiences."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-accessibility-auditor",
+      "path": "skills/agency-agents/testing/agency-accessibility-auditor",
+      "division": "testing",
+      "division_label": "Testing",
+      "emoji": "♿",
+      "description": "Expert accessibility specialist who audits interfaces against WCAG standards, tests with assistive technologies, and ensures inclusive design. Defaults to finding barriers — if it's not tested with a screen reader, it's not accessible."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-api-tester",
+      "path": "skills/agency-agents/testing/agency-api-tester",
+      "division": "testing",
+      "division_label": "Testing",
+      "emoji": "🔌",
+      "description": "Expert API testing specialist focused on comprehensive API validation, performance testing, and quality assurance across all systems and third-party integrations"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-evidence-collector",
+      "path": "skills/agency-agents/testing/agency-evidence-collector",
+      "division": "testing",
+      "division_label": "Testing",
+      "emoji": "📸",
+      "description": "Screenshot-obsessed, fantasy-allergic QA specialist - Reports reproducible issues with evidence and marks untested scope honestly"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-performance-benchmarker",
+      "path": "skills/agency-agents/testing/agency-performance-benchmarker",
+      "division": "testing",
+      "division_label": "Testing",
+      "emoji": "⏱️",
+      "description": "Expert performance testing and optimization specialist focused on measuring, analyzing, and improving system performance across all applications and infrastructure"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-reality-checker",
+      "path": "skills/agency-agents/testing/agency-reality-checker",
+      "division": "testing",
+      "division_label": "Testing",
+      "emoji": "🧐",
+      "description": "Stops fantasy approvals, evidence-based certification - Default to \"NEEDS WORK\", requires overwhelming proof for production readiness"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-test-automation-engineer",
+      "path": "skills/agency-agents/testing/agency-test-automation-engineer",
+      "division": "testing",
+      "division_label": "Testing",
+      "emoji": "🎭",
+      "description": "Expert end-to-end test automation engineer for Playwright and Cypress — resilient selectors, flake elimination, isolated test data, CI parallelization, and trace-driven failure debugging."
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-test-results-analyzer",
+      "path": "skills/agency-agents/testing/agency-test-results-analyzer",
+      "division": "testing",
+      "division_label": "Testing",
+      "emoji": "📋",
+      "description": "Expert test analysis specialist focused on comprehensive test result evaluation, quality metrics analysis, and actionable insight generation from testing activities"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-tool-evaluator",
+      "path": "skills/agency-agents/testing/agency-tool-evaluator",
+      "division": "testing",
+      "division_label": "Testing",
+      "emoji": "🔧",
+      "description": "Expert technology assessment specialist focused on evaluating, testing, and recommending tools, software, and platforms for business use and productivity optimization"
+    },
+    {
+      "repo": "agency-agents",
+      "source_url": "https://github.com/msitarzewski/agency-agents",
+      "skill": "agency-workflow-optimizer",
+      "path": "skills/agency-agents/testing/agency-workflow-optimizer",
+      "division": "testing",
+      "division_label": "Testing",
+      "emoji": "⚡",
+      "description": "Expert process improvement specialist focused on analyzing, optimizing, and automating workflows across all business functions for maximum productivity and efficiency"
     }
   ]
 }

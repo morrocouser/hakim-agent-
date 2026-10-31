@@ -17,11 +17,24 @@ dependencies = [
     "pyyaml>=6.0.2",
     "python-dotenv>=1.0.1",
     "duckduckgo-search>=7.0",
+    "python-jose[cryptography]>=3.3.0",
+    "bcrypt>=4.0.0",
+    "sqlalchemy>=2.0.0",
+    "aiosqlite>=0.20.0",
+    "python-multipart>=0.0.9",
+    "sse-starlette>=2.0.0",
+    "stripe>=16.0.0",
 ]
 
 [project.optional-dependencies]
-# Enables AXIOM_RATE_LIMIT_REDIS_URL distributed rate limiting
+# Distributed rate limiting
 redis = ["redis>=5.0.0"]
+# Testing suite
+test = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+    "pytest-timeout>=2.3.0",
+]
 
 [project.scripts]
 axiom = "cli.main:main"

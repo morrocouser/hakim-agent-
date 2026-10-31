@@ -1,0 +1,2 @@
+Orchestrez des équipes d'agents IA en local, sans cloud propriétaire ni boîte noire. HakimAgent : DAG déterministe, Python asynchrone et 0 ms d'overhead.
+uv add hakimagent

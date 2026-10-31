@@ -1,0 +1,346 @@
+{
+  "ok": true,
+  "strict": false,
+  "browserSkipped": false,
+  "lint": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 4,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<div id=\"scene1\"> is a timeline element that contains nested <div id=\"s1-badge\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#scene1",
+        "dataAttributes": {},
+        "sourceFile": "C:\\Users\\hp\\Desktop\\antigravty\\hakimagent\\brag-output\\composition\\index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <div id=\"scene1\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<div id=\"scene2\"> is a timeline element that contains nested <div id=\"s2-header\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#scene2",
+        "dataAttributes": {},
+        "sourceFile": "C:\\Users\\hp\\Desktop\\antigravty\\hakimagent\\brag-output\\composition\\index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <div id=\"scene2\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<div id=\"scene3\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#scene3",
+        "dataAttributes": {},
+        "sourceFile": "C:\\Users\\hp\\Desktop\\antigravty\\hakimagent\\brag-output\\composition\\index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <div id=\"scene3\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<div id=\"scene4\"> is a timeline element that contains nested <div id=\"s4-badge\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#scene4",
+        "dataAttributes": {},
+        "sourceFile": "C:\\Users\\hp\\Desktop\\antigravty\\hakimagent\\brag-output\\composition\\index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <div id=\"scene4\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      }
+    ],
+    "filesScanned": 1
+  },
+  "runtime": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": []
+  },
+  "layout": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "duration": 18,
+    "samples": [
+      1,
+      3,
+      5,
+      7,
+      9,
+      11,
+      13,
+      15,
+      17
+    ],
+    "transitionSamples": [],
+    "transitionSamplesDropped": 0,
+    "tolerance": 2,
+    "totalIssueCount": 0,
+    "truncated": false
+  },
+  "motion": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": false,
+    "samples": 0
+  },
+  "contrast": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": true,
+    "samples": [
+      1,
+      5,
+      9,
+      13,
+      17
+    ],
+    "checked": 43,
+    "passed": 43
+  },
+  "craft": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 1,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "text_below_floor",
+        "severity": "warning",
+        "message": "Type floor is 28 px (2.6% of the 1080 px short side, what a phone can read) and 20 text elements stay under it for 0.5 s or more, the smallest \"DB\" at 17 px: set reading text to at least 28 px, or put data-layout-ignore on text that is texture rather than reading; see references/look.md.",
+        "text": "DB",
+        "selector": "#node-synth > div:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 240.14,
+          "y": 852.96,
+          "width": 20.75,
+          "height": 22.08
+        },
+        "time": 8,
+        "times": [
+          0,
+          3.625,
+          4.25,
+          4.75,
+          5.25,
+          7.625,
+          7.75,
+          7.75,
+          7.875,
+          8,
+          8,
+          8.875,
+          9,
+          9,
+          14.75,
+          15.375,
+          16.25,
+          16.25,
+          16.25,
+          16.25
+        ],
+        "fontPx": 17.28,
+        "floorPx": 28,
+        "seconds": 6.5,
+        "elements": [
+          {
+            "selector": "#node-synth > div:nth-of-type(1)",
+            "text": "DB",
+            "fontPx": 17.28,
+            "time": 8,
+            "seconds": 6.5
+          },
+          {
+            "selector": "#branch-writer > b:nth-of-type(1)",
+            "text": "Writer",
+            "fontPx": 17.51,
+            "time": 9,
+            "seconds": 5.5
+          },
+          {
+            "selector": "#s1-badge",
+            "text": "ORCHESTRATEUR MULTI-AGENTS · LOCAL FIRST",
+            "fontPx": 17.89,
+            "time": 0,
+            "seconds": 3.25
+          },
+          {
+            "selector": "#branch-scraper > b:nth-of-type(1)",
+            "text": "Scraper",
+            "fontPx": 17.93,
+            "time": 8.875,
+            "seconds": 5.625
+          },
+          {
+            "selector": "#s3-badge",
+            "text": "0 CLOUD CALL · STRICT DAG",
+            "fontPx": 17.94,
+            "time": 7.625,
+            "seconds": 6.875
+          },
+          {
+            "selector": "#node-router > div:nth-of-type(1)",
+            "text": "R",
+            "fontPx": 17.94,
+            "time": 7.75,
+            "seconds": 6.75
+          },
+          {
+            "selector": "#branch-analyzer > b:nth-of-type(1)",
+            "text": "Analyzer",
+            "fontPx": 17.94,
+            "time": 9,
+            "seconds": 5.5
+          },
+          {
+            "selector": "#s4-badge",
+            "text": "HAKIMAGENT · AXIOM V4",
+            "fontPx": 18,
+            "time": 14.75,
+            "seconds": 3.25
+          },
+          {
+            "selector": "#s4-copy",
+            "text": "COPIÉ !",
+            "fontPx": 18,
+            "time": 15.375,
+            "seconds": 2.625
+          },
+          {
+            "selector": "#node-synth > div:nth-of-type(2) > b:nth-of-type(1)",
+            "text": "Synthèse & Stream",
+            "fontPx": 19.2,
+            "time": 8,
+            "seconds": 6.5
+          },
+          {
+            "selector": "#node-router > div:nth-of-type(2) > b:nth-of-type(1)",
+            "text": "RouterAgent",
+            "fontPx": 19.93,
+            "time": 7.75,
+            "seconds": 6.75
+          },
+          {
+            "selector": "#node-input > div:nth-of-type(2) > b:nth-of-type(1)",
+            "text": "Input Prompt",
+            "fontPx": 19.93,
+            "time": 7.875,
+            "seconds": 6.625
+          },
+          {
+            "selector": "#mcard-1 > div:nth-of-type(2)",
+            "text": "Telemetry overhead",
+            "fontPx": 23.92,
+            "time": 3.625,
+            "seconds": 3.875
+          },
+          {
+            "selector": "#mcard-2 > div:nth-of-type(2)",
+            "text": "Routage déterministe",
+            "fontPx": 23.92,
+            "time": 4.25,
+            "seconds": 3.25
+          },
+          {
+            "selector": "#mcard-3 > div:nth-of-type(2)",
+            "text": "Parallélisme natif",
+            "fontPx": 23.92,
+            "time": 4.75,
+            "seconds": 2.75
+          },
+          {
+            "selector": "#mcard-4 > div:nth-of-type(2)",
+            "text": "Persistance locale",
+            "fontPx": 23.92,
+            "time": 5.25,
+            "seconds": 2.25
+          },
+          {
+            "selector": "#s4-features > span:nth-of-type(1)",
+            "text": "• Open Source",
+            "fontPx": 24,
+            "time": 16.25,
+            "seconds": 1.75
+          },
+          {
+            "selector": "#s4-features > span:nth-of-type(2)",
+            "text": "• Strict DAG",
+            "fontPx": 24,
+            "time": 16.25,
+            "seconds": 1.75
+          },
+          {
+            "selector": "#s4-features > span:nth-of-type(3)",
+            "text": "• Asyncio Natif",
+            "fontPx": 24,
+            "time": 16.25,
+            "seconds": 1.75
+          },
+          {
+            "selector": "#s4-features > span:nth-of-type(4)",
+            "text": "• Python 3.12+",
+            "fontPx": 24,
+            "time": 16.25,
+            "seconds": 1.75
+          }
+        ]
+      }
+    ],
+    "enabled": true,
+    "step": 0.125,
+    "samples": 144
+  },
+  "audio": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": []
+  },
+  "hdr": {
+    "autoPromotion": null,
+    "inspection": "available"
+  },
+  "snapshots": {
+    "enabled": false,
+    "files": [],
+    "times": [],
+    "findingFiles": []
+  }
+}

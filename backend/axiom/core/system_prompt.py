@@ -337,6 +337,36 @@ RÈGLES SPÉCIFIQUES:
 - Format structuré si demandé (JSON, CSV, liste)
 - Pas de reasoning affiché
 """,
+
+    AgentName.WEB_BUILDER: """
+Tu es 🌐 AGENT_WEB_BUILDER — Architecte Web, Développeur Frontend & UI/UX Designer d'Élite.
+Modèle par défaut: Claude Sonnet 4.6 / Gemini 3.5 Flash / OmniRoute
+Approche: Besoins & Univers visuel → Architecture de page (Hero, Features, Pricing, Social Proof, Testimonials, FAQ, CTA, Footer) → Code HTML5/Tailwind CSS complet & autonome → Micro-interactions JavaScript.
+
+SPÉCIALITÉ:
+Création complète de sites web modernes, landing pages SaaS haute conversion (ex: AutoDS, Stripe, Linear, Vercel), boutiques e-commerce, portfolios créatifs, web apps interactives, dashboards et prototypes frontend en HTML5, Tailwind CSS, JavaScript Vanilla ou React/Next.js.
+
+LIVRABLES ATTENDUS:
+1. **Code complet prêt à l'emploi (Fichier autonome)** :
+   - Fournis TOUJOURS un code HTML5 complet et fonctionnel (`<!DOCTYPE html>...</html>`), intégrable et testable immédiatement dans un navigateur.
+   - Intègre le CDN Tailwind CSS v3 officiel (`<script src="https://cdn.tailwindcss.com"></script>`) avec configuration d'une palette moderne et élégante (slate-950, indigo/brand, accents cyan ou émeraude).
+   - Intègre les icônes modernes via le CDN Lucide Icons (`<script src="https://unpkg.com/lucide@latest"></script>`).
+   - Ajoute du JavaScript vanilla pur, fluide et non bloquant pour :
+     * Le menu mobile responsive (hamburger burger toggle).
+     * Les micro-interactions (toggle de tarification Mensuel / Annuel avec mise à jour immédiate des prix, modales, accordéons FAQ).
+     * L'initialisation dynamique des icônes (`lucide.createIcons();`).
+
+2. **Exigence Design & Copywriting Professionnel** :
+   - Zéro texte "Lorem ipsum" : des titres captivants, des chiffres réalistes, des métriques percutantes.
+   - Navbar sticky avec effet de flou (`backdrop-blur-md`).
+   - Section Hero puissante avec badge dynamique (ex: "v2.0 Disponible"), titre à fort impact, sous-titre explicatif et mock-up de dashboard interactif.
+   - Grilles de fonctionnalités (Features) avec icônes colorées et cartes avec effets au survol (`hover:border-brand-500/50 hover:scale-[1.02] transition-all`).
+   - Section Tarification claire avec 3 formules (Starter, Pro, Enterprise/VIP).
+   - Footer structuré avec copyright, liens et réseaux.
+
+3. **Recommandations d'Architecture & Backend** :
+   - Synthétise en quelques puces la stack recommandée (Next.js, FastAPI/Node.js, PostgreSQL/Supabase, Redis/BullMQ) pour donner vie au projet.
+""",
 }
 
 
@@ -427,7 +457,11 @@ def build_system_prompt(
         AgentName.RESEARCHER: "🔍",
         AgentName.PLANNER: "🎯",
         AgentName.QUICKSHOT: "⚡",
+        AgentName.WEB_BUILDER: "🌐",
     }
+    agent_val = agent.value if hasattr(agent, "value") else str(agent)
+    model_val = model.value if hasattr(model, "value") else str(model)
+    mode_val = mode.value if hasattr(mode, "value") else str(mode)
     icon = agent_icons.get(agent, "🤖")
     model_icons = {
         "google/gemini-2.5-pro-exp-03-25:free": "🔴",
@@ -435,7 +469,7 @@ def build_system_prompt(
         "meta-llama/llama-3.2-3b-instruct:free": "🟡",
         "google/gemini-2.0-flash-exp:free": "🟢",
     }
-    model_icon = model_icons.get(model.value, "🤖")
+    model_icon = model_icons.get(model_val, "🤖")
 
     from axiom.core.agents import AGENT_CONFIGS
     cfg = AGENT_CONFIGS.get(agent)
@@ -444,9 +478,9 @@ def build_system_prompt(
     parts = [
         HAKIM_SYSTEM_PROMPT,
         f"\n{'='*60}",
-        f"AGENT ACTIF: {icon} {agent.value} · {model_icon} {model.value}",
+        f"AGENT ACTIF: {icon} {agent_val} · {model_icon} {model_val}",
         f"SCORE TÂCHE: {task_score}/10",
-        f"MODE: {mode.value}",
+        f"MODE: {mode_val}",
         skills_info,
         f"{'='*60}",
         AGENT_SPECIFIC_PROMPTS.get(agent, ""),
@@ -550,12 +584,14 @@ def build_self_critique_prompt(
     dimensions: dict,
 ) -> str:
     """Construit le prompt pour l'auto-évaluation."""
+    agent_val = agent.value if hasattr(agent, "value") else str(agent)
+    model_val = model.value if hasattr(model, "value") else str(model)
     return f"""{SELF_CRITIQUE_PROMPT}
 
 CONTEXTE ÉVALUATION:
 - Tâche: {task_description}
-- Agent: {agent.value}
-- Modèle: {model.value}
+- Agent: {agent_val}
+- Modèle: {model_val}
 - Itération: {iteration}/{max_iterations}
 - Dimensions scoring: {dimensions}
 

@@ -1,0 +1,701 @@
+<!doctype html>
+<html lang="fr" data-resolution="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>HakimAgent — Launch Video</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      :root {
+        --ground: #faf9f5;
+        --ink: #141413;
+        --ink-muted: #383632;
+        --surface-card: #efe9de;
+        --border: #dfd5c7;
+        --coral: #9d3f27;
+        --coral-btn: #181715;
+        --dark-surface: #181715;
+        --dark-card: #23211e;
+        --dark-border: #383531;
+        --dark-text: #f5f0e8;
+        --dark-muted: #a8a59d;
+        --green: #4ade80;
+        --font-display: "EB Garamond", Georgia, serif;
+        --font-sans: "Roboto", -apple-system, system-ui, sans-serif;
+        --font-mono: "JetBrains Mono", Consolas, monospace;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: var(--ground);
+        font-family: var(--font-sans);
+        color: var(--ink);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      #root {
+        width: 1920px;
+        height: 1080px;
+        position: relative;
+        overflow: hidden;
+        background: var(--ground);
+      }
+
+      .clip {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1920px;
+        height: 1080px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 80px 120px;
+        pointer-events: none;
+      }
+
+      .bg-grid {
+        position: absolute;
+        inset: 0;
+        background-image: 
+          linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+        background-size: 80px 80px;
+        pointer-events: none;
+      }
+
+      .eyebrow-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 20px;
+        border-radius: 9999px;
+        background: var(--surface-card);
+        border: 1px solid var(--border);
+        font-family: var(--font-mono);
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--coral);
+        margin-bottom: 28px;
+      }
+
+      /* ============================================================
+         SCENE 1: THE HOOK
+         ============================================================ */
+      #scene1 h1 {
+        font-family: var(--font-display);
+        font-size: 82px;
+        font-weight: 700;
+        line-height: 1.15;
+        text-align: center;
+        color: var(--ink);
+        max-width: 1440px;
+        letter-spacing: -0.02em;
+        margin-bottom: 32px;
+      }
+
+      #scene1 p {
+        font-size: 32px;
+        color: var(--ink-muted);
+        text-align: center;
+        max-width: 1100px;
+        line-height: 1.45;
+        font-weight: 600;
+      }
+
+      /* ============================================================
+         SCENE 2: THE REVEAL & METRIC CARDS
+         ============================================================ */
+      .brand-header {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        margin-bottom: 20px;
+      }
+
+      .brand-mark {
+        width: 76px;
+        height: 76px;
+        background: var(--coral);
+        color: #ffffff;
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--font-display);
+        font-size: 46px;
+        font-weight: 800;
+      }
+
+      .brand-title {
+        font-family: var(--font-display);
+        font-size: 72px;
+        font-weight: 700;
+        color: var(--ink);
+        letter-spacing: -0.02em;
+      }
+
+      .brand-tagline {
+        font-size: 30px;
+        color: var(--ink-muted);
+        margin-bottom: 44px;
+        text-align: center;
+        font-weight: 500;
+      }
+
+      .metric-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 28px;
+        width: 100%;
+        max-width: 1540px;
+      }
+
+      .metric-card {
+        background: var(--surface-card);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 34px 28px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 220px;
+      }
+
+      .metric-val {
+        font-family: var(--font-mono);
+        font-size: 48px;
+        font-weight: 800;
+        color: var(--coral);
+        letter-spacing: -0.02em;
+        margin-bottom: 12px;
+      }
+
+      .metric-title {
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--ink);
+        margin-bottom: 8px;
+      }
+
+      .metric-detail {
+        font-size: 18px;
+        color: var(--ink-muted);
+        line-height: 1.45;
+      }
+
+      /* ============================================================
+         SCENE 3: THE DAG ENGINE & LIVE TERMINAL
+         ============================================================ */
+      #scene3 {
+        padding: 40px 100px;
+        justify-content: flex-start;
+      }
+
+      .scene-title-row {
+        width: 100%;
+        max-width: 1600px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+      }
+
+      .scene-heading {
+        font-family: var(--font-display);
+        font-size: 40px;
+        font-weight: 700;
+        color: var(--ink);
+      }
+
+      .engine-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 36px;
+        width: 100%;
+        max-width: 1600px;
+        height: 820px;
+      }
+
+      .dag-box {
+        background: #ffffff;
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        padding: 32px 36px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .dag-node {
+        background: var(--surface-card);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 16px 20px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .dag-node.active-router {
+        border-color: var(--coral);
+        background: #fff5f2;
+      }
+
+      .dag-node.active-success {
+        border-color: #2e7d43;
+        background: #f0fdf4;
+      }
+
+      .node-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: #ffffff;
+        border: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--coral);
+        font-family: var(--font-mono);
+      }
+
+      .node-info b {
+        display: block;
+        font-size: 20px;
+        color: var(--ink);
+      }
+
+      .node-info small {
+        font-size: 15px;
+        color: var(--ink-muted);
+        font-family: var(--font-mono);
+      }
+
+      .dag-connector-line {
+        width: 2px;
+        height: 24px;
+        background: var(--border);
+        margin: 0 auto;
+      }
+
+      .parallel-branches {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+      }
+
+      .branch-node {
+        background: var(--surface-card);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 14px 16px;
+        text-align: center;
+      }
+
+      .branch-node b {
+        display: block;
+        font-size: 18px;
+        color: var(--ink);
+        margin-bottom: 4px;
+      }
+
+      .branch-node small {
+        font-size: 14px;
+        color: #1e6b36;
+        font-weight: 700;
+        font-family: var(--font-mono);
+      }
+
+      .terminal-box {
+        background: var(--dark-surface);
+        border: 1px solid var(--dark-border);
+        border-radius: 24px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .terminal-header {
+        background: var(--dark-card);
+        border-bottom: 1px solid var(--dark-border);
+        padding: 16px 24px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #47433f;
+      }
+
+      .dot.red { background: #ef4444; }
+      .dot.yellow { background: #f59e0b; }
+      .dot.green { background: #10b981; }
+
+      .terminal-title {
+        color: var(--dark-muted);
+        font-family: var(--font-mono);
+        font-size: 15px;
+        margin-left: 10px;
+      }
+
+      .terminal-body {
+        padding: 30px;
+        font-family: var(--font-mono);
+        font-size: 19px;
+        line-height: 1.8;
+        color: var(--dark-text);
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .t-cmd {
+        color: #ffffff;
+        font-weight: 700;
+      }
+
+      .t-arrow {
+        color: #ff9070;
+        font-weight: 700;
+      }
+
+      .t-ok {
+        color: var(--green);
+        font-weight: 700;
+      }
+
+      .t-stat {
+        color: var(--dark-muted);
+      }
+
+      /* ============================================================
+         SCENE 4: PUNCHLINE & OUTRO
+         ============================================================ */
+      #scene4 h2 {
+        font-family: var(--font-display);
+        font-size: 82px;
+        font-weight: 700;
+        color: var(--ink);
+        text-align: center;
+        letter-spacing: -0.02em;
+        margin-bottom: 40px;
+      }
+
+      .install-dock {
+        background: var(--dark-surface);
+        border: 1px solid var(--dark-border);
+        border-radius: 20px;
+        padding: 22px 34px;
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        margin-bottom: 36px;
+      }
+
+      .install-prompt {
+        color: var(--dark-muted);
+        font-family: var(--font-mono);
+        font-size: 28px;
+      }
+
+      .install-cmd {
+        color: #ffffff;
+        font-family: var(--font-mono);
+        font-size: 34px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+      }
+
+      .copy-badge {
+        background: #141413;
+        border: 1px solid #44423e;
+        color: #ffffff;
+        font-family: var(--font-mono);
+        font-size: 18px;
+        font-weight: 700;
+        padding: 10px 22px;
+        border-radius: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .outro-features {
+        display: flex;
+        gap: 40px;
+        font-size: 24px;
+        color: var(--ink-muted);
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-dcwt"
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="18"
+      data-width="1920"
+      data-height="1080"
+    >
+      <div data-hf-id="hf-yqqm" class="bg-grid"></div>
+
+      <!-- AUDIO TRACKS -->
+      <audio data-hf-id="hf-9qpk"
+        id="bgm"
+        src="assets/music/happy-beats-business-moves-vol-10-by-ende-dot-app.mp3"
+        data-start="0"
+        data-duration="18"
+        data-volume="0.7"
+      ></audio>
+      <audio data-hf-id="hf-35c3" id="sfx-metric1" src="assets/sfx/click2.ogg" data-start="3.55" data-duration="0.06" data-volume="0.45"></audio>
+      <audio data-hf-id="hf-0p40" id="sfx-metric2" src="assets/sfx/click2.ogg" data-start="4.10" data-duration="0.06" data-volume="0.45"></audio>
+      <audio data-hf-id="hf-rkps" id="sfx-metric3" src="assets/sfx/click2.ogg" data-start="4.64" data-duration="0.06" data-volume="0.45"></audio>
+      <audio data-hf-id="hf-s1zc" id="sfx-metric4" src="assets/sfx/click2.ogg" data-start="5.19" data-duration="0.06" data-volume="0.45"></audio>
+      <audio data-hf-id="hf-mjqa" id="sfx-dispatch" src="assets/sfx/impactSoft_medium_001.ogg" data-start="7.79" data-duration="0.18" data-volume="0.55"></audio>
+      <audio data-hf-id="hf-4rzl" id="sfx-bell" src="assets/sfx/impactBell_heavy_000.ogg" data-start="15.82" data-duration="1.48" data-volume="0.5"></audio>
+
+      <!-- SCENE 1: THE HOOK (0s - 3.2s) -->
+      <div data-hf-id="hf-8eh3" id="scene1" class="clip" data-start="0" data-duration="3.2" data-track-index="1">
+        <div data-hf-id="hf-01jg" class="eyebrow-badge" id="s1-badge">ORCHESTRATEUR MULTI-AGENTS · LOCAL FIRST</div>
+        <h1 data-hf-id="hf-z9rn" id="s1-title">Vos agents IA dépendent d'un cloud propriétaire ?</h1>
+        <p data-hf-id="hf-903g" id="s1-desc">Zéro télémétrie · Zéro latence réseau · 100% sur votre machine.</p>
+      </div>
+
+      <!-- SCENE 2: THE REVEAL & PILLARS (3.2s - 7.5s) -->
+      <div data-hf-id="hf-r8js" id="scene2" class="clip" data-start="3.2" data-duration="4.3" data-track-index="2">
+        <div data-hf-id="hf-rqj8" class="brand-header" id="s2-header">
+          <div data-hf-id="hf-0q0x" class="brand-mark">H</div>
+          <div data-hf-id="hf-iks5" class="brand-title">HakimAgent</div>
+        </div>
+        <p data-hf-id="hf-mt18" class="brand-tagline" id="s2-tagline">Orchestrez vos équipes d'agents IA en Python asynchrone.</p>
+
+        <div data-hf-id="hf-3t5p" class="metric-grid">
+          <div data-hf-id="hf-if1i" class="metric-card" id="mcard-1">
+            <div data-hf-id="hf-rswe" class="metric-val">0 ms</div>
+            <div data-hf-id="hf-szmo" class="metric-title">Telemetry overhead</div>
+            <div data-hf-id="hf-qlm4" class="metric-detail" data-layout-ignore>Local sans télémétrie ni appel externe forcé.</div>
+          </div>
+          <div data-hf-id="hf-egxh" class="metric-card" id="mcard-2">
+            <div data-hf-id="hf-3igr" class="metric-val">Strict DAG</div>
+            <div data-hf-id="hf-6ujr" class="metric-title">Routage déterministe</div>
+            <div data-hf-id="hf-6q2s" class="metric-detail" data-layout-ignore>Graphe acyclique avec typage statique strict.</div>
+          </div>
+          <div data-hf-id="hf-dp9o" class="metric-card" id="mcard-3">
+            <div data-hf-id="hf-euuy" class="metric-val">asyncio</div>
+            <div data-hf-id="hf-twv4" class="metric-title">Parallélisme natif</div>
+            <div data-hf-id="hf-286i" class="metric-detail" data-layout-ignore>Isolation des contextes via tâches asynchrones.</div>
+          </div>
+          <div data-hf-id="hf-16r7" class="metric-card" id="mcard-4">
+            <div data-hf-id="hf-nao6" class="metric-val">SQLite</div>
+            <div data-hf-id="hf-knay" class="metric-title">Persistance locale</div>
+            <div data-hf-id="hf-ci9t" class="metric-detail" data-layout-ignore>Historique des runs indexé en local.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCENE 3: THE ENGINE IN ACTION (7.5s - 14.5s) -->
+      <div data-hf-id="hf-c2ta" id="scene3" class="clip" data-start="7.5" data-duration="7" data-track-index="3" data-hold>
+        <div data-hf-id="hf-expi" class="scene-title-row">
+          <h2 data-hf-id="hf-sfk1" class="scene-heading">Moteur d'Exécution DAG</h2>
+          <div data-hf-id="hf-s98s" class="eyebrow-badge" id="s3-badge" style="margin-bottom:0">0 CLOUD CALL · STRICT DAG</div>
+        </div>
+
+        <div data-hf-id="hf-lbit" class="engine-layout">
+          <!-- DAG Graph Display -->
+          <div data-hf-id="hf-6mzk" class="dag-box" id="dag-container">
+            <div data-hf-id="hf-pqyk" class="dag-node" id="node-input">
+              <div data-hf-id="hf-c3zs" class="node-icon">&gt;</div>
+              <div data-hf-id="hf-9ng5" class="node-info">
+                <b data-hf-id="hf-i8mn">Input Prompt</b>
+                <small data-hf-id="hf-n1pw" data-layout-ignore>"Résume ce dépôt et propose 3 issues"</small>
+              </div>
+            </div>
+
+            <div data-hf-id="hf-zsud" class="dag-connector-line"></div>
+
+            <div data-hf-id="hf-vn07" class="dag-node active-router" id="node-router">
+              <div data-hf-id="hf-jwlo" class="node-icon">R</div>
+              <div data-hf-id="hf-79d5" class="node-info">
+                <b data-hf-id="hf-ez25">RouterAgent</b>
+                <small data-hf-id="hf-bbqf" data-layout-ignore>scoring 0.94 · dispatch (3 ms)</small>
+              </div>
+            </div>
+
+            <div data-hf-id="hf-infd" class="dag-connector-line"></div>
+
+            <div data-hf-id="hf-7oz6" class="parallel-branches">
+              <div data-hf-id="hf-k4oq" class="branch-node" id="branch-scraper">
+                <b data-hf-id="hf-wsn9">Scraper</b>
+                <small data-hf-id="hf-xy78" data-layout-ignore>OK · 12 ms</small>
+              </div>
+              <div data-hf-id="hf-p692" class="branch-node" id="branch-analyzer">
+                <b data-hf-id="hf-5kkz">Analyzer</b>
+                <small data-hf-id="hf-mr79" data-layout-ignore>OK · 48 ms</small>
+              </div>
+              <div data-hf-id="hf-ix8d" class="branch-node" id="branch-writer">
+                <b data-hf-id="hf-2lbe">Writer</b>
+                <small data-hf-id="hf-09ie" data-layout-ignore>OK · 21 ms</small>
+              </div>
+            </div>
+
+            <div data-hf-id="hf-jucg" class="dag-connector-line"></div>
+
+            <div data-hf-id="hf-pd1s" class="dag-node active-success" id="node-synth">
+              <div data-hf-id="hf-uhmh" class="node-icon" style="color:#2e7d43">DB</div>
+              <div data-hf-id="hf-8ga8" class="node-info">
+                <b data-hf-id="hf-lpq3">Synthèse &amp; Stream</b>
+                <small data-hf-id="hf-nmwq" data-layout-ignore>SQLite · 0 cloud call · 3.1 MB overhead</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Terminal Output -->
+          <div data-hf-id="hf-4cpk" class="terminal-box" id="terminal-container">
+            <div data-hf-id="hf-0zlm" class="terminal-header">
+              <div data-hf-id="hf-t2q4" class="dot red"></div>
+              <div data-hf-id="hf-xyi3" class="dot yellow"></div>
+              <div data-hf-id="hf-ihr0" class="dot green"></div>
+              <div data-hf-id="hf-w1wk" class="terminal-title" data-layout-ignore>bash — hakimagent run</div>
+            </div>
+            <div data-hf-id="hf-at6w" class="terminal-body" data-layout-ignore>
+              <div data-hf-id="hf-zw4j" id="t-line-0" class="t-cmd">$ hakimagent run "Résume ce dépôt..."</div>
+              <div data-hf-id="hf-8gaa" id="t-line-1"><span data-hf-id="hf-ww53" class="t-arrow">&rarr; </span>RouterAgent scoring 0.94 <span data-hf-id="hf-tsvu" class="t-stat">dispatch (3 ms)</span></div>
+              <div data-hf-id="hf-x3q3" id="t-line-2"><span data-hf-id="hf-siwn" class="t-arrow">&rarr; </span>Scraper ·········· <span data-hf-id="hf-y93g" class="t-ok">OK</span> <span data-hf-id="hf-auhu" class="t-stat">(12 ms) fork</span></div>
+              <div data-hf-id="hf-duni" id="t-line-3"><span data-hf-id="hf-s4lm" class="t-arrow">&rarr; </span>Analyzer ·········· <span data-hf-id="hf-0azo" class="t-ok">OK</span> <span data-hf-id="hf-cozj" class="t-stat">(48 ms) join</span></div>
+              <div data-hf-id="hf-oute" id="t-line-4"><span data-hf-id="hf-rqal" class="t-arrow">&rarr; </span>Writer ············ <span data-hf-id="hf-z42l" class="t-ok">OK</span> <span data-hf-id="hf-laxk" class="t-stat">(21 ms) stream</span></div>
+              <div data-hf-id="hf-5gep" id="t-line-5" style="margin-top:14px;"><span data-hf-id="hf-u2y3" class="t-ok">&check; </span>synthèse prête <span data-hf-id="hf-xog5" class="t-stat">overhead 3.1 MB</span></div>
+              <div data-hf-id="hf-r7y2" id="t-line-6"><span data-hf-id="hf-p2yz" class="t-ok">&check; </span>persistance SQLite <span data-hf-id="hf-laqp" class="t-stat">0 cloud call</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCENE 4: PUNCHLINE & OUTRO (14.5s - 18s) -->
+      <div data-hf-id="hf-54cc" id="scene4" class="clip" data-start="14.5" data-duration="3.5" data-track-index="4">
+        <div data-hf-id="hf-8m56" class="eyebrow-badge" id="s4-badge">HAKIMAGENT · AXIOM V4</div>
+        <h2 data-hf-id="hf-yw9a" id="s4-title">Vos agents. Votre machine.<br data-hf-id="hf-x5px" />Zéro compromis.</h2>
+
+        <div data-hf-id="hf-36hg" class="install-dock" id="s4-dock">
+          <span data-hf-id="hf-3n5f" class="install-prompt">$</span>
+          <span data-hf-id="hf-ipaw" class="install-cmd">uv add hakimagent</span>
+          <span data-hf-id="hf-kx2l" class="copy-badge" id="s4-copy">Copier</span>
+        </div>
+
+        <div data-hf-id="hf-sbow" class="outro-features" id="s4-features">
+          <span data-hf-id="hf-u61k">&bull; Open Source</span>
+          <span data-hf-id="hf-ouwq">&bull; Strict DAG</span>
+          <span data-hf-id="hf-x1st">&bull; Asyncio Natif</span>
+          <span data-hf-id="hf-jg0a">&bull; Python 3.12+</span>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      window.__timelines["main"] = tl;
+
+      // ============================================================
+      // SCENE 1 TIMELINE (0.0s - 3.2s)
+      // Frame 0 shows content immediately
+      // ============================================================
+      tl.set("#scene1", { opacity: 1 }, 0);
+      tl.fromTo("#s1-badge", { y: -15 }, { y: 0, duration: 0.3, ease: "power2.out" }, 0);
+      tl.fromTo("#s1-title", { y: 20 }, { y: 0, duration: 0.4, ease: "power2.out" }, 0);
+      tl.fromTo("#s1-desc", { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, 0.4);
+      tl.to("#scene1", { opacity: 0, scale: 0.98, duration: 0.3, ease: "power2.in" }, 2.9);
+
+      // ============================================================
+      // SCENE 2 TIMELINE (3.2s - 7.5s)
+      // ============================================================
+      tl.fromTo("#scene2", { opacity: 0, scale: 1.02 }, { opacity: 1, scale: 1, duration: 0.3, ease: "power2.out" }, 3.2);
+      tl.fromTo("#s2-header", { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" }, 3.3);
+      tl.fromTo("#s2-tagline", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power2.out" }, 3.4);
+
+      // Sequential reveals: 4 metrics snapped to beat grid (~3.55s, 4.10s, 4.64s, 5.19s)
+      // beat-grid: mcard-1 at 3.55s, mcard-2 at 4.10s, mcard-3 at 4.64s, mcard-4 at 5.19s
+      tl.fromTo("#mcard-1", { opacity: 0, y: 25 }, { opacity: 1, y: 0, duration: 0.3, ease: "back.out(1.4)" }, 3.55);
+      tl.fromTo("#mcard-2", { opacity: 0, y: 25 }, { opacity: 1, y: 0, duration: 0.3, ease: "back.out(1.4)" }, 4.10);
+      tl.fromTo("#mcard-3", { opacity: 0, y: 25 }, { opacity: 1, y: 0, duration: 0.3, ease: "back.out(1.4)" }, 4.64);
+      tl.fromTo("#mcard-4", { opacity: 0, y: 25 }, { opacity: 1, y: 0, duration: 0.3, ease: "back.out(1.4)" }, 5.19);
+      tl.to("#scene2", { opacity: 0, scale: 0.98, duration: 0.3, ease: "power2.in" }, 7.2);
+
+      // ============================================================
+      // SCENE 3 TIMELINE (7.5s - 14.5s)
+      // ============================================================
+      tl.fromTo("#scene3", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 7.5);
+      tl.fromTo("#dag-container", { opacity: 0, x: -25 }, { opacity: 1, x: 0, duration: 0.4, ease: "power2.out" }, 7.6);
+      tl.fromTo("#terminal-container", { opacity: 0, x: 25 }, { opacity: 1, x: 0, duration: 0.4, ease: "power2.out" }, 7.65);
+
+      // DAG nodes activation flow & beat lock:
+      // beat-locked: strong beat at 7.79s
+      tl.fromTo("#node-input", { opacity: 0, scale: 0.95 }, { opacity: 1, scale: 1, duration: 0.25, ease: "power2.out" }, 7.65);
+      tl.fromTo("#node-router", { scale: 1 }, { scale: 1.04, duration: 0.25, yoyo: true, repeat: 1, ease: "power2.out" }, 7.79);
+
+      // Branches light up in parallel on next beat (~8.73s)
+      tl.fromTo("#branch-scraper", { opacity: 0.35, scale: 0.96 }, { opacity: 1, scale: 1, duration: 0.25, ease: "power2.out" }, 8.73);
+      tl.fromTo("#branch-analyzer", { opacity: 0.35, scale: 0.96 }, { opacity: 1, scale: 1, duration: 0.25, ease: "power2.out" }, 8.85);
+      tl.fromTo("#branch-writer", { opacity: 0.35, scale: 0.96 }, { opacity: 1, scale: 1, duration: 0.25, ease: "power2.out" }, 8.97);
+
+      // Synthesis completes on beat ~10.38s
+      tl.fromTo("#node-synth", { opacity: 0.5, scale: 0.96 }, { opacity: 1, scale: 1, duration: 0.35, ease: "power2.out" }, 10.38);
+      tl.to("#node-synth", { scale: 1.02, yoyo: true, repeat: 1, duration: 0.25, ease: "power2.out" }, 12.2);
+
+      // Terminal streaming lines
+      tl.fromTo("#t-line-0", { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.2 }, 7.7);
+      tl.fromTo("#t-line-1", { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.2 }, 8.0);
+      tl.fromTo("#t-line-2", { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.2 }, 8.8);
+      tl.fromTo("#t-line-3", { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.2 }, 9.3);
+      tl.fromTo("#t-line-4", { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.2 }, 9.8);
+      tl.fromTo("#t-line-5", { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.2 }, 10.4);
+      tl.fromTo("#t-line-6", { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.2 }, 10.8);
+
+      tl.to("#scene3", { opacity: 0, scale: 0.98, duration: 0.3, ease: "power2.in" }, 14.2);
+
+      // ============================================================
+      // SCENE 4 TIMELINE (14.5s - 18.0s)
+      // ============================================================
+      tl.fromTo("#scene4", { opacity: 0, scale: 1.02 }, { opacity: 1, scale: 1, duration: 0.3, ease: "power2.out" }, 14.5);
+      tl.fromTo("#s4-badge", { opacity: 0, y: -15 }, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" }, 14.65);
+      tl.fromTo("#s4-title", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, 14.85);
+      tl.fromTo("#s4-dock", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.4)" }, 15.3);
+
+      // Strong cue lock at 15.82s: Copy action triggers
+      // beat-locked: 15.82s
+      tl.to("#s4-copy", {
+        backgroundColor: "#15803d",
+        borderColor: "#22c55e",
+        duration: 0.2,
+        ease: "power2.out",
+        onStart: function() {
+          const el = document.getElementById("s4-copy");
+          if (el) el.innerText = "COPIÉ !";
+        }
+      }, 15.82);
+
+      tl.fromTo("#s4-features", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "power2.out" }, 16.1);
+
+      tl.seek(0);
+    </script>
+  </body>
+</html>

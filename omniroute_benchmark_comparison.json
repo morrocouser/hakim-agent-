@@ -1,0 +1,43 @@
+[
+  {
+    "mode": "omniroute/auto/best-fast",
+    "label": "Modèle Ultra-Rapide / Latence Minimale",
+    "score_100": 100.0,
+    "total_time_s": 45.64,
+    "planning_time_s": 0.0,
+    "code_gen_time_s": 36.92,
+    "e2e_time_s": 8.24,
+    "planning_success": true,
+    "code_exec_success": true,
+    "e2e_success": true,
+    "errors": []
+  },
+  {
+    "mode": "omniroute/auto/best-coding",
+    "label": "Modèle Expert Code & Synthèse",
+    "score_100": 100.0,
+    "total_time_s": 16.98,
+    "planning_time_s": 0.0,
+    "code_gen_time_s": 7.92,
+    "e2e_time_s": 8.56,
+    "planning_success": true,
+    "code_exec_success": true,
+    "e2e_success": true,
+    "errors": []
+  },
+  {
+    "mode": "omniroute/auto/best-reasoning",
+    "label": "Modèle Raisonnement Profond & Chaîne de Pensée",
+    "score_100": 65.0,
+    "total_time_s": 29.28,
+    "planning_time_s": 0.0,
+    "code_gen_time_s": 10.26,
+    "e2e_time_s": 17.71,
+    "planning_success": true,
+    "code_exec_success": false,
+    "e2e_success": true,
+    "errors": [
+      "Exec fail: File \"C:\\Users\\hp\\AppData\\Local\\Temp\\tmpiw29v7gd.py\", line 1\r\n    User Safety: safe\r\n         ^^^^^^\r\nSyntaxError: invalid syntax"
+    ]
+  }
+]

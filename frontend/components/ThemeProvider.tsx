@@ -11,18 +11,30 @@ type ThemeContextType = {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [isDark, setIsDark] = useState(true)
+  const [isDark, setIsDark] = useState(false)
 
   const applyTheme = (dark: boolean) => {
     if (typeof window !== 'undefined') {
       document.documentElement.classList.toggle('dark', dark)
       document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light')
+      try {
+        localStorage.setItem('claude_theme_mode', dark ? 'dark' : 'light')
+      } catch {}
     }
   }
 
   useEffect(() => {
-    // Design system = dark único. On ignore le localStorage (aucun retour light accidentel).
-    applyTheme(true)
+    try {
+      // Clear legacy dark cache if present
+      localStorage.removeItem('axiom_theme')
+      const saved = localStorage.getItem('claude_theme_mode')
+      // Claude signature: default to warm cream canvas (#faf9f5)
+      const initialDark = saved === 'dark'
+      setIsDark(initialDark)
+      applyTheme(initialDark)
+    } catch {
+      applyTheme(false)
+    }
   }, [])
 
   const toggleTheme = () => {

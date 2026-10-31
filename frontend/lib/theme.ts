@@ -7,13 +7,15 @@ export function useTheme() {
     if (typeof window !== 'undefined') {
       return document.documentElement.classList.contains('dark')
     }
-    return true
+    return false
   })
 
   const applyTheme = useCallback((dark: boolean) => {
     document.documentElement.classList.toggle('dark', dark)
     document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light')
-    localStorage.setItem('axiom_theme', dark ? 'dark' : 'light')
+    try {
+      localStorage.setItem('hakim_theme', dark ? 'dark' : 'light')
+    } catch {}
   }, [])
 
   const toggleTheme = useCallback(() => {

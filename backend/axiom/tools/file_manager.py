@@ -196,3 +196,34 @@ class FileManager:
             log.error(f"Erreur listage fichiers: {e}")
             return f"[Erreur] {str(e)}"
 
+    def get_code_map(
+        self,
+        relative_path: str = "",
+        max_tokens: int = 1000,
+        focus_keywords: Optional[list[str]] = None,
+    ) -> str:
+        """Générer une cartographie syntaxique AST sécurisée des symboles du répertoire."""
+        path = self._resolve_safe_path(relative_path)
+        if not path:
+            return "[Erreur de Sécurité] Accès refusé : Chemin invalide"
+        if not path.exists():
+            return f"[Erreur] Répertoire introuvable: {relative_path}"
+        if not path.is_dir():
+            return f"[Erreur] {relative_path} n'est pas un répertoire"
+
+        from axiom.tools.repo_map import CodebaseMapper
+        mapper = CodebaseMapper(path)
+        return mapper.generate_symbol_map(max_tokens=max_tokens, focus_keywords=focus_keywords)
+
+    def get_file_symbols(self, relative_path: str) -> str:
+        """Extraire le plan des symboles (classes, fonctions, signatures) d'un fichier source."""
+        path = self._resolve_safe_path(relative_path)
+        if not path:
+            return "[Erreur de Sécurité] Accès refusé : Chemin invalide"
+        if not path.exists() or not path.is_file():
+            return f"[Erreur] Fichier introuvable: {relative_path}"
+
+        from axiom.tools.repo_map import CodebaseMapper
+        mapper = CodebaseMapper(self.base_dir)
+        return mapper.get_file_outline(path)
+

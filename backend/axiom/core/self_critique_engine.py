@@ -148,8 +148,9 @@ class SelfCritiqueEngine:
         
         try:
             # Appeler le LLM pour l'auto-évaluation
+            model_val = task.model.value if hasattr(task.model, "value") else str(task.model)
             response = await self.claude.chat(
-                model=task.model.value,
+                model=model_val,
                 system="Tu es APEX en mode AUTO-ÉVALUATION. Réponds UNIQUEMENT en JSON valide selon le format spécifié.",
                 messages=[{"role": "user", "content": critique_prompt}],
                 max_tokens=1024,

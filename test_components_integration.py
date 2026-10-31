@@ -7,6 +7,13 @@ This test verifies that the components work together correctly.
 import sys
 import os
 
+if hasattr(sys.stdout, 'reconfigure'):
+    try:
+        sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+        sys.stderr.reconfigure(encoding='utf-8', errors='replace')
+    except Exception:
+        pass
+
 
 def test_self_critique_engine_fallback():
     """Test SelfCritiqueEngine fallback evaluation without LLM."""

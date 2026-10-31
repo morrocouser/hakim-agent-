@@ -1,0 +1,82 @@
+{
+  "timestamp": "2026-10-29T18:22:04.635553Z",
+  "global_score": 100.0,
+  "global_success_rate": 100.0,
+  "total_passed": 29,
+  "total_failed": 0,
+  "llm_engine": "gemini-3.5-flash",
+  "benchmarks": [
+    {
+      "name": "Supervisor Routing & Planning",
+      "category": "Supervision",
+      "passed": 13,
+      "failed": 0,
+      "success_rate_pct": 100.0,
+      "avg_ms": 0.02,
+      "min_ms": 0.0,
+      "max_ms": 0.2,
+      "p95_ms": 0.2,
+      "errors": []
+    },
+    {
+      "name": "Code Executor & Sandbox",
+      "category": "Execution",
+      "passed": 6,
+      "failed": 0,
+      "success_rate_pct": 100.0,
+      "avg_ms": 544.89,
+      "min_ms": 0.01,
+      "max_ms": 3014.81,
+      "p95_ms": 3014.81,
+      "errors": []
+    },
+    {
+      "name": "Review & Auto-Correction",
+      "category": "Quality",
+      "passed": 4,
+      "failed": 0,
+      "success_rate_pct": 100.0,
+      "avg_ms": 6261.13,
+      "min_ms": 6261.13,
+      "max_ms": 6261.13,
+      "p95_ms": 6261.13,
+      "errors": []
+    },
+    {
+      "name": "SQLite Persistence & Recovery",
+      "category": "Storage",
+      "passed": 3,
+      "failed": 0,
+      "success_rate_pct": 100.0,
+      "avg_ms": 6.94,
+      "min_ms": 2.44,
+      "max_ms": 12.38,
+      "p95_ms": 8.19,
+      "errors": []
+    },
+    {
+      "name": "E2E Real LLM Problem Solving",
+      "category": "End-to-End",
+      "passed": 1,
+      "failed": 0,
+      "success_rate_pct": 100.0,
+      "avg_ms": 36795.46,
+      "min_ms": 36795.46,
+      "max_ms": 36795.46,
+      "p95_ms": 36795.46,
+      "errors": []
+    },
+    {
+      "name": "Concurrency & Memory",
+      "category": "Performance",
+      "passed": 2,
+      "failed": 0,
+      "success_rate_pct": 100.0,
+      "avg_ms": 140927.48,
+      "min_ms": 140927.48,
+      "max_ms": 140927.48,
+      "p95_ms": 140927.48,
+      "errors": []
+    }
+  ]
+}

@@ -3,7 +3,7 @@ from axiom.models.schemas import (
     TaskType, TaskAssignment,
 )
 from axiom.logging_setup import log
-from typing import Optional
+from typing import Optional, Any, Union
 import uuid
 
 DEFAULT_WEIGHTS = ScoringWeights()
@@ -17,6 +17,57 @@ MODEL_THRESHOLDS = [
 
 # Override: modele rapide pour taches urgentes (modele small = Gemini Flash)
 URGENT_OVERRIDE = ModelName.SMALL
+
+# Échelle de repli dynamique (Fallback Ladder) par modèle
+MODEL_FALLBACK_LADDER: dict[str, list[str]] = {
+    ModelName.BEST.value: [
+        ModelName.LARGE.value,
+        ModelName.FLASH.value,
+        "gemini-3.5-flash",
+        "omniroute/auto/best-fast",
+        ModelName.MEDIUM.value,
+        ModelName.SMALL.value,
+    ],
+    ModelName.LARGE.value: [
+        ModelName.FLASH.value,
+        "gemini-3.5-flash",
+        "omniroute/auto/best-fast",
+        ModelName.MEDIUM.value,
+        ModelName.SMALL.value,
+    ],
+    ModelName.MEDIUM.value: [
+        ModelName.SMALL.value,
+        ModelName.FLASH.value,
+        "gemini-3.5-flash",
+        "omniroute/auto/best-fast",
+    ],
+    ModelName.SMALL.value: [
+        "gemini-3.5-flash",
+        ModelName.FLASH.value,
+        "omniroute/auto/best-fast",
+        ModelName.BEST.value,
+    ],
+    ModelName.FLASH.value: [
+        "gemini-3.5-flash",
+        ModelName.SMALL.value,
+        "omniroute/auto/best-fast",
+        ModelName.BEST.value,
+    ],
+    ModelName.CODE.value: [
+        "gemini-3.5-flash",
+        "omniroute/auto/best-coding",
+        ModelName.BEST.value,
+    ],
+    ModelName.LAGUNA.value: [
+        "gemini-3.5-flash",
+        ModelName.BEST.value,
+    ],
+    ModelName.FALLBACK.value: [
+        "gemini-3.5-flash",
+        "omniroute/auto/best-fast",
+        ModelName.SMALL.value,
+    ],
+}
 
 AGENT_ROUTING: dict[str, list[AgentName]] = {
     "architecture": [AgentName.ARCHITECT],
@@ -66,6 +117,49 @@ AGENT_ROUTING: dict[str, list[AgentName]] = {
     "stratégie": [AgentName.PLANNER],
     "sprint": [AgentName.PLANNER],
     "cahier des charges": [AgentName.PLANNER],
+    "site": [AgentName.WEB_BUILDER],
+    "site web": [AgentName.WEB_BUILDER],
+    "siteweb": [AgentName.WEB_BUILDER],
+    "page web": [AgentName.WEB_BUILDER],
+    "landing page": [AgentName.WEB_BUILDER],
+    "créer un site": [AgentName.WEB_BUILDER],
+    "creer un site": [AgentName.WEB_BUILDER],
+    "crée un site": [AgentName.WEB_BUILDER],
+    "cree un site": [AgentName.WEB_BUILDER],
+    "créer site": [AgentName.WEB_BUILDER],
+    "creer site": [AgentName.WEB_BUILDER],
+    "website": [AgentName.WEB_BUILDER],
+    "web design": [AgentName.WEB_BUILDER],
+    "webdesign": [AgentName.WEB_BUILDER],
+    "portfolio": [AgentName.WEB_BUILDER],
+    "vitrine": [AgentName.WEB_BUILDER],
+    "maquette web": [AgentName.WEB_BUILDER],
+    "frontend": [AgentName.WEB_BUILDER, AgentName.CODER],
+    "html": [AgentName.WEB_BUILDER],
+    "css": [AgentName.WEB_BUILDER],
+    "tailwind": [AgentName.WEB_BUILDER],
+    "site internet": [AgentName.WEB_BUILDER],
+    "creation de site": [AgentName.WEB_BUILDER],
+    "création de site": [AgentName.WEB_BUILDER],
+    "creation site": [AgentName.WEB_BUILDER],
+    "création site": [AgentName.WEB_BUILDER],
+    "faire un site": [AgentName.WEB_BUILDER],
+    "fait un site": [AgentName.WEB_BUILDER],
+    "web builder": [AgentName.WEB_BUILDER],
+    "builder de site": [AgentName.WEB_BUILDER],
+    "créateur de site": [AgentName.WEB_BUILDER],
+    "createur de site": [AgentName.WEB_BUILDER],
+    "autods": [AgentName.WEB_BUILDER],
+    "dropshipping site": [AgentName.WEB_BUILDER],
+    "boutique en ligne": [AgentName.WEB_BUILDER],
+    "e-commerce": [AgentName.WEB_BUILDER],
+    "ecommerce": [AgentName.WEB_BUILDER],
+    "saas landing": [AgentName.WEB_BUILDER],
+    "page d'accueil": [AgentName.WEB_BUILDER],
+    "homepage": [AgentName.WEB_BUILDER],
+    "web app": [AgentName.WEB_BUILDER],
+    "webapp": [AgentName.WEB_BUILDER],
+    "ui web": [AgentName.WEB_BUILDER],
 }
 
 AGENT_FALLBACK: dict[AgentName, AgentName] = {
@@ -77,6 +171,7 @@ AGENT_FALLBACK: dict[AgentName, AgentName] = {
     AgentName.RESEARCHER: AgentName.WRITER,
     AgentName.PLANNER: AgentName.ARCHITECT,
     AgentName.QUICKSHOT: AgentName.WRITER,
+    AgentName.WEB_BUILDER: AgentName.CODER,
 }
 
 
@@ -91,15 +186,54 @@ def calculate_score(dimensions: ScoringDimensions, weights: Optional[ScoringWeig
     )
 
 
-def select_model(score: float, dimensions: ScoringDimensions) -> ModelName:
+def get_fallback_model(
+    current_model: str | ModelName,
+    registry: Optional[Any] = None,
+) -> tuple[str, bool]:
+    """
+    Sélectionne le prochain modèle viable dans l'échelle de repli dont le disjoncteur est disponible.
+    
+    Returns:
+        tuple (nouveau_modèle_str, est_un_repli_bool)
+    """
+    from axiom.core.circuit_breaker import circuit_breakers
+    cb_registry = registry or circuit_breakers
+
+    current_val = current_model.value if isinstance(current_model, ModelName) else str(current_model)
+    ladder = MODEL_FALLBACK_LADDER.get(current_val, [ModelName.FALLBACK.value, "local:default"])
+
+    for candidate in ladder:
+        service_key = f"llm:{candidate}"
+        if cb_registry.is_available(service_key):
+            log.info("🔄 REPLI MODÈLE DISPONIBLE: %s -> %s", current_val, candidate)
+            return candidate, True
+
+    log.warning("⚠️ Tous les disjoncteurs modèles sont ouverts. Repli vers gemini-3.5-flash.")
+    return "gemini-3.5-flash", True
+
+
+def select_model(score: float, dimensions: ScoringDimensions, check_breaker: bool = True) -> ModelName:
+    base_model = ModelName.BEST
     if dimensions.stakes >= 9:
-        return ModelName.BEST
-    if dimensions.speed_need <= 3 and score > 6:
-        return URGENT_OVERRIDE
-    for low, high, model in MODEL_THRESHOLDS:
-        if low <= score <= high:
-            return model
-    return ModelName.BEST
+        base_model = ModelName.BEST
+    elif dimensions.speed_need <= 3 and score > 6:
+        base_model = URGENT_OVERRIDE
+    else:
+        for low, high, model in MODEL_THRESHOLDS:
+            if low <= score <= high:
+                base_model = model
+                break
+
+    if check_breaker:
+        from axiom.core.circuit_breaker import circuit_breakers
+        if not circuit_breakers.is_available(f"llm:{base_model.value}"):
+            fallback_val, _ = get_fallback_model(base_model, circuit_breakers)
+            for m in ModelName:
+                if m.value == fallback_val:
+                    log.info("🔌 Circuit ouvert pour %s -> routage direct vers %s", base_model.value, m.value)
+                    return m
+            return ModelName.FALLBACK
+    return base_model
 
 
 def select_agent(description: str, task_type: TaskType) -> AgentName:
@@ -122,6 +256,7 @@ def select_agent(description: str, task_type: TaskType) -> AgentName:
         TaskType.RESEARCH: AgentName.RESEARCHER,
         TaskType.PLAN: AgentName.PLANNER,
         TaskType.QUICK: AgentName.QUICKSHOT,
+        TaskType.WEB: AgentName.WEB_BUILDER,
     }
     return type_map.get(task_type, AgentName.QUICKSHOT)
 
@@ -140,6 +275,7 @@ def infer_dimensions(description: str, task_type: TaskType) -> ScoringDimensions
         TaskType.RESEARCH: (5.0, 4.0, 3.0, 5.0, 5.0),
         TaskType.PLAN:     (7.0, 6.0, 6.0, 5.0, 6.0),
         TaskType.QUICK:    (2.0, 2.0, 2.0, 2.0, 3.0),
+        TaskType.WEB:      (6.0, 5.0, 8.0, 6.0, 7.0),
     }
     if task_type in task_type_map:
         vals = task_type_map[task_type]

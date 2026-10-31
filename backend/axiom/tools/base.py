@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import time
 import json
+import inspect
 from enum import Enum
 from dataclasses import dataclass, field
 from typing import Any, Callable, Optional, Protocol, runtime_checkable
@@ -130,7 +131,7 @@ class Tool(Protocol):
     @property
     def schema(self) -> ToolSchema: ...
 
-    async def execute(self, params: dict, context: dict) -> ToolResult: ...
+    async def execute(self, params: Optional[dict] = None, context: Optional[dict] = None, **kwargs) -> ToolResult: ...
 
     def is_available(self, context: dict) -> bool: ...
 
@@ -163,11 +164,19 @@ class BaseTool:
             raise ValueError(f"Tool {self._name} must define _schema")
         return self._schema
 
-    async def execute(self, params: dict, context: dict) -> ToolResult:
+    async def execute(self, params: Optional[dict] = None, context: Optional[dict] = None, **kwargs) -> ToolResult:
         """Point d'entrée principal avec timing automatique."""
         start = time.time()
+        merged_params = dict(params) if isinstance(params, dict) else {}
+        if kwargs:
+            merged_params.update(kwargs)
+        ctx = context if isinstance(context, dict) else {}
         try:
-            result = await self._execute(params, context)
+            res_or_coro = self._execute(merged_params, ctx)
+            if inspect.isawaitable(res_or_coro):
+                result = await res_or_coro
+            else:
+                result = res_or_coro
             result.execution_time_ms = (time.time() - start) * 1000
             result.source = self._name
             return result

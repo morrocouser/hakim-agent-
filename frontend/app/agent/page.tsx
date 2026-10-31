@@ -35,6 +35,7 @@ const AGENT_CONFIG: Record<string, { name: string; color: string; dotClass: stri
   AGENT_WRITER:      { name: 'WRITER',     color: '#a855f7', dotClass: 'bg-purple-500' },
   AGENT_ANALYST:     { name: 'ANALYST',    color: '#14b8a6', dotClass: 'bg-teal-500' },
   AGENT_SYSADMIN:    { name: 'SYSADMIN',   color: '#D97757', dotClass: 'bg-[#D97757]' },
+  AGENT_WEB_BUILDER: { name: 'WEB BUILDER', color: '#06b6d4', dotClass: 'bg-cyan-500' },
 }
 
 const NAV_LINKS = [

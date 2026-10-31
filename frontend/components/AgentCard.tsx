@@ -41,7 +41,7 @@ export default function AgentCard({ name, info, index }: Props) {
 
       <div className="relative z-10">
         <h3
-          className="text-base font-bold mb-1 tracking-tight"
+          className="text-base font-normal mb-1 tracking-tight"
           style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}
         >
           {info.label}

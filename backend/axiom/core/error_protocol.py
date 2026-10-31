@@ -14,6 +14,11 @@ from typing import Optional, List, Dict, Any, Callable
 from axiom.models.schemas import TaskAssignment
 from axiom.tools.error_log import ErrorLog
 from axiom.core.memory import MemoryManager
+from axiom.core.circuit_breaker import (
+    CircuitBreakerOpenException,
+    LLMServiceUnavailableError,
+    circuit_breakers,
+)
 
 
 class ErrorTier(int, Enum):
@@ -94,9 +99,10 @@ class ErrorProtocol:
         # Analyser l'erreur pour déterminer le tier approprié
         tier = self._classify_error(error, task, context, iteration)
 
+        agent_name = task.agent.value if hasattr(task.agent, "value") else str(task.agent)
         error_ctx = ErrorContext(
             tier=tier,
-            agent=task.agent.value,
+            agent=agent_name,
             context=context or task.description,
             symptom=str(error),
             original_error=error,
@@ -136,11 +142,19 @@ class ErrorProtocol:
         if any(kw in error_msg for kw in refusal_keywords):
             return ErrorTier.JUSTIFIED_REFUSAL
 
-        # TIER_3: Dégradation - modèle indisponible, outil en erreur, résultat partiel
+        # TIER_3: Dégradation - disjoncteur ouvert, modèle indisponible, outil en erreur, résultat partiel
+        if (
+            isinstance(error, (CircuitBreakerOpenException, LLMServiceUnavailableError))
+            or error_type in ("CircuitBreakerOpenException", "LLMServiceUnavailableError")
+        ):
+            return ErrorTier.GRACEFUL_DEGRADATION
+
         degradation_keywords = [
             "rate limit", "quota", "unavailable", "indisponible", "timeout",
             "connection refused", "connexion refusée", "service unavailable",
-            "503", "502", "504", "overloaded", "surchargé"
+            "503", "502", "504", "500", "404", "overloaded", "surchargé", "circuit ouvert",
+            "401", "unauthorized", "authentication", "api key", "clé api", "forbidden", "403",
+            "not found", "is not supported", "attributeerror", "valueerror"
         ]
         if any(kw in error_msg for kw in degradation_keywords):
             return ErrorTier.GRACEFUL_DEGRADATION
@@ -319,8 +333,97 @@ class ErrorProtocol:
         task: TaskAssignment,
         iteration: int,
     ) -> ErrorProtocolResult:
-        """TIER_3: Dégradation gracieuse - livre ce qui est possible."""
-        # Logger
+        """TIER_3: Dégradation gracieuse - substitution automatique de modèle ou livraison partielle."""
+        from axiom.core.scoring import get_fallback_model
+        from axiom.models.schemas import ModelName
+
+        current_model_val = task.model.value if hasattr(task.model, "value") else str(task.model)
+        symptom_lower = error_ctx.symptom.lower()
+
+        # Détecter si l'erreur concerne une clé API non configurée / invalide (HTTP 401)
+        if any(kw in symptom_lower for kw in ["401", "unauthorized", "authentication", "api key", "clé api"]):
+            return ErrorProtocolResult(
+                tier=ErrorTier.GRACEFUL_DEGRADATION,
+                handled=True,
+                action_taken="Configuration requise : OPENROUTER_API_KEY dans backend/.env",
+                user_message=(
+                    "🔑 **Configuration requise** : Pour dialoguer en direct avec les modèles d'IA, "
+                    "veuillez renseigner votre clé OpenRouter (`OPENROUTER_API_KEY=sk-or-v1-...`) dans le fichier `backend/.env`.\n\n"
+                    "Une clé gratuite est disponible en quelques secondes sur https://openrouter.ai/keys."
+                ),
+                should_continue=False,
+            )
+
+        # Détecter si l'erreur concerne le modèle LLM
+        is_llm_error = (
+            isinstance(error_ctx.original_error, (CircuitBreakerOpenException, LLMServiceUnavailableError))
+            or any(kw in symptom_lower for kw in [
+                "429", "rate limit", "quota", "overloaded", "surchargé",
+                "502", "503", "504", "500", "404", "timeout", "circuit ouvert", "api error", "erreur api",
+                "not found", "is not supported", "connection", "http"
+            ])
+        )
+
+        if is_llm_error:
+            is_429 = "429" in symptom_lower or "rate limit" in symptom_lower or "quota" in symptom_lower
+            circuit_breakers.get_or_create(f"llm:{current_model_val}").record_failure(
+                error=error_ctx.original_error,
+                is_rate_limit=is_429,
+            )
+
+            # Recherche d'un modèle de repli fonctionnel
+            fallback_model_val, is_fallback = get_fallback_model(current_model_val, circuit_breakers)
+
+            if is_fallback and fallback_model_val != current_model_val:
+                # Retrouver l'instance Enum ModelName si possible
+                target_model: Any = fallback_model_val
+                for m in ModelName:
+                    if m.value == fallback_model_val:
+                        target_model = m
+                        break
+
+                modified_task = TaskAssignment(
+                    task_id=task.task_id,
+                    description=task.description,
+                    agent=task.agent,
+                    model=target_model,
+                    score=task.score,
+                    dimensions=task.dimensions,
+                    subtasks=task.subtasks,
+                )
+
+                self.error_log.log(
+                    tier=3,
+                    agent=error_ctx.agent,
+                    context=error_ctx.context,
+                    symptom=f"{error_ctx.symptom} (modèle: {current_model_val})",
+                    root_cause=f"Défaillance/Quota API sur {current_model_val}",
+                    fix=f"Bascule automatique Circuit Breaker vers {fallback_model_val}",
+                    lesson=f"Disjoncteur ouvert pour {current_model_val}. Repli actif sur {fallback_model_val}.",
+                    score=7,
+                )
+
+                user_msg = (
+                    f"⚡ Dégradation gracieuse appliquée (Circuit Breaker)\n"
+                    f"⚠️ Service indisponible: {current_model_val} ({error_ctx.symptom[:80]})\n"
+                    f"🔄 Repli dynamique réussi: Passage sur '{fallback_model_val}'"
+                )
+
+                return ErrorProtocolResult(
+                    tier=ErrorTier.GRACEFUL_DEGRADATION,
+                    handled=True,
+                    action_taken=f"Repli automatique vers modèle {fallback_model_val}",
+                    user_message=user_msg,
+                    should_continue=True,
+                    modified_task=modified_task,
+                    fallback_result={
+                        "fallback_model": fallback_model_val,
+                        "previous_model": current_model_val,
+                        "reason": error_ctx.symptom,
+                    },
+                )
+
+        # Logger la dégradation standard (outil externe / résultat partiel)
         self.error_log.log(
             tier=3,
             agent=error_ctx.agent,
@@ -332,7 +435,6 @@ class ErrorProtocol:
             score=6,
         )
 
-        # Construire message de livraison partielle
         partial_msg = (
             f"⚡ Livraison partielle: Tâche '{task.description[:80]}' "
             f"exécutée avec limitations\n"

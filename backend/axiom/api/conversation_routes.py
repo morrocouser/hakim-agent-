@@ -6,7 +6,7 @@ from typing import Optional
 from datetime import datetime
 from sqlalchemy import select, desc, func
 from axiom.db.models import User, Conversation, Message, get_session
-from axiom.auth.jwt import get_current_user
+from axiom.auth.jwt import get_current_user, optional_user
 
 router = APIRouter(prefix="/conversations", tags=["conversations"])
 
@@ -46,7 +46,7 @@ class MessageResponse(BaseModel):
 
 
 @router.get("", response_model=list[ConversationResponse])
-async def list_conversations(user: User = Depends(get_current_user)):
+async def list_conversations(user: Optional[User] = Depends(optional_user)):
     session = await get_session()
     try:
         stmt = (
@@ -55,7 +55,7 @@ async def list_conversations(user: User = Depends(get_current_user)):
                 func.count(Message.id).label("message_count"),
             )
             .outerjoin(Message, Message.conversation_id == Conversation.id)
-            .where(Conversation.user_id == user.id)
+            .where(Conversation.user_id == (await _resolve_user_id(user, session)))
             .group_by(Conversation.id)
             .order_by(desc(Conversation.updated_at))
         )
@@ -76,10 +76,10 @@ async def list_conversations(user: User = Depends(get_current_user)):
 
 
 @router.post("", response_model=ConversationResponse)
-async def create_conversation(req: ConversationCreate, user: User = Depends(get_current_user)):
+async def create_conversation(req: ConversationCreate, user: Optional[User] = Depends(optional_user)):
     session = await get_session()
     try:
-        convo = Conversation(user_id=user.id, title=req.title)
+        convo = Conversation(user_id=(await _resolve_user_id(user, session)), title=req.title)
         session.add(convo)
         await session.commit()
         await session.refresh(convo)
@@ -95,11 +95,11 @@ async def create_conversation(req: ConversationCreate, user: User = Depends(get_
 
 
 @router.get("/{convo_id}")
-async def get_conversation(convo_id: int, user: User = Depends(get_current_user)):
+async def get_conversation(convo_id: int, user: Optional[User] = Depends(optional_user)):
     session = await get_session()
     try:
         result = await session.execute(
-            select(Conversation).where(Conversation.id == convo_id, Conversation.user_id == user.id)
+            select(Conversation).where(Conversation.id == convo_id, Conversation.user_id == (await _resolve_user_id(user, session)))
         )
         convo = result.scalar_one_or_none()
         if not convo:
@@ -135,12 +135,12 @@ async def get_conversation(convo_id: int, user: User = Depends(get_current_user)
 
 
 @router.post("/{convo_id}/messages", response_model=MessageResponse)
-async def add_message(convo_id: int, req: MessageCreate, user: User = Depends(get_current_user)):
+async def add_message(convo_id: int, req: MessageCreate, user: Optional[User] = Depends(optional_user)):
     session = await get_session()
     try:
         # Verify ownership
         result = await session.execute(
-            select(Conversation).where(Conversation.id == convo_id, Conversation.user_id == user.id)
+            select(Conversation).where(Conversation.id == convo_id, Conversation.user_id == (await _resolve_user_id(user, session)))
         )
         convo = result.scalar_one_or_none()
         if not convo:
@@ -178,11 +178,11 @@ async def add_message(convo_id: int, req: MessageCreate, user: User = Depends(ge
 
 
 @router.delete("/{convo_id}")
-async def delete_conversation(convo_id: int, user: User = Depends(get_current_user)):
+async def delete_conversation(convo_id: int, user: Optional[User] = Depends(optional_user)):
     session = await get_session()
     try:
         result = await session.execute(
-            select(Conversation).where(Conversation.id == convo_id, Conversation.user_id == user.id)
+            select(Conversation).where(Conversation.id == convo_id, Conversation.user_id == (await _resolve_user_id(user, session)))
         )
         convo = result.scalar_one_or_none()
         if not convo:

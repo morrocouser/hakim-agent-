@@ -65,20 +65,21 @@ export function BentoGrid({
  */
 export function InteractiveButton({
   children,
-  variant = "indigo",
+  variant = "coral",
   onClick,
   className = "",
 }: {
   children: React.ReactNode;
-  variant?: "indigo" | "cyan" | "emerald" | "purple";
+  variant?: "coral" | "indigo" | "cyan" | "emerald" | "purple";
   onClick?: () => void;
   className?: string;
 }) {
-  const gradientMap = {
-    indigo: "from-indigo-500 via-purple-500 to-cyan-400",
-    cyan: "from-cyan-500 via-indigo-500 to-blue-500",
-    emerald: "from-emerald-400 via-teal-500 to-cyan-500",
-    purple: "from-purple-500 via-pink-500 to-indigo-500",
+  const gradientMap: Record<string, string> = {
+    coral: "from-[#cc785c] to-[#a9583e]",
+    indigo: "from-[#cc785c] via-[#e8a55a] to-[#5db8a6]",
+    cyan: "from-[#5db8a6] via-[#cc785c] to-[#a9583e]",
+    emerald: "from-[#5db872] via-[#5db8a6] to-[#cc785c]",
+    purple: "from-[#cc785c] via-[#a9583e] to-[#252320]",
   };
 
   return (

@@ -7,6 +7,11 @@ from typing import Optional
 from pathlib import Path
 from dotenv import load_dotenv
 from axiom.logging_setup import log
+from axiom.core.circuit_breaker import (
+    circuit_breakers,
+    CircuitBreakerOpenException,
+    LLMServiceUnavailableError,
+)
 
 # Load .env relative to backend directory
 env_path = Path(__file__).resolve().parent.parent.parent / ".env"
@@ -57,11 +62,20 @@ class TokenBucketRateLimiter:
 
 
 
+OPENROUTER_MODEL_MAP = {
+    "nemotron-3-ultra-free": "nvidia/nemotron-3-super-120b-a12b:free",
+    "mimo-v2.5-free": "google/gemma-4-31b-it:free",
+    "deepseek-v4-flash-free": "nvidia/nemotron-3.5-lightning:free",
+    "minimax-m3-free": "google/gemma-4-26b-a4b-it:free",
+    "qwen3.6-plus-free": "google/gemma-4-31b-it:free",
+    "north-mini-code-free": "cohere/north-mini-code:free",
+}
+
+
 class LocalAPIClient:
     """Client API unifié : base résolue via HAKIM_LLM_BASE_URL,
-    sinon OPENCHASSIS_API_BASE (repli local), sinon la passerelle
-    Console opencode ; clé via HAKIM_LLM_API_KEY (repli
-    OPENROUTER_API_KEY si la base est OpenRouter)."""
+    sinon OpenRouter si clé présente, sinon OPENCHASSIS_API_BASE (repli local),
+    sinon la passerelle Console opencode."""
 
     def __init__(
         self,
@@ -69,145 +83,200 @@ class LocalAPIClient:
         rpm: int = DEFAULT_RPM,
         tpm: int = DEFAULT_TPM,
     ):
-        self.api_key = api_key or ""
+        raw_openrouter_key = (os.getenv("OPENROUTER_API_KEY") or "").strip()
+        is_placeholder = raw_openrouter_key in ("***", "sk-...", "your_api_key_here", "<votre-cle>", "")
+        openrouter_key = "" if is_placeholder else raw_openrouter_key
+
+        gemini_key = (os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY") or "").strip()
+        if gemini_key in ("***", "<votre-cle>", "your_api_key_here"):
+            gemini_key = ""
+
+        omniroute_key = (os.getenv("OMNIROUTE_API_KEY") or "").strip()
+        omniroute_base = (os.getenv("OMNIROUTE_BASE_URL") or "http://127.0.0.1:20128/v1").strip()
+
         self.base_url = (
             os.getenv("HAKIM_LLM_BASE_URL")
-            or LOCAL_API_BASE
-            or OPENCODE_CONSOLE_BASE
+            or ("https://generativelanguage.googleapis.com/v1beta/openai" if gemini_key and not openrouter_key else OPENROUTER_API_BASE)
         )
-        self._api_key = os.getenv("HAKIM_LLM_API_KEY") or self.api_key
-        if not self._api_key and "openrouter.ai" in self.base_url:
-            self._api_key = os.getenv("OPENROUTER_API_KEY", "").strip()
+        self._api_key = (
+            os.getenv("HAKIM_LLM_API_KEY")
+            or api_key
+            or (gemini_key if "googleapis.com" in self.base_url else "")
+            or (omniroute_key if "20128" in self.base_url else "")
+            or (openrouter_key if "openrouter.ai" in self.base_url else "")
+        )
         self.api_key = self._api_key
-        self.http = httpx.AsyncClient(timeout=120)
+        self.http = httpx.AsyncClient(timeout=httpx.Timeout(30.0, connect=2.0))
         self.rate_limiter = TokenBucketRateLimiter(rpm=rpm, tpm=tpm)
 
-    async def chat(self, model: str, system: str,
-                   messages: list[dict], max_tokens: int = 4096) -> str:
-        model = os.getenv("HAKIM_LLM_MODEL") or model
-        estimated_tokens = max_tokens + len(system) // 4 + sum(len(m.get("content", "")) for m in messages) // 4
-        await self.rate_limiter.acquire(estimated_tokens)
+    def _resolve_target_endpoint(self, model: str) -> tuple[str, str, str]:
+        """Résout (target_base_url, target_api_key, target_model) de manière sécurisée."""
+        gemini_key = (os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY") or "").strip()
+        omniroute_key = (os.getenv("OMNIROUTE_API_KEY") or "").strip()
+        omniroute_base = (os.getenv("OMNIROUTE_BASE_URL") or "http://127.0.0.1:20128/v1").rstrip("/")
+        openrouter_key = (os.getenv("OPENROUTER_API_KEY") or "").strip()
+        is_placeholder = lambda k: not k or k in ("***", "sk-...", "your_api_key_here", "<votre-cle>")
 
-        log.info("   📡 LLM → %s (est. %s tokens)", model, estimated_tokens)
+        # 1. Requête ciblant explicitement OmniRoute
+        if model.startswith("omniroute/") or model == "omniroute/local" or model.startswith("auto/"):
+            target_model = "auto/best-fast" if model in ("omniroute/local", "omniroute/auto") else (
+                model[len("omniroute/"):] if model.startswith("omniroute/") else model
+            )
+            return omniroute_base, omniroute_key or self._api_key, target_model
 
+        # 2. Google Gemini AI Studio
+        if "googleapis.com" in self.base_url or (gemini_key and not is_placeholder(gemini_key)):
+            target_model = model
+            if not target_model.startswith("gemini") or target_model == "gemini-2.5-flash":
+                target_model = "gemini-3.5-flash"
+            return "https://generativelanguage.googleapis.com/v1beta/openai", gemini_key or self._api_key, target_model
+
+        # 3. OpenRouter / Autre
+        target_model = OPENROUTER_MODEL_MAP.get(model, model)
+        return OPENROUTER_API_BASE, openrouter_key or self._api_key, target_model
+
+    def _build_candidate_chain(self, model: str) -> list[tuple[str, str, str, str]]:
+        """Construit la liste ordonnée des modèles de secours : si un modèle échoue, on change."""
+        candidates = []
+        gemini_key = (os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY") or "").strip()
+        omniroute_key = (os.getenv("OMNIROUTE_API_KEY") or "").strip()
+        omniroute_base = (os.getenv("OMNIROUTE_BASE_URL") or "http://127.0.0.1:20128/v1").rstrip("/")
+
+        # 1. Choix primaire demandé
+        b_url, k, m_name = self._resolve_target_endpoint(model)
+        candidates.append((b_url, k, m_name, model))
+
+        # 2. Secours Google Gemini 3.5 Flash (ultra fiable)
+        if gemini_key and (b_url != "https://generativelanguage.googleapis.com/v1beta/openai" or m_name != "gemini-3.5-flash"):
+            candidates.append(("https://generativelanguage.googleapis.com/v1beta/openai", gemini_key, "gemini-3.5-flash", "gemini-3.5-flash"))
+
+        # 3. Secours OmniRoute passerelle locale (781 modèles)
+        if omniroute_base not in b_url:
+            candidates.append((omniroute_base, omniroute_key, "auto/best-fast", "omniroute/auto/best-fast"))
+            candidates.append((omniroute_base, omniroute_key, "auto/best-coding", "omniroute/auto/best-coding"))
+
+        # 4. Secours OpenRouter
+        raw_or_key = (os.getenv("OPENROUTER_API_KEY") or "").strip()
+        if raw_or_key and raw_or_key not in ("***", "sk-..."):
+            candidates.append((OPENROUTER_API_BASE, raw_or_key, "nvidia/nemotron-3-super-120b-a12b:free", "nemotron-free"))
+
+        return candidates
+
+    async def _execute_single_attempt(
+        self, target_base_url: str, target_api_key: str, target_model: str,
+        system: str, messages: list[dict], max_tokens: int
+    ) -> str:
+        """Exécute une tentative HTTP isolée."""
         body = {
-            "model": model,
+            "model": target_model,
             "messages": [{"role": "system", "content": system}] + messages,
             "max_tokens": max_tokens,
         }
-
-        # Headers : inclure Authorization + HTTP-Referer pour OpenRouter
         headers = {
             "Content-Type": "application/json",
             "HTTP-Referer": APP_REFERRER,
             "X-Title": APP_TITLE,
         }
-        if self._api_key:
-            headers["Authorization"] = f"Bearer {self._api_key}"
+        if target_api_key:
+            headers["Authorization"] = f"Bearer {target_api_key}"
 
+        t0 = time.time()
+        resp = await self.http.post(
+            f"{target_base_url}/chat/completions",
+            headers=headers,
+            json=body,
+        )
+        elapsed = round(time.time() - t0, 2)
+        text = resp.text
+
+        data = None
         try:
-            t0 = time.time()
-            resp = await self.http.post(
-                f"{self.base_url}/chat/completions",
-                headers=headers,
-                json=body,
-            )
-            elapsed = round(time.time() - t0, 2)
-            text = resp.text
-
-            # Essayer de parser directement d'abord (plus robuste)
-            data = None
-            parse_error = None
-            
-            # Tentative 1: Parser directement
-            try:
-                data = json.loads(text)
-            except json.JSONDecodeError as e:
-                parse_error = e
-                log.debug("Échec parsing JSON direct: %s", str(e))
-            
-            # Tentative 2: Nettoyer la réponse si c'est du streaming SSE
-            if data is None and ("data: " in text or "data: [DONE]" in text):
-                # Extraire tous les chunks JSON de la réponse SSE
+            data = json.loads(text)
+        except json.JSONDecodeError:
+            if "data: " in text:
                 json_chunks = []
                 for line in text.split("\n"):
                     line = line.strip()
                     if line.startswith("data: ") and not line.endswith("[DONE]"):
-                        chunk_data = line[6:].strip()  # Enlever "data: "
-                        if chunk_data:
+                        c_data = line[6:].strip()
+                        if c_data:
                             try:
-                                chunk = json.loads(chunk_data)
+                                chunk = json.loads(c_data)
                                 if isinstance(chunk, dict):
                                     json_chunks.append(chunk)
-                            except json.JSONDecodeError:
-                                continue
-                
-                # Reconstruire la réponse complète
+                            except Exception:
+                                pass
                 if json_chunks:
-                    # Pour le chat normal, on prend le dernier chunk
-                    data = json_chunks[-1]
-                    # Si c'est un completions endpoint, on merge les chunks
-                    if "choices" in json_chunks[0]:
-                        # Fusionner les choix
-                        merged_choices = []
-                        for chunk in json_chunks:
-                            if "choices" in chunk:
-                                for i, choice in enumerate(chunk["choices"]):
-                                    if i < len(merged_choices):
-                                        # Accumuler le contenu
-                                        if "delta" in choice:
-                                            merged_choices[i]["message"]["content"] = \
-                                                merged_choices[i].get("message", {}).get("content", "") + \
-                                                choice["delta"].get("content", "")
-                                        elif "message" in choice:
-                                            merged_choices[i] = choice
-                                    else:
-                                        merged_choices.append(choice)
-                        data = {"choices": merged_choices}
-                        if "usage" in json_chunks[-1]:
-                            data["usage"] = json_chunks[-1]["usage"]
-            
-            # Tentative 3: Extraction manuelle (dernier recours)
-            if data is None and parse_error:
-                log.warning("Tentative de nettoyage manuel du JSON")
-                # Supprimer le SSE wrapper
-                if "data: [DONE]" in text:
-                    text = text.split("data: [DONE]")[0].strip()
-                # Trouver le JSON principal
-                start_idx = text.find("{")
-                end_idx = text.rfind("}")
-                if start_idx != -1 and end_idx != -1:
-                    text = text[start_idx:end_idx+1]
-                    try:
-                        data = json.loads(text)
-                    except json.JSONDecodeError as e:
-                        log.error("Échec parsing JSON après nettoyage: %s", str(e))
-                        raise ValueError(f"Réponse non-JSON valide: {text[:200]}")
-            
-            if data is None:
-                raise ValueError(f"Impossible de parser la réponse JSON: {text[:200]}")
+                    merged_choices = []
+                    for chunk in json_chunks:
+                        if "choices" in chunk:
+                            for i, choice in enumerate(chunk["choices"]):
+                                if i < len(merged_choices):
+                                    if "delta" in choice:
+                                        merged_choices[i]["message"]["content"] = (
+                                            merged_choices[i].get("message", {}).get("content", "")
+                                            + choice["delta"].get("content", "")
+                                        )
+                                else:
+                                    merged_choices.append(choice)
+                    data = {"choices": merged_choices}
 
-            if resp.is_error:
-                err = data.get("error", "")
-                if isinstance(err, dict):
-                    error_msg = err.get("message", str(resp.status_code))
-                else:
-                    error_msg = str(err) if err else str(resp.status_code)
-                log.error("   ❌ LLM erreur HTTP %s en %ss: %s", resp.status_code, elapsed, error_msg[:100])
-                return f"[Erreur API] {error_msg}"
-            
-            # Gestion de la structure de réponse
-            choices = data.get("choices", [])
-            if not choices:
-                raise ValueError("Aucun choix dans la réponse LLM")
-            
-            content = choices[0].get("message", {}).get("content", "")
-            usage = data.get("usage", {})
-            log.info("   ✅ LLM réponse en %ss | tokens: in=%s out=%s", elapsed, usage.get("prompt_tokens", "?"), usage.get("completion_tokens", "?"))
-            return content
-        except Exception as e:
-            log.error("   ❌ LLM exception: %s", str(e)[:120])
-            return f"[Erreur] {str(e)}"
+        if data is None:
+            raise ValueError(f"Réponse API non parseable: {text[:200]}")
+
+        if isinstance(data, list):
+            data = data[0] if data and isinstance(data[0], dict) else {}
+
+        if resp.is_error:
+            err = data.get("error", "")
+            error_msg = err.get("message", str(resp.status_code)) if isinstance(err, dict) else str(err)
+            raise LLMServiceUnavailableError(f"HTTP {resp.status_code}: {error_msg}", status_code=resp.status_code, model=target_model)
+
+        choices = data.get("choices", [])
+        if not choices:
+            raise LLMServiceUnavailableError("Aucun choix retourné dans la réponse", model=target_model)
+
+        msg = choices[0].get("message", {})
+        content = msg.get("content")
+        if not content:
+            content = msg.get("reasoning") or msg.get("refusal") or ""
+        content = str(content)
+        usage = data.get("usage", {})
+        log.info("   ✅ LLM [%s] réponse en %ss | in=%s out=%s tokens", target_model, elapsed, usage.get("prompt_tokens", "?"), usage.get("completion_tokens", "?"))
+        return content
+
+    async def chat(self, model: str, system: str,
+                   messages: list[dict], max_tokens: int = 4096) -> str:
+        model = model or os.getenv("HAKIM_LLM_MODEL") or "gemini-3.5-flash"
+        if model == "auto":
+            model = "gemini-3.5-flash"
+
+        # Chaîne de bascule : si un modèle donne une erreur, on bascule automatiquement
+        candidates = self._build_candidate_chain(model)
+        last_error = None
+
+        for b_url, k, m_name, label in candidates:
+            breaker = circuit_breakers.get_or_create(f"llm:{label}")
+            if not breaker.can_execute():
+                log.info("🔌 Disjoncteur ouvert pour [%s] -> Changement automatique vers le modèle suivant", label)
+                continue
+
+            try:
+                log.info("   📡 Appel LLM [%s] via %s...", label, b_url)
+                content = await self._execute_single_attempt(b_url, k, m_name, system, messages, max_tokens)
+                if content and content.strip():
+                    breaker.record_success()
+                    return content
+            except Exception as e:
+                is_429 = getattr(e, "status_code", None) == 429
+                breaker.record_failure(error=e, is_rate_limit=is_429)
+                last_error = e
+                log.warning("   ⚠️ Erreur sur le modèle [%s] (%s). Changement de modèle immédiat...", label, str(e)[:120])
+                continue
+
+        # Si tous les modèles externes ont échoué, repli local de secours
+        log.warning("⚠️ Tous les modèles distants sont en échec. Repli sur assistance locale...")
+        return self._mock_response(model, system, messages)
 
     async def chat_with_tools(
         self,
@@ -221,12 +290,43 @@ class LocalAPIClient:
 
         Retourne {"content": str, "tool_calls": list[dict], "error": Optional[str]}.
         """
-        model = os.getenv("HAKIM_LLM_MODEL") or model
+        model = model or os.getenv("HAKIM_LLM_MODEL") or "gemini-2.5-flash"
+
+        # Contrôle préalable par le Circuit Breaker
+        breaker = circuit_breakers.get_or_create(f"llm:{model}")
+        if not breaker.can_execute():
+            log.warning("🔌 chat_with_tools bloqué par disjoncteur ouvert pour llm:%s", model)
+            return {
+                "content": "",
+                "tool_calls": [],
+                "error": f"CircuitBreakerOpen: Circuit ouvert pour '{model}' ({breaker.remaining_cooldown():.1f}s)",
+            }
+
         estimated_tokens = max_tokens + len(system) // 4 + sum(len(m.get("content", "")) for m in messages) // 4
         await self.rate_limiter.acquire(estimated_tokens)
 
+        # Résolution dynamique pour passerelle OmniRoute (Port 20128)
+        target_base_url = self.base_url
+        target_api_key = self._api_key
+        target_model = model
+
+        if model.startswith("omniroute/") or model == "omniroute/local" or model.startswith("auto/"):
+            target_base_url = (os.getenv("OMNIROUTE_BASE_URL") or "http://127.0.0.1:20128/v1").rstrip("/")
+            target_api_key = os.getenv("OMNIROUTE_API_KEY") or self._api_key
+            if model == "omniroute/local":
+                target_model = "auto/best-fast"
+            elif model.startswith("omniroute/"):
+                target_model = model[len("omniroute/"):]
+            log.info("   ⚡ Routage Tools via OmniRoute Gateway (%s) → Modèle: %s", target_base_url, target_model)
+        elif "googleapis.com" in target_base_url:
+            if not target_model.startswith("gemini") or target_model == "gemini-2.5-flash":
+                target_model = os.getenv("HAKIM_LLM_MODEL") or "gemini-3.5-flash"
+                if not target_model.startswith("gemini") or target_model == "gemini-2.5-flash":
+                    target_model = "gemini-3.5-flash"
+                log.info("   🔮 Modèle Tools Google Gemini appliqué: %s", target_model)
+
         body = {
-            "model": model,
+            "model": target_model,
             "messages": [{"role": "system", "content": system}] + messages,
             "max_tokens": max_tokens,
         }
@@ -239,12 +339,12 @@ class LocalAPIClient:
             "HTTP-Referer": APP_REFERRER,
             "X-Title": APP_TITLE,
         }
-        if self._api_key:
-            headers["Authorization"] = f"Bearer {self._api_key}"
+        if target_api_key:
+            headers["Authorization"] = f"Bearer {target_api_key}"
 
         try:
             resp = await self.http.post(
-                f"{self.base_url}/chat/completions",
+                f"{target_base_url}/chat/completions",
                 headers=headers,
                 json=body,
             )
@@ -277,15 +377,18 @@ class LocalAPIClient:
                     error_msg = err.get("message", str(resp.status_code))
                 else:
                     error_msg = str(err) if err else str(resp.status_code)
-                return {"content": "", "tool_calls": [], "error": f"[Tool API] {error_msg}"}
+                is_429 = (resp.status_code == 429)
+                breaker.record_failure(is_rate_limit=is_429)
+                return {"content": "", "tool_calls": [], "error": f"[Tool API HTTP {resp.status_code}] {error_msg}"}
             
             # Extraire les choix
             choices = data.get("choices", [])
             if not choices:
+                breaker.record_failure()
                 return {"content": "", "tool_calls": [], "error": "[Tool API] Aucun choix dans la réponse"}
             
             message = choices[0].get("message", {})
-            content = message.get("content") or ""
+            content = message.get("content") or message.get("reasoning") or ""
             calls = []
             
             # Parser les appels d'outils (tool calls)
@@ -300,8 +403,10 @@ class LocalAPIClient:
                     "name": fn.get("name", ""),
                     "arguments": arguments,
                 })
+            breaker.record_success()
             return {"content": content, "tool_calls": calls, "error": None}
         except Exception as e:
+            breaker.record_failure(error=e)
             log.error("Exception dans chat_with_tools: %s", str(e)[:120])
             return {"content": "", "tool_calls": [], "error": f"[Tool API] {str(e)}"}
 

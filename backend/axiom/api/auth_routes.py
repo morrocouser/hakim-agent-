@@ -164,7 +164,7 @@ class RefreshTokenRequest(BaseModel):
 
 
 @router.post("/refresh", response_model=RefreshResponse)
-async def refresh_token(req: RefreshTokenRequest):
+async def refresh_token(req: RefreshTokenRequest, response: Response):
     """
     Rafraîchir l'access token avec un refresh token valide.
     """
@@ -192,11 +192,12 @@ async def refresh_token(req: RefreshTokenRequest):
         
         # Créer de nouveaux tokens
         access_token = create_access_token({"user_id": user.id, "username": user.username})
-        refresh_token = create_refresh_token({"user_id": user.id})
+        new_refresh_token = create_refresh_token({"user_id": user.id})
+        _set_auth_cookies(response, access_token, new_refresh_token)
         
         return RefreshResponse(
             access_token=access_token,
-            refresh_token=refresh_token,
+            refresh_token=new_refresh_token,
         )
     finally:
         await session.close()

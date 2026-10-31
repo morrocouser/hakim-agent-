@@ -1,6 +1,6 @@
 from enum import Enum
 from pydantic import BaseModel, Field
-from typing import Optional
+from typing import Optional, Union
 
 
 class TaskType(str, Enum):
@@ -12,6 +12,7 @@ class TaskType(str, Enum):
     RESEARCH = "RESEARCH"
     PLAN = "PLAN"
     QUICK = "QUICK"
+    WEB = "WEB"
 
 
 class AgentName(str, Enum):
@@ -23,6 +24,7 @@ class AgentName(str, Enum):
     RESEARCHER = "AGENT_RESEARCHER"
     PLANNER = "AGENT_PLANNER"
     QUICKSHOT = "AGENT_QUICKSHOT"
+    WEB_BUILDER = "AGENT_WEB_BUILDER"
 
 
 class ModelName(str, Enum):
@@ -34,6 +36,7 @@ class ModelName(str, Enum):
     FLASH = "qwen3.6-plus-free"
     CODE = "north-mini-code-free"
     LAGUNA = "big-pickle"
+    LOCAL = "local:default"
     # Fallback
     FALLBACK = "mimo-v2.5-free"
 
@@ -73,7 +76,7 @@ class TaskResult(BaseModel):
     task_id: str
     description: str
     agent: AgentName
-    model: ModelName
+    model: Union[ModelName, str]
     score: float
     status: TaskStatus
     output: Optional[str] = None
@@ -86,7 +89,7 @@ class TaskAssignment(BaseModel):
     task_id: str
     description: str
     agent: AgentName
-    model: ModelName
+    model: Union[ModelName, str]
     score: float
     dimensions: ScoringDimensions
     subtasks: list["TaskAssignment"] = []

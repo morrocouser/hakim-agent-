@@ -1,14 +1,29 @@
 import subprocess
+import os
+import sys
+from pathlib import Path
+
+# Add current skill dir to import validate_terminal_command
+sys.path.insert(0, str(Path(__file__).parent))
+from execute import validate_terminal_command
 
 
 def background(command: str, cwd: str = None) -> dict:
-    """Run a command in background"""
+    """Run a command in background with safety checks"""
+    is_valid, error_msg = validate_terminal_command(command, cwd)
+    if not is_valid:
+        return {
+            "pid": None,
+            "status": "failed",
+            "error": f"[SÉCURITÉ] {error_msg}",
+        }
+
     try:
         process = subprocess.Popen(
             command,
             shell=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
             cwd=cwd,
         )
 

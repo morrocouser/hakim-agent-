@@ -10,6 +10,11 @@ backend/axiom/data/*.db
 backend/axiom/data/*.sqlite
 *.sqlite
 *.db-journal
+*.db
+*.sqlite
+backend/data/
+user_files/
+scratch/
 backend/.pytest_cache/
 backend/.superpowers/
 .mypy_cache/

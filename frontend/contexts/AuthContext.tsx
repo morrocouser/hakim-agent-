@@ -6,6 +6,7 @@ interface User {
   id: number;
   username: string;
   display_name?: string;
+  email?: string;
 }
 
 interface AuthContextType {
@@ -14,14 +15,14 @@ interface AuthContextType {
   isLoading: boolean;
   error: string | null;
   login: (username: string, password: string) => Promise<void>;
-  register: (username: string, password: string, displayName?: string) => Promise<void>;
+  register: (username: string, password: string, displayName?: string, email?: string) => Promise<void>;
   logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Base API - configurable via environment
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8000';
+// Base API - configurable via environment, default to same-origin proxy
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || process.env.NEXT_PUBLIC_API_BASE || '';
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -77,39 +78,67 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         credentials: 'include',
       });
       if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.detail || 'Erreur de connexion');
+        let errorMsg = 'Erreur de connexion';
+        try {
+          const err = await res.json();
+          if (typeof err.detail === 'string') {
+            errorMsg = err.detail;
+          } else if (Array.isArray(err.detail)) {
+            errorMsg = err.detail.map((e: any) => e.msg || e.message || JSON.stringify(e)).join(', ');
+          }
+        } catch {
+          // ignore json parsing error
+        }
+        throw new Error(errorMsg);
       }
       const data = await res.json();
       // Le backend pose le cookie httpOnly ; on garde l'user en mémoire.
       setToken(data.access_token ?? null);
       setUser(data.user);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Connexion impossible');
+      const msg = err instanceof Error ? err.message : 'Connexion impossible';
+      setError(msg);
+      throw err;
     } finally {
       setIsLoading(false);
     }
   };
 
-  const register = async (username: string, password: string, displayName?: string) => {
+  const register = async (username: string, password: string, displayName?: string, email?: string) => {
     setIsLoading(true);
     setError(null);
     try {
+      const payload: Record<string, any> = { username, password };
+      if (displayName) payload.display_name = displayName;
+      if (email) payload.email = email;
+
       const res = await fetch(`${API_BASE}/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password, display_name: displayName }),
+        body: JSON.stringify(payload),
         credentials: 'include',
       });
       if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.detail || "Erreur d'inscription");
+        let errorMsg = "Erreur d'inscription";
+        try {
+          const err = await res.json();
+          if (typeof err.detail === 'string') {
+            errorMsg = err.detail;
+          } else if (Array.isArray(err.detail)) {
+            errorMsg = err.detail.map((e: any) => e.msg || e.message || JSON.stringify(e)).join(', ');
+          }
+        } catch {
+          // ignore json parsing error
+        }
+        throw new Error(errorMsg);
       }
       const data = await res.json();
       setToken(data.access_token ?? null);
       setUser(data.user);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Erreur d'inscription");
+      const msg = err instanceof Error ? err.message : "Erreur d'inscription";
+      setError(msg);
+      throw err;
     } finally {
       setIsLoading(false);
     }

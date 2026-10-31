@@ -1,3 +1,21 @@
+import sys
+from pathlib import Path
+
+# Fix pour Windows : chargement des DLLs OpenSSL si nécessaire
+if sys.platform == "win32":
+    import os
+    dll_dir = r"C:\Users\hp\AppData\Local\Python\pythoncore-3.11-64\DLLs"
+    if os.path.exists(dll_dir):
+        try:
+            os.add_dll_directory(dll_dir)
+        except Exception:
+            pass
+
+# Assure que le dossier 'backend' est toujours dans sys.path (y compris pour uvicorn --reload)
+_BACKEND_DIR = str(Path(__file__).resolve().parent.parent.parent)
+if _BACKEND_DIR not in sys.path:
+    sys.path.insert(0, _BACKEND_DIR)
+
 import uvicorn
 import os
 import time
@@ -10,14 +28,25 @@ from fastapi.responses import JSONResponse
 from axiom.api.routes import router
 from axiom.api.auth_routes import router as auth_router
 from axiom.api.conversation_routes import router as convo_router
+from axiom.api.openbot_routes import router as openbot_router
+from axiom.api.billing_routes import router as billing_router
 from axiom.db.models import DatabaseManager, init_db, close_db
 from axiom.logging_setup import log
-from middleware.rate_limiting import (
-    ClientIdentifier,
-    RateLimitConfig,
-    create_rate_limiter,
-    get_default_rate_limit_for_endpoint,
-)
+
+try:
+    from middleware.rate_limiting import (
+        ClientIdentifier,
+        RateLimitConfig,
+        create_rate_limiter,
+        get_default_rate_limit_for_endpoint,
+    )
+except ImportError:
+    from axiom.middleware.rate_limiting import (
+        ClientIdentifier,
+        RateLimitConfig,
+        create_rate_limiter,
+        get_default_rate_limit_for_endpoint,
+    )
 
 
 # =============================================================================
@@ -40,6 +69,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     log.info("   Docs: http://localhost:8000/docs")
     log.info("   Auth: /api/auth/login | /api/auth/register")
     log.info("   Conversations: /api/conversations")
+    log.info("   Facturation Stripe: /api/v1/billing")
     log.info("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
     
     yield
@@ -72,18 +102,20 @@ log.info(
 app = FastAPI(
     title="APEX v4.0 — Agent Orchestrateur Multi-Modèle",
     version="4.0.0",
-    description="API d'orchestration multi-agents avec scoring algorithmique et routage intelligent",
+    description="API d'orchestration multi-agents avec scoring algorithmique et facturation Stripe",
     lifespan=lifespan,
 )
 
 # Configuration CORS — par défaut restreint (pas de wildcard en prod).
-# Définir HAKIM_CORS_ORIGINS="https://app.exemple.com,http://localhost:3000"
-# pour autoriser des origines précises avec cookies d'auth (credentials).
 cors_origins = os.getenv("HAKIM_CORS_ORIGINS", "")
 
 if not cors_origins:
     # Aucune origine configurée -> on n'autorise que localhost dev (refuse le reste)
-    allow_origins_list = ["http://localhost:3000", "http://127.0.0.1:3000"]
+    allow_origins_list = [
+        "http://localhost:3000", "http://127.0.0.1:3000",
+        "http://localhost:3001", "http://127.0.0.1:3001",
+        "http://localhost:3002", "http://127.0.0.1:3002",
+    ]
     allow_credentials = True
     log.warning(
         "CORS: HAKIM_CORS_ORIGINS non défini — restreint à localhost:3000 (dev). "
@@ -103,11 +135,9 @@ app.add_middleware(
     allow_origins=allow_origins_list,
     allow_credentials=allow_credentials,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
-    allow_headers=["Authorization", "Content-Type", "X-Requested-With", "Accept"],
+    allow_headers=["Authorization", "Content-Type", "X-Requested-With", "Accept", "stripe-signature"],
     expose_headers=["X-RateLimit-Remaining", "X-RateLimit-Reset"],
 )
-
-log.info("CORS configuré: origines=%s, credentials=%s", allow_origins_list, allow_credentials)
 
 
 def _client_identifier_from_request(request: Request) -> ClientIdentifier:
@@ -126,7 +156,11 @@ async def rate_limit_middleware(request: Request, call_next):
         return await call_next(request)
 
     # Ne limite que l'API
-    if not request.url.path.startswith("/api/"):
+    if not (request.url.path.startswith("/api/") or request.url.path.startswith("/auth")):
+        return await call_next(request)
+
+    # Exempter les webhooks Stripe du rate limiting (nécessaire pour absorber les salves Stripe)
+    if "/billing/webhook" in request.url.path:
         return await call_next(request)
 
     endpoint_cfg = get_default_rate_limit_for_endpoint(request.url.path)
@@ -153,18 +187,24 @@ async def rate_limit_middleware(request: Request, call_next):
     response.headers["X-RateLimit-Remaining"] = str(metadata.get("remaining_requests", 0))
     return response
 
+
 app.include_router(router)
 app.include_router(auth_router)
 app.include_router(convo_router)
+app.include_router(convo_router, prefix="/api")
+app.include_router(openbot_router)
+app.include_router(billing_router, prefix="/api/v1")
+app.include_router(billing_router, prefix="/api")
 
 
 @app.get("/")
 async def root():
     return {
         "agent": "APEX v4.0",
-        "message": "Orchestrateur multi-agents prêt",
+        "message": "Orchestrateur multi-agents prêt avec facturation Stripe",
         "docs": "/docs",
         "health": "/api/v1/health",
+        "billing": "/api/v1/billing/config",
     }
 
 
@@ -174,4 +214,3 @@ def start():
 
 if __name__ == "__main__":
     start()
-

@@ -95,6 +95,28 @@ AGENT_CONFIGS: dict[AgentName, AgentConfig] = {
         approach="Direct → Concise → Done",
         skills=["Prompt Engineering", "Tool Calling", "File Reader"],
     ),
+    AgentName.WEB_BUILDER: AgentConfig(
+        name=AgentName.WEB_BUILDER,
+        label="Créateur de Sites Web",
+        icon="🌐",
+        default_model=ModelName.BEST,
+        speciality="Création de sites web complets, landing pages modernes, UI/UX Tailwind CSS, prototypage HTML5/React, responsive design",
+        description="Conçoit et génère des sites web modernes, des landing pages et des interfaces interactives complètes avec prévisualisation en direct",
+        approach="Wireframe → Structure HTML5 → Style moderne (Tailwind + CSS) → Interactions & Scripts → Prévisualisation live",
+        skills=[
+            "Web Scaffold",
+            "HTML5/CSS3",
+            "Tailwind CSS",
+            "React",
+            "Next.js",
+            "Responsive Design",
+            "Live Preview",
+            "Component Builder",
+            "UI/UX Design",
+            "SEO & Meta",
+            "Performance Optimization",
+        ],
+    ),
 }
 
 
